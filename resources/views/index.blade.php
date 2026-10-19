@@ -21,11 +21,7 @@
   <!-- Top Navigation Bar -->
   <header class="app-header">
     <div class="header-left">
-      <div class="brand-badge">
-        <div class="brand-icon">
-          <i data-lucide="receipt-text"></i>
-        </div>
-        <div class="brand-info">
+      <div class="brand-badge"><div class="brand-info">
           <h1>Invogenz</h1>
         </div>
       </div>
@@ -34,20 +30,14 @@
 
 
     <div class="header-right">
-      <button type="button" class="btn btn-secondary btn-sm" id="btn-sample" title="Load realistic sample invoice data">
-        <i data-lucide="sparkles"></i>
-        <span>Sample Data</span>
+      <button type="button" class="btn btn-secondary btn-sm" id="btn-sample" title="Load realistic sample invoice data"><span>Sample Data</span>
       </button>
 
       <div class="btn-group">
-        <label class="btn btn-secondary btn-sm file-upload-label" title="Import invoice from JSON file">
-          <i data-lucide="upload"></i>
-          <span>Import</span>
+        <label class="btn btn-secondary btn-sm file-upload-label" title="Import invoice from JSON file"><span>Import</span>
           <input type="file" id="json-importer" accept=".json" style="display:none;">
         </label>
-        <button type="button" class="btn btn-secondary btn-sm" id="btn-export-json" title="Save current invoice as JSON backup">
-          <i data-lucide="download"></i>
-          <span>Export</span>
+        <button type="button" class="btn btn-secondary btn-sm" id="btn-export-json" title="Save current invoice as JSON backup"><span>Export</span>
         </button>
       </div>
 
@@ -55,9 +45,7 @@
         <i data-lucide="moon" id="theme-icon"></i>
       </button>
 
-      <button type="button" class="btn btn-primary" id="btn-download-pdf">
-        <i data-lucide="file-down"></i>
-        <span id="btn-pdf-label">Download PDF</span>
+      <button type="button" class="btn btn-primary" id="btn-download-pdf"><span id="btn-pdf-label">Download PDF</span>
       </button>
     </div>
   </header>
@@ -108,9 +96,6 @@
         <div class="card form-section card-style-settings">
           <div class="section-title flex-between">
             <div class="title-left">
-              <div class="section-icon-badge">
-                <i data-lucide="palette"></i>
-              </div>
               <div class="title-text-group">
                 <h3>Style & Document Settings</h3>
                 <span class="section-subtitle">Brand theme, currency & paper format</span>
@@ -126,7 +111,7 @@
             <!-- Row 1: Brand Accent Color (Full Width) -->
             <div class="form-group color-setting-group">
               <div class="label-row">
-                <label for="accent_color"><i data-lucide="sparkles" class="label-inline-icon"></i> Brand Accent Color</label>
+                <label for="accent_color">Brand Accent Color</label>
                 <span class="field-pill optional-pill">Theme Primary</span>
               </div>
               <div class="color-picker-row enhanced-color-picker">
@@ -153,12 +138,11 @@
             <div class="form-grid grid-2 style-settings-grid-2">
               <div class="form-group">
                 <div class="label-row">
-                  <label for="currency"><i data-lucide="coins" class="label-inline-icon"></i> Currency</label>
+                  <label for="currency">Currency</label>
                   <span class="field-pill optional-pill">Symbol</span>
                 </div>
                 <div class="input-with-icon select-wrapper">
-                  <i data-lucide="badge-dollar-sign"></i>
-                  <select id="currency" class="form-control pl-icon select-custom-arrow">
+                  <select id="currency" class="form-control select-custom-arrow">
                     <option value="$">$ USD / CAD / AUD ($)</option>
                     <option value="€">€ EUR (€)</option>
                     <option value="£">£ GBP (£)</option>
@@ -176,12 +160,11 @@
 
               <div class="form-group">
                 <div class="label-row">
-                  <label for="paper_size"><i data-lucide="file-text" class="label-inline-icon"></i> Paper Format</label>
+                  <label for="paper_size">Paper Format</label>
                   <span class="field-pill optional-pill">Print</span>
                 </div>
                 <div class="input-with-icon select-wrapper">
-                  <i data-lucide="printer"></i>
-                  <select id="paper_size" class="form-control pl-icon select-custom-arrow">
+                  <select id="paper_size" class="form-control select-custom-arrow">
                     <option value="A4" selected>A4 Standard (210 × 297 mm)</option>
                     <option value="Letter">US Letter (8.5 × 11 in)</option>
                   </select>
@@ -195,17 +178,12 @@
         <div class="card form-section card-metadata">
           <div class="section-title flex-between">
             <div class="title-left">
-              <div class="section-icon-badge">
-                <i data-lucide="receipt"></i>
-              </div>
               <div class="title-text-group">
                 <h3>Invoice Metadata</h3>
                 <span class="section-subtitle">Number, status & payment schedule</span>
               </div>
             </div>
-            <button type="button" class="btn-pill-toggle" id="btn-toggle-po" title="Toggle Purchase Order (PO) Number field">
-              <i data-lucide="tag"></i>
-              <span>+ PO #</span>
+            <button type="button" class="btn-pill-toggle" id="btn-toggle-po" title="Toggle Purchase Order (PO) Number field"><span>+ PO #</span>
             </button>
           </div>
 
@@ -218,8 +196,7 @@
               </div>
               <div class="input-action-group">
                 <div class="input-with-icon flex-grow">
-                  <i data-lucide="hash"></i>
-                  <input type="text" id="invoice_number" class="form-control font-mono pl-icon" value="INV-2026-0042" placeholder="INV-2026-0001">
+                  <input type="text" id="invoice_number" class="form-control font-mono " value="INV-2026-0042" placeholder="INV-2026-0001">
                 </div>
                 <button type="button" class="btn-addon-icon" id="btn-random-inv" title="Generate New Invoice Number">
                   <i data-lucide="sparkles"></i>
@@ -252,8 +229,7 @@
                 <button type="button" class="label-action-btn" id="btn-issue-today" title="Set to today's date">Today</button>
               </div>
               <div class="input-with-icon">
-                <i data-lucide="calendar"></i>
-                <input type="date" id="issue_date" class="form-control pl-icon">
+                <input type="date" id="issue_date" class="form-control ">
               </div>
             </div>
 
@@ -264,8 +240,7 @@
                 <span class="due-rel-badge" id="due-diff-text">In 14 days</span>
               </div>
               <div class="input-with-icon">
-                <i data-lucide="calendar-clock"></i>
-                <input type="date" id="due_date" class="form-control pl-icon">
+                <input type="date" id="due_date" class="form-control ">
               </div>
               <!-- Quick Net Term Presets -->
               <div class="preset-chips-row">
@@ -286,8 +261,7 @@
                 <span class="field-pill optional-pill">Optional</span>
               </div>
               <div class="input-with-icon">
-                <i data-lucide="file-check"></i>
-                <input type="text" id="po_number" class="form-control font-mono pl-icon" placeholder="e.g. PO-2026-9081">
+                <input type="text" id="po_number" class="form-control font-mono " placeholder="e.g. PO-2026-9081">
               </div>
             </div>
           </div>
@@ -296,9 +270,6 @@
         <!-- Editor Section 3: Sender (Billed By) -->
         <div class="card form-section card-company">
           <div class="section-title">
-            <div class="section-icon-badge">
-              <i data-lucide="building-2"></i>
-            </div>
             <div class="title-text-group">
               <h3>Your Company (Billed By)</h3>
               <span class="section-subtitle">Business identity, logo & sender contact details</span>
@@ -335,8 +306,7 @@
                 <span class="field-pill optional-pill">Optional</span>
               </div>
               <div class="input-with-icon">
-                <i data-lucide="building"></i>
-                <input type="text" id="company_name" class="form-control pl-icon" placeholder="e.g. Vertex Digital Solutions">
+                <input type="text" id="company_name" class="form-control " placeholder="e.g. Vertex Digital Solutions">
               </div>
             </div>
 
@@ -347,8 +317,7 @@
                 <span class="field-pill optional-pill">Optional</span>
               </div>
               <div class="input-with-icon">
-                <i data-lucide="user"></i>
-                <input type="text" id="company_contact" class="form-control pl-icon" placeholder="e.g. Mr. Bunthai Tha">
+                <input type="text" id="company_contact" class="form-control " placeholder="e.g. Mr. Bunthai Tha">
               </div>
             </div>
           </div>
@@ -361,8 +330,7 @@
                 <span class="field-pill optional-pill">Optional</span>
               </div>
               <div class="input-with-icon">
-                <i data-lucide="phone"></i>
-                <input type="text" id="company_phone" class="form-control pl-icon" placeholder="+1 (415) 555-0199">
+                <input type="text" id="company_phone" class="form-control " placeholder="+1 (415) 555-0199">
               </div>
             </div>
 
@@ -373,8 +341,7 @@
                 <span class="field-pill optional-pill">Optional</span>
               </div>
               <div class="input-with-icon">
-                <i data-lucide="mail"></i>
-                <input type="email" id="company_email" class="form-control pl-icon" placeholder="billing@vertexdigital.com">
+                <input type="email" id="company_email" class="form-control " placeholder="billing@vertexdigital.com">
               </div>
             </div>
           </div>
@@ -386,8 +353,7 @@
               <span class="field-pill optional-pill">Optional</span>
             </div>
             <div class="input-with-icon">
-              <i data-lucide="sparkle"></i>
-              <input type="text" id="company_tagline" class="form-control pl-icon" placeholder="e.g. Enterprise Cloud Architecture & Digital Products">
+              <input type="text" id="company_tagline" class="form-control " placeholder="e.g. Enterprise Cloud Architecture & Digital Products">
             </div>
           </div>
 
@@ -404,9 +370,6 @@
         <!-- Editor Section 4: Client (Billed To) -->
         <div class="card form-section card-client">
           <div class="section-title">
-            <div class="section-icon-badge">
-              <i data-lucide="user-check"></i>
-            </div>
             <div class="title-text-group">
               <h3>Client Information (Billed To)</h3>
               <span class="section-subtitle">Customer organization, primary contact & billing address</span>
@@ -421,8 +384,7 @@
                 <span class="field-pill optional-pill">Optional</span>
               </div>
               <div class="input-with-icon">
-                <i data-lucide="building"></i>
-                <input type="text" id="client_company" class="form-control pl-icon" placeholder="e.g. Cyberdyne Systems Corp.">
+                <input type="text" id="client_company" class="form-control " placeholder="e.g. Cyberdyne Systems Corp.">
               </div>
             </div>
 
@@ -433,8 +395,7 @@
                 <span class="field-pill required-pill">Required</span>
               </div>
               <div class="input-with-icon">
-                <i data-lucide="user"></i>
-                <input type="text" id="client_name" class="form-control pl-icon" placeholder="e.g. Sarah Connor">
+                <input type="text" id="client_name" class="form-control " placeholder="e.g. Sarah Connor">
               </div>
             </div>
 
@@ -445,8 +406,7 @@
                 <span class="field-pill optional-pill">Optional</span>
               </div>
               <div class="input-with-icon">
-                <i data-lucide="mail"></i>
-                <input type="email" id="client_email" class="form-control pl-icon" placeholder="e.g. sconnor@cyberdyne.io">
+                <input type="email" id="client_email" class="form-control " placeholder="e.g. sconnor@cyberdyne.io">
               </div>
             </div>
 
@@ -457,8 +417,7 @@
                 <span class="field-pill optional-pill">Optional</span>
               </div>
               <div class="input-with-icon">
-                <i data-lucide="phone"></i>
-                <input type="text" id="client_phone" class="form-control pl-icon" placeholder="e.g. +1 (408) 555-0811">
+                <input type="text" id="client_phone" class="form-control " placeholder="e.g. +1 (408) 555-0811">
               </div>
             </div>
 
@@ -469,8 +428,7 @@
                 <span class="field-pill optional-pill">Optional</span>
               </div>
               <div class="input-with-icon">
-                <i data-lucide="shield-check"></i>
-                <input type="text" id="client_tax_id" class="form-control font-mono pl-icon" placeholder="e.g. US-10294857">
+                <input type="text" id="client_tax_id" class="form-control font-mono " placeholder="e.g. US-10294857">
               </div>
             </div>
 
@@ -492,9 +450,7 @@
               <i data-lucide="list-ordered"></i>
               <h3>Line Items</h3>
             </div>
-            <button type="button" class="btn btn-sm btn-outline-primary" id="btn-add-item">
-              <i data-lucide="plus"></i>
-              <span>Add Item</span>
+            <button type="button" class="btn btn-sm btn-outline-primary" id="btn-add-item"><span>Add Item</span>
             </button>
           </div>
 
@@ -574,8 +530,7 @@
           <div class="form-group mt-2">
             <label for="qr_data">Payment Link or QR Code URL (Optional)</label>
             <div class="input-with-icon">
-              <i data-lucide="qr-code"></i>
-              <input type="text" id="qr_data" class="form-control pl-icon" placeholder="e.g. https://paypal.me/yourcompany or Pay link">
+              <input type="text" id="qr_data" class="form-control " placeholder="e.g. https://paypal.me/yourcompany or Pay link">
             </div>
             <span class="helper-text">Generates an instant scannable payment QR code inside the PDF and live preview.</span>
           </div>
@@ -584,9 +539,6 @@
         <!-- Editor Section 8: Notes & Terms -->
         <div class="card form-section">
           <div class="section-title">
-            <div class="section-icon-badge">
-              <i data-lucide="message-square"></i>
-            </div>
             <div class="title-text-group">
               <h3>Notes & Terms</h3>
               <span class="section-subtitle">Customer notes and terms of agreement</span>
@@ -606,9 +558,6 @@
         <div class="card form-section card-signatures-editor">
           <div class="section-title flex-between">
             <div class="title-left">
-              <div class="section-icon-badge">
-                <i data-lucide="file-signature"></i>
-              </div>
               <div class="title-text-group">
                 <h3>Signatures & Approvals</h3>
                 <span class="section-subtitle">Prepared by, Approved by & Customer Acceptance</span>
@@ -631,8 +580,7 @@
               <div class="form-group">
                 <label for="sig_prepare_name">Name & Title</label>
                 <div class="input-with-icon">
-                  <i data-lucide="user"></i>
-                  <input type="text" id="sig_prepare_name" class="form-control pl-icon" placeholder="e.g. Marcus Vance, Billing Specialist">
+                  <input type="text" id="sig_prepare_name" class="form-control " placeholder="e.g. Marcus Vance, Billing Specialist">
                 </div>
               </div>
               <div class="form-group">
@@ -641,8 +589,7 @@
                   <button type="button" class="label-action-btn" id="btn-prepare-today">Auto (Today)</button>
                 </div>
                 <div class="input-with-icon">
-                  <i data-lucide="calendar"></i>
-                  <input type="date" id="sig_prepare_date" class="form-control pl-icon">
+                  <input type="date" id="sig_prepare_date" class="form-control ">
                 </div>
               </div>
             </div>
@@ -659,9 +606,7 @@
                     <img id="img-sig-prepare" src="" alt="Prepared Signature">
                   </div>
                   <div class="sig-actions-row">
-                    <button type="button" class="btn-sig-clean active" id="btn-clean-prepare" title="Background Cleaned & Transparent">
-                      <i data-lucide="sparkles"></i>
-                      <span>Background Cleaned</span>
+                    <button type="button" class="btn-sig-clean active" id="btn-clean-prepare" title="Background Cleaned & Transparent"><span>Background Cleaned</span>
                     </button>
                     <button type="button" class="btn-sig-remove" id="btn-remove-prepare" title="Remove Signature">
                       <i data-lucide="trash-2"></i>
@@ -693,8 +638,7 @@
               <div class="form-group">
                 <label for="sig_approve_name">Name & Title</label>
                 <div class="input-with-icon">
-                  <i data-lucide="user-check"></i>
-                  <input type="text" id="sig_approve_name" class="form-control pl-icon" placeholder="e.g. Alex Morgan, Director of Finance">
+                  <input type="text" id="sig_approve_name" class="form-control " placeholder="e.g. Alex Morgan, Director of Finance">
                 </div>
               </div>
               <div class="form-group">
@@ -703,8 +647,7 @@
                   <button type="button" class="label-action-btn" id="btn-approve-today">Auto (Today)</button>
                 </div>
                 <div class="input-with-icon">
-                  <i data-lucide="calendar"></i>
-                  <input type="date" id="sig_approve_date" class="form-control pl-icon">
+                  <input type="date" id="sig_approve_date" class="form-control ">
                 </div>
               </div>
             </div>
@@ -721,9 +664,7 @@
                     <img id="img-sig-approve" src="" alt="Approved Signature">
                   </div>
                   <div class="sig-actions-row">
-                    <button type="button" class="btn-sig-clean active" id="btn-clean-approve" title="Background Cleaned & Transparent">
-                      <i data-lucide="sparkles"></i>
-                      <span>Background Cleaned</span>
+                    <button type="button" class="btn-sig-clean active" id="btn-clean-approve" title="Background Cleaned & Transparent"><span>Background Cleaned</span>
                     </button>
                     <button type="button" class="btn-sig-remove" id="btn-remove-approve" title="Remove Signature">
                       <i data-lucide="trash-2"></i>
@@ -755,8 +696,7 @@
               <div class="form-group">
                 <label for="sig_customer_name">Customer / Client Name</label>
                 <div class="input-with-icon">
-                  <i data-lucide="user"></i>
-                  <input type="text" id="sig_customer_name" class="form-control pl-icon" placeholder="e.g. Sarah Connor, Authorized Client">
+                  <input type="text" id="sig_customer_name" class="form-control " placeholder="e.g. Sarah Connor, Authorized Client">
                 </div>
               </div>
               <div class="form-group">
@@ -765,8 +705,7 @@
                   <button type="button" class="label-action-btn" id="btn-customer-today">Auto (Today)</button>
                 </div>
                 <div class="input-with-icon">
-                  <i data-lucide="calendar"></i>
-                  <input type="date" id="sig_customer_date" class="form-control pl-icon">
+                  <input type="date" id="sig_customer_date" class="form-control ">
                 </div>
               </div>
             </div>
@@ -783,9 +722,7 @@
                     <img id="img-sig-customer" src="" alt="Customer Signature">
                   </div>
                   <div class="sig-actions-row">
-                    <button type="button" class="btn-sig-clean active" id="btn-clean-customer" title="Background Cleaned & Transparent">
-                      <i data-lucide="sparkles"></i>
-                      <span>Background Cleaned</span>
+                    <button type="button" class="btn-sig-clean active" id="btn-clean-customer" title="Background Cleaned & Transparent"><span>Background Cleaned</span>
                     </button>
                     <button type="button" class="btn-sig-remove" id="btn-remove-customer" title="Remove Signature">
                       <i data-lucide="trash-2"></i>
@@ -804,9 +741,7 @@
         </div>
 
         <div class="editor-bottom-actions">
-          <button type="button" class="btn btn-outline-danger" id="btn-reset-form">
-            <i data-lucide="trash-2"></i>
-            <span>Clear / Reset All</span>
+          <button type="button" class="btn btn-outline-danger" id="btn-reset-form"><span>Clear / Reset All</span>
           </button>
         </div>
       </div>
@@ -816,7 +751,7 @@
     <section class="preview-pane">
       <div class="preview-toolbar">
         <div class="toolbar-left">
-          <span class="preview-badge"><i data-lucide="eye"></i> Live Interactive Preview</span>
+          <span class="preview-badge">Live Interactive Preview</span>
           <span class="preview-paper-spec" id="preview-paper-spec">A4 • 300 DPI</span>
         </div>
         <div class="toolbar-right">
@@ -831,13 +766,9 @@
             <i data-lucide="maximize-2"></i>
           </button>
           <div class="toolbar-divider"></div>
-          <button type="button" class="btn-toolbar" id="btn-preview-pdf" title="Preview Raw PDF in New Tab">
-            <i data-lucide="external-link"></i>
-            <span>View PDF</span>
+          <button type="button" class="btn-toolbar" id="btn-preview-pdf" title="Preview Raw PDF in New Tab"><span>View PDF</span>
           </button>
-          <button type="button" class="btn-toolbar" id="btn-print" title="Print Invoice">
-            <i data-lucide="printer"></i>
-            <span>Print</span>
+          <button type="button" class="btn-toolbar" id="btn-print" title="Print Invoice"><span>Print</span>
           </button>
         </div>
       </div>
