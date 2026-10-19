@@ -79,5 +79,9 @@ Invoice Generateor/
 1. **In-Browser Auto-Save**: All form changes are continuously synced to `localStorage`, so refreshing or closing the browser won't lose your work.
 2. **JSON Export & Import**: Click **Export** to save the invoice as a `.json` backup file. Click **Import** anytime to load previous invoices or templates.
 3. **Python PDF Engine**: When you click **Download PDF**, the current invoice state is posted to Python's `/api/generate-pdf` endpoint, which renders the vector PDF using `ReportLab` and streams the `.pdf` file directly to your downloads folder.
-# inv.bkh.it.com
-# inv.bkh.it.com
+---
+
+## 🌐 Production Deployment
+- **Live URL**: [https://inv.bkh.it.com/](https://inv.bkh.it.com/)
+- **Repository**: [https://github.com/bunthaitha/inv.bkh.it.com](https://github.com/bunthaitha/inv.bkh.it.com)
+

@@ -138,7 +138,7 @@ if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     print("\n" + "=" * 55)
     print("  Invogenz is running!")
-    print(f"  Production URL: http://inv.bkh.it.com/")
+    print(f"  Production URL: https://inv.bkh.it.com/")
     print(f"  Local / Server address: http://{host}:{port}")
     print("=" * 55 + "\n")
     app.run(host=host, port=port, debug=False)
