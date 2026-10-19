@@ -1,0 +1,26 @@
+# ===================================================================
+# Invogenz • LiteSpeed & Apache Server Configuration
+# ===================================================================
+
+Options -Indexes
+
+# 1. Phusion Passenger WSGI (for cPanel Setup Python App on LiteSpeed)
+<IfModule mod_passenger.c>
+    PassengerEnabled on
+    PassengerAppType wsgi
+    PassengerStartupFile passenger_wsgi.py
+</IfModule>
+
+# 2. Reverse Proxy Fallback (if running standalone Flask on port 5000)
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ http://127.0.0.1:5000/$1 [P,L]
+</IfModule>
+
+# 3. Security Headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+</IfModule>
