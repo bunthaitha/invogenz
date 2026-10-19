@@ -15,7 +15,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body class="theme-light">
   <!-- Top Navigation Bar -->
@@ -1097,6 +1097,6 @@
   <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
 
   <!-- Application Script -->
-  <script src="/static/js/app.js"></script>
+  <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

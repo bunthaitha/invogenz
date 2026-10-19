@@ -10,26 +10,17 @@
 # END cPanel-generated php ini directives, do not edit
 
 # ===================================================================
-# Invogenz • LiteSpeed & Python WSGI Configuration
+# Invogenz • Laravel 10 cPanel & LiteSpeed Front-Controller Rewrite
 # ===================================================================
 
-# 1. Enable Passenger WSGI to serve the Python Flask app
-<IfModule mod_passenger.c>
-    PassengerEnabled on
-    PassengerAppType wsgi
-    PassengerStartupFile passenger_wsgi.py
-    PassengerAppRoot "/home/domnorli/inv.bkh.it.com"
-</IfModule>
-
-# 2. Reverse Proxy Fallback (if running Flask standalone on port 5000)
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ http://127.0.0.1:5000/$1 [P,L]
+
+    # Forward all incoming traffic to the public/ directory
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
 
-# 3. Security Headers
 <IfModule mod_headers.c>
     Header set X-Content-Type-Options "nosniff"
     Header set X-Frame-Options "SAMEORIGIN"

@@ -1,87 +1,47 @@
-# 🧾 Invogenz
+# 🧾 Invogenz • Laravel Invoice Studio (Zero-Database)
 
-A sleek, modern Python web application to generate professional vector PDF invoices with **zero database required**.
-
-![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)
-![Flask](https://img.shields.io/badge/Flask-3.0+-green.svg)
-![ReportLab](https://img.shields.io/badge/ReportLab-4.2+-orange.svg)
-![Database](https://img.shields.io/badge/Database-None%20(100%25%20File%2FMemory)-brightgreen.svg)
+A modern, high-performance invoice generation application built with **Laravel 10**, **Blade**, and **Dompdf**. Designed specifically for shared hosting environments (cPanel, LiteSpeed, Apache) with **zero database requirement**.
 
 ---
 
-## ✨ Features
+## 🌟 Key Features
 
-- **No Database Required**:
-  - Automatically persists in browser `localStorage`.
-  - Full **Import / Export as JSON** support — save and load unlimited invoice templates directly as files.
-- **High-Definition Vector PDF Export**:
-  - Built with **Python ReportLab** for crisp, print-ready vector PDF rendering.
-  - Automatic page numbering (`Page 1 of 1`), header rules, and customizable paper formats (**A4** or **US Letter**).
-- **Real-Time Interactive Live Preview**:
-  - Live side-by-side editing: watch changes instantly update on a realistic paper sheet preview as you type.
-  - Zoom controls (`Zoom In`, `Zoom Out`, `Fit to Viewport`).
-- **Dynamic Line Items**:
-  - Add, duplicate, delete, and adjust items on the fly.
-  - Itemized quantity, rate, tax rate, and computed subtotals.
-- **Smart Automatic Calculations**:
-  - Subtotal, discounts (% or fixed), overall tax/VAT, shipping & handling fees, amount paid, and highlighted **Balance Due**.
-- **Branding & Theming**:
-  - Instant drag-and-drop company logo upload (PNG, JPG).
-  - Custom brand accent color picker (Indigo, Sky Blue, Emerald, Crimson, Amber, Obsidian).
-  - Multi-currency support (`$`, `€`, `£`, `¥`, `₹`, `៛`, `CHF`, `SGD`, `AED`, etc.).
-  - Dark Mode & Light Mode UI toggle with smooth glassmorphic interface.
-- **Dynamic Payment QR Code**:
-  - Live QR code generation (using Python `qrcode` & client-side QRious) for instant mobile payment scanning or invoice verification.
-- **Bank Instructions & Signature Line**:
-  - Bank name, IBAN, account holder, SWIFT/BIC, and authorized signatory field.
+* **Zero-Database Architecture**: Runs without MySQL, SQLite files, or PostgreSQL. In-browser state persists via `localStorage`, JSON exports, and stateless PDF rendering.
+* **PHP & LiteSpeed Native**: Works directly on any cPanel hosting server with PHP 8.1+ out of the box. No Phusion Passenger or Python virtual environment setup required.
+* **Vector PDF Generation**: High-fidelity PDF rendering powered by `barryvdh/laravel-dompdf` (Dompdf).
+* **Multi-Party Signatures**: Support for Prepared By, Approved By, and Customer Signatures with integrated photo upload, signature background cleaning, and auto-dating.
+* **Live Interactive Preview**: Split-screen live preview with real-time tax calculation, discounts, shipping, balance tracking, and QR code integration.
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Running Locally
 
-### 1. Install Dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### 2. Run the Application
-You can simply double-click `run.bat` or run:
-```bash
-python app.py
-```
-
-### 3. Open in Browser
-Open [http://127.0.0.1:5000](http://127.0.0.1:5000) in your web browser.
+1. Start the server with `run.bat` or artisan:
+   ```bash
+   php artisan serve --port=5000
+   ```
+2. Open [http://127.0.0.1:5000](http://127.0.0.1:5000) in your browser.
 
 ---
 
-## 📁 Project Structure
+## 🌐 cPanel / Production Deployment
 
-```
-Invoice Generateor/
-├── app.py                # Flask application & API routes (/api/generate-pdf, /api/preview-pdf)
-├── pdf_generator.py      # Core ReportLab vector PDF builder with tables, fonts, and QR codes
-├── run.bat               # Windows 1-click launcher
-├── requirements.txt      # Python dependencies
-├── static/
-│   ├── css/
-│   │   └── style.css     # Modern responsive design system, dark/light theme, print CSS
-│   └── js/
-│       └── app.js        # Dynamic form logic, live preview, auto-save, and PDF export
-└── templates/
-    └── index.html        # Single-page web application UI
-```
+### Option A: Upload Pre-Built Deployment Zip (Fastest)
+1. Upload the generated `invogenz-laravel-deploy.zip` to your cPanel folder (`inv.bkh.it.com`).
+2. Extract the zip file in File Manager.
+3. Access `https://inv.bkh.it.com/`!
+
+### Option B: Deploy from GitHub
+1. Pull the repository onto your server:
+   ```bash
+   git pull origin main
+   ```
+2. Install Composer dependencies:
+   ```bash
+   composer install --no-dev --optimize-autoloader
+   ```
 
 ---
 
-## 💡 How It Works Without a Database
-
-1. **In-Browser Auto-Save**: All form changes are continuously synced to `localStorage`, so refreshing or closing the browser won't lose your work.
-2. **JSON Export & Import**: Click **Export** to save the invoice as a `.json` backup file. Click **Import** anytime to load previous invoices or templates.
-3. **Python PDF Engine**: When you click **Download PDF**, the current invoice state is posted to Python's `/api/generate-pdf` endpoint, which renders the vector PDF using `ReportLab` and streams the `.pdf` file directly to your downloads folder.
----
-
-## 🌐 Production Deployment
-- **Live URL**: [https://inv.bkh.it.com/](https://inv.bkh.it.com/)
-- **Repository**: [https://github.com/bunthaitha/inv.bkh.it.com](https://github.com/bunthaitha/inv.bkh.it.com)
-
+## 📄 License
+MIT License.
