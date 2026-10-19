@@ -1486,6 +1486,8 @@
     }
     // High-DPI Print dialog fallback
     window.print();
+  }
+
   // --- JSON Import & Export (Database-free data persistence) ---
   function exportJson() {
     gatherFormData();
