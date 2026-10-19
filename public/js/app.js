@@ -1404,7 +1404,7 @@
     reader.readAsDataURL(file);
   }
 
-  // --- PDF Generation via Flask Backend ---
+  // --- Client-Side & Server PDF Generation ---
   async function downloadPdf() {
     gatherFormData();
 
@@ -1412,35 +1412,55 @@
     els.btnPdfLabel.textContent = 'Generating PDF...';
     els.btnDownloadPdf.disabled = true;
 
+    const filename = `${activeData.invoice_number || 'invoice'}.pdf`;
+
+    // 1. Try backend API first (if hosted on server with PHP/Python)
     try {
       const response = await fetch('/api/generate-pdf', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(activeData)
       });
-
-      if (!response.ok) {
-        const errJson = await response.json();
-        throw new Error(errJson.error || 'Failed to generate PDF');
+      if (response.ok) {
+        const blob = await response.blob();
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(downloadUrl);
+        showToast(`Downloaded ${filename} successfully!`, 'success');
+        els.btnPdfLabel.textContent = originalBtnHtml;
+        els.btnDownloadPdf.disabled = false;
+        return;
       }
+    } catch (e) {
+      // Backend not running (e.g. Cloudflare Pages static edge) -> Fallback to client-side
+    }
 
-      const blob = await response.blob();
-      const downloadUrl = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = downloadUrl;
-      const filename = `${activeData.invoice_number || 'invoice'}.pdf`;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      window.URL.revokeObjectURL(downloadUrl);
+    // 2. Client-side PDF generation via html2pdf (Works 100% on Cloudflare Pages!)
+    try {
+      const sheet = document.getElementById('invoice-sheet');
+      const format = (activeData.paper_size || 'a4').toLowerCase() === 'letter' ? 'letter' : 'a4';
 
-      showToast(`Downloaded ${filename} successfully!`, 'success');
+      if (window.html2pdf) {
+        const opt = {
+          margin: [8, 8, 8, 8],
+          filename: filename,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2, useCORS: true, logging: false },
+          jsPDF: { unit: 'mm', format: format, orientation: 'portrait' }
+        };
+        await html2pdf().set(opt).from(sheet).save();
+        showToast(`Downloaded ${filename} successfully!`, 'success');
+      } else {
+        window.print();
+      }
     } catch (err) {
       console.error('PDF generation error:', err);
-      showToast(`Error generating PDF: ${err.message}`, 'error');
+      window.print();
     } finally {
       els.btnPdfLabel.textContent = originalBtnHtml;
       els.btnDownloadPdf.disabled = false;
@@ -1450,24 +1470,22 @@
   async function previewPdfInNewTab() {
     gatherFormData();
     try {
-      showToast('Preparing PDF preview...', 'info');
       const response = await fetch('/api/preview-pdf', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(activeData)
       });
-
-      if (!response.ok) throw new Error('PDF preview generation failed');
-
-      const blob = await response.blob();
-      const pdfUrl = window.URL.createObjectURL(blob);
-      window.open(pdfUrl, '_blank');
-    } catch (err) {
-      console.error(err);
-      showToast('Unable to open PDF preview: ' + err.message, 'error');
+      if (response.ok) {
+        const blob = await response.blob();
+        const pdfUrl = window.URL.createObjectURL(blob);
+        window.open(pdfUrl, '_blank');
+        return;
+      }
+    } catch (e) {
+      // Static edge
     }
-  }
-
+    // High-DPI Print dialog fallback
+    window.print();
   // --- JSON Import & Export (Database-free data persistence) ---
   function exportJson() {
     gatherFormData();
