@@ -115,6 +115,10 @@
     // Form inputs
     paperSize: document.getElementById('paper_size'),
     accentColor: document.getElementById('accent_color'),
+    accentColorHex: document.getElementById('accent_color_hex'),
+    accentHexBadge: document.getElementById('accent-hex-badge'),
+    colorPreviewRing: document.getElementById('color-preview-ring'),
+    themeColorIndicator: document.getElementById('theme-color-indicator'),
     currency: document.getElementById('currency'),
     invoiceNumber: document.getElementById('invoice_number'),
     status: document.getElementById('status'),
@@ -1139,14 +1143,29 @@
 
   // --- Accent Color Management ---
   function updateAccentColor(colorHex) {
-    document.documentElement.style.setProperty('--accent-color', colorHex);
-    els.pvAccentBar.style.backgroundColor = colorHex;
-    els.pvTableHead.querySelector('tr').style.backgroundColor = colorHex;
-    els.pvBalanceBox.style.backgroundColor = colorHex;
+    if (!colorHex) return;
+    const cleanHex = colorHex.startsWith('#') ? colorHex : `#${colorHex}`;
+    document.documentElement.style.setProperty('--accent-color', cleanHex);
+    els.pvAccentBar.style.backgroundColor = cleanHex;
+    els.pvTableHead.querySelector('tr').style.backgroundColor = cleanHex;
+    els.pvBalanceBox.style.backgroundColor = cleanHex;
+
+    if (els.accentHexBadge) els.accentHexBadge.textContent = cleanHex.toUpperCase();
+    if (els.accentColorHex && els.accentColorHex.value.toUpperCase() !== cleanHex.toUpperCase()) {
+      els.accentColorHex.value = cleanHex.toUpperCase();
+    }
+    if (els.colorPreviewRing) {
+      els.colorPreviewRing.style.backgroundColor = cleanHex;
+      els.colorPreviewRing.style.boxShadow = `0 0 0 2px ${cleanHex}, 0 2px 5px rgba(0, 0, 0, 0.2)`;
+    }
+    if (els.themeColorIndicator) {
+      els.themeColorIndicator.style.backgroundColor = cleanHex;
+      els.themeColorIndicator.style.boxShadow = `0 0 6px ${cleanHex}`;
+    }
 
     // Update active color swatch in UI
     document.querySelectorAll('.color-swatch').forEach(swatch => {
-      if (swatch.dataset.color.toLowerCase() === colorHex.toLowerCase()) {
+      if (swatch.dataset.color.toLowerCase() === cleanHex.toLowerCase()) {
         swatch.classList.add('active');
       } else {
         swatch.classList.remove('active');
@@ -1545,15 +1564,37 @@
     els.btnZoomFit.addEventListener('click', fitZoomToViewport);
 
     // Accent Color Pickers
-    els.accentColor.addEventListener('input', (e) => {
-      updateAccentColor(e.target.value);
-      triggerAutoSave();
-    });
+    if (els.accentColor) {
+      els.accentColor.addEventListener('input', (e) => {
+        updateAccentColor(e.target.value);
+        triggerAutoSave();
+      });
+    }
+
+    if (els.accentColorHex) {
+      els.accentColorHex.addEventListener('input', (e) => {
+        let val = e.target.value.trim();
+        if (!val.startsWith('#') && val.length > 0) val = `#${val}`;
+        if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
+          if (els.accentColor) els.accentColor.value = val;
+          updateAccentColor(val);
+          triggerAutoSave();
+        }
+      });
+      els.accentColorHex.addEventListener('blur', (e) => {
+        let val = e.target.value.trim();
+        if (!val.startsWith('#') && val.length > 0) val = `#${val}`;
+        if (!/^#[0-9A-Fa-f]{6}$/.test(val)) {
+          // Revert to current color if invalid
+          e.target.value = (activeData.accent_color || '#4F46E5').toUpperCase();
+        }
+      });
+    }
 
     document.querySelectorAll('.color-swatch').forEach(swatch => {
       swatch.addEventListener('click', () => {
         const hex = swatch.dataset.color;
-        els.accentColor.value = hex;
+        if (els.accentColor) els.accentColor.value = hex;
         updateAccentColor(hex);
         triggerAutoSave();
       });

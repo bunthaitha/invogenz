@@ -105,34 +105,59 @@
           </div>
         </div>
         <!-- Editor Section 1: Template, Theme & Document Settings -->
-        <div class="card form-section">
-          <div class="section-title">
-            <i data-lucide="palette"></i>
-            <h3>Style & Document Settings</h3>
+        <div class="card form-section card-style-settings">
+          <div class="section-title flex-between">
+            <div class="title-left">
+              <div class="section-icon-badge">
+                <i data-lucide="palette"></i>
+              </div>
+              <div class="title-text-group">
+                <h3>Style & Document Settings</h3>
+                <span class="section-subtitle">Brand theme, currency & paper format</span>
+              </div>
+            </div>
+            <span class="field-pill pill-accent-theme" id="accent-theme-pill" title="Active Theme Primary">
+              <span class="theme-color-indicator" id="theme-color-indicator"></span>
+              <span id="accent-hex-badge" class="font-mono">#4F46E5</span>
+            </span>
           </div>
+
           <div class="form-grid grid-1">
             <!-- Row 1: Brand Accent Color (Full Width) -->
-            <div class="form-group">
-              <label for="accent_color"><i data-lucide="palette" class="label-inline-icon"></i> Brand Accent Color</label>
-              <div class="color-picker-row">
-                <input type="color" id="accent_color" class="color-picker-input" value="#4F46E5">
-                <div class="preset-colors">
-                  <span class="color-swatch active" data-color="#4F46E5" style="background:#4F46E5;" title="Indigo"></span>
-                  <span class="color-swatch" data-color="#0284C7" style="background:#0284C7;" title="Sky Blue"></span>
-                  <span class="color-swatch" data-color="#059669" style="background:#059669;" title="Emerald"></span>
-                  <span class="color-swatch" data-color="#DC2626" style="background:#DC2626;" title="Crimson"></span>
-                  <span class="color-swatch" data-color="#D97706" style="background:#D97706;" title="Amber"></span>
-                  <span class="color-swatch" data-color="#0F172A" style="background:#0F172A;" title="Obsidian"></span>
+            <div class="form-group color-setting-group">
+              <div class="label-row">
+                <label for="accent_color"><i data-lucide="sparkles" class="label-inline-icon"></i> Brand Accent Color</label>
+                <span class="field-pill optional-pill">Theme Primary</span>
+              </div>
+              <div class="color-picker-row enhanced-color-picker">
+                <div class="color-input-wrapper" title="Click to choose custom color">
+                  <input type="color" id="accent_color" class="color-picker-input" value="#4F46E5">
+                  <div class="color-preview-ring" id="color-preview-ring"></div>
+                </div>
+                <input type="text" id="accent_color_hex" class="form-control font-mono accent-hex-input" maxlength="7" value="#4F46E5" placeholder="#4F46E5" title="Direct Hex Code (#RRGGBB)">
+                <div class="color-swatches-divider"></div>
+                <div class="preset-colors" id="preset-colors">
+                  <span class="color-swatch active" data-color="#4F46E5" style="background:#4F46E5;" title="Indigo (#4F46E5)"></span>
+                  <span class="color-swatch" data-color="#0284C7" style="background:#0284C7;" title="Sky Blue (#0284C7)"></span>
+                  <span class="color-swatch" data-color="#059669" style="background:#059669;" title="Emerald (#059669)"></span>
+                  <span class="color-swatch" data-color="#DC2626" style="background:#DC2626;" title="Ruby Red (#DC2626)"></span>
+                  <span class="color-swatch" data-color="#D97706" style="background:#D97706;" title="Amber (#D97706)"></span>
+                  <span class="color-swatch" data-color="#7C3AED" style="background:#7C3AED;" title="Violet (#7C3AED)"></span>
+                  <span class="color-swatch" data-color="#E11D48" style="background:#E11D48;" title="Rose (#E11D48)"></span>
+                  <span class="color-swatch" data-color="#0F172A" style="background:#0F172A;" title="Obsidian (#0F172A)"></span>
                 </div>
               </div>
             </div>
 
-            <!-- Row 2 (Under Accent Color): Currency & Paper Format side-by-side -->
-            <div class="form-grid grid-2">
+            <!-- Row 2: Currency & Paper Format side-by-side -->
+            <div class="form-grid grid-2 style-settings-grid-2">
               <div class="form-group">
-                <label for="currency"><i data-lucide="coins" class="label-inline-icon"></i> Currency</label>
-                <div class="input-with-icon">
-                  <i data-lucide="dollar-sign"></i>
+                <div class="label-row">
+                  <label for="currency"><i data-lucide="coins" class="label-inline-icon"></i> Currency</label>
+                  <span class="field-pill optional-pill">Symbol</span>
+                </div>
+                <div class="input-with-icon select-wrapper">
+                  <i data-lucide="badge-dollar-sign"></i>
                   <select id="currency" class="form-control pl-icon select-custom-arrow">
                     <option value="$">$ USD / CAD / AUD ($)</option>
                     <option value="€">€ EUR (€)</option>
@@ -143,14 +168,19 @@
                     <option value="CHF">CHF Swiss Franc</option>
                     <option value="SGD">S$ Singapore Dollar</option>
                     <option value="AED">AED UAE Dirham</option>
+                    <option value="฿">฿ THB (฿)</option>
+                    <option value="₩">₩ KRW (₩)</option>
                   </select>
                 </div>
               </div>
 
               <div class="form-group">
-                <label for="paper_size"><i data-lucide="file-text" class="label-inline-icon"></i> Paper Format</label>
-                <div class="input-with-icon">
-                  <i data-lucide="maximize"></i>
+                <div class="label-row">
+                  <label for="paper_size"><i data-lucide="file-text" class="label-inline-icon"></i> Paper Format</label>
+                  <span class="field-pill optional-pill">Print</span>
+                </div>
+                <div class="input-with-icon select-wrapper">
+                  <i data-lucide="printer"></i>
                   <select id="paper_size" class="form-control pl-icon select-custom-arrow">
                     <option value="A4" selected>A4 Standard (210 × 297 mm)</option>
                     <option value="Letter">US Letter (8.5 × 11 in)</option>
