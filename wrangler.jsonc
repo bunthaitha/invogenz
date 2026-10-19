@@ -6,5 +6,8 @@
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS"
+  },
+  "build": {
+    "command": "node build.js"
   }
 }
