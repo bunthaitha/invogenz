@@ -766,9 +766,13 @@
             <i data-lucide="maximize-2"></i>
           </button>
           <div class="toolbar-divider"></div>
-          <button type="button" class="btn-toolbar" id="btn-preview-pdf" title="Preview Raw PDF in New Tab"><span>View PDF</span>
+          <button type="button" class="btn-toolbar" id="btn-preview-pdf" title="Open Full Web Preview in New Tab">
+            <i data-lucide="external-link"></i>
+            <span>Web Preview</span>
           </button>
-          <button type="button" class="btn-toolbar" id="btn-print" title="Print Invoice"><span>Print</span>
+          <button type="button" class="btn-toolbar" id="btn-print" title="Print Invoice">
+            <i data-lucide="printer"></i>
+            <span>Print</span>
           </button>
         </div>
       </div>
@@ -1036,6 +1040,9 @@
 
   <!-- QR Code Generator Client-Side Library -->
   <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
+
+  <!-- Client-Side HTML to PDF Engine -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
   <!-- Application Script -->
   <script src="{{ asset('js/app.js') }}"></script>

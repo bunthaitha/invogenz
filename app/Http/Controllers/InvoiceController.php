@@ -48,4 +48,13 @@ class InvoiceController extends Controller
 
         return $pdf->stream($filename);
     }
+
+    /**
+     * Preview invoice directly as HTML web page.
+     */
+    public function previewWeb(Request $request)
+    {
+        $data = $request->all();
+        return view('pdf.invoice', ['invoice' => $data]);
+    }
 }

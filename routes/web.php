@@ -6,3 +6,4 @@ use App\Http\Controllers\InvoiceController;
 Route::get('/', [InvoiceController::class, 'index'])->name('home');
 Route::post('/api/generate-pdf', [InvoiceController::class, 'generatePdf']);
 Route::post('/api/preview-pdf', [InvoiceController::class, 'previewPdf']);
+Route::match(['get', 'post'], '/preview-web', [InvoiceController::class, 'previewWeb']);

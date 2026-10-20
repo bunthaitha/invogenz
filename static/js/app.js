@@ -1498,26 +1498,191 @@
     }
   }
 
-  async function previewPdfInNewTab() {
+  // --- Full Standalone Web Preview in New Tab ---
+  function previewWebInNewTab() {
     gatherFormData();
-    try {
-      const response = await fetch('/api/preview-pdf', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(activeData)
-      });
-      if (response.ok) {
-        const blob = await response.blob();
-        const pdfUrl = window.URL.createObjectURL(blob);
-        window.open(pdfUrl, '_blank');
-        return;
-      }
-    } catch (e) {
-      // Static edge
+
+    // 1. Open new window synchronously on user click to ensure NO popup blocker blocks it
+    const previewWin = window.open('', '_blank');
+    if (!previewWin) {
+      showToast('Popup blocked! Please allow popups to open the web preview tab.', 'warning');
+      window.print();
+      return;
     }
-    // High-DPI Print dialog fallback
-    window.print();
+
+    // 2. Clone active invoice sheet DOM so all dynamic values, logos, signatures are captured
+    const sheetEl = document.getElementById('invoice-sheet');
+    if (!sheetEl) {
+      previewWin.close();
+      window.print();
+      return;
+    }
+
+    const sheetClone = sheetEl.cloneNode(true);
+
+    // Keep images intact
+    sheetClone.querySelectorAll('img').forEach((img, idx) => {
+      const origImg = sheetEl.querySelectorAll('img')[idx];
+      if (origImg && origImg.src) {
+        img.src = origImg.src;
+      }
+    });
+
+    // Extract all page stylesheets & web fonts from parent head
+    const styleLinks = Array.from(document.querySelectorAll('link[rel="stylesheet"], link[rel="preconnect"], style'))
+      .map(el => el.outerHTML)
+      .join('\n');
+
+    const invNum = activeData.invoice_number || 'INV-2026';
+    const docTitle = `${invNum} • Web Invoice Preview`;
+
+    previewWin.document.open();
+    previewWin.document.write(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${escapeHtml(docTitle)}</title>
+  ${styleLinks}
+  <style>
+    body {
+      background: #0b1120 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      min-height: 100vh !important;
+      font-family: 'Inter', -apple-system, sans-serif !important;
+      -webkit-font-smoothing: antialiased;
+    }
+    .web-preview-header {
+      width: 100%;
+      background: #1e293b;
+      border-bottom: 1px solid #334155;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-sizing: border-box;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    .web-preview-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #f8fafc;
+      font-size: 15px;
+      font-weight: 700;
+    }
+    .web-preview-badge {
+      background: rgba(79, 70, 229, 0.25);
+      border: 1px solid #6366f1;
+      color: #a5b4fc;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 12px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .web-preview-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .web-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .web-btn-primary {
+      background: #4F46E5;
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(79, 70, 229, 0.35);
+    }
+    .web-btn-primary:hover {
+      background: #4338CA;
+      transform: translateY(-1px);
+    }
+    .web-btn-close {
+      background: transparent;
+      color: #94a3b8;
+      padding: 8px 12px;
+    }
+    .web-btn-close:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .web-preview-stage {
+      padding: 32px 16px 48px;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .web-preview-stage .paper-sheet {
+      margin: 0 auto !important;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+      background: #ffffff !important;
+      transform: none !important;
+    }
+    @media print {
+      body {
+        background: transparent !important;
+      }
+      .web-preview-header {
+        display: none !important;
+      }
+      .web-preview-stage {
+        padding: 0 !important;
+      }
+      .web-preview-stage .paper-sheet {
+        box-shadow: none !important;
+        border: none !important;
+        margin: 0 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="web-preview-header no-print">
+    <div class="web-preview-title">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      <span>${escapeHtml(invNum)}</span>
+      <span class="web-preview-badge">Web Preview</span>
+    </div>
+    <div class="web-preview-actions">
+      <button class="web-btn web-btn-primary" onclick="window.print()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        Print / Save PDF
+      </button>
+      <button class="web-btn web-btn-close" onclick="window.close()" title="Close Tab">
+        Close ✕
+      </button>
+    </div>
+  </header>
+  <main class="web-preview-stage">
+    ${sheetClone.outerHTML}
+  </main>
+</body>
+</html>`);
+    previewWin.document.close();
+    showToast('Opened Web Preview in new tab!', 'success');
   }
+
+  const previewPdfInNewTab = previewWebInNewTab;
 
   // --- JSON Import & Export (Database-free data persistence) ---
   function exportJson() {
