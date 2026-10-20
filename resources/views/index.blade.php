@@ -948,33 +948,33 @@
             <!-- Prepared By (Stick at Left) -->
             <div class="signature-column sig-left" id="pv-col-prepare">
               <span class="sig-caption">PREPARED BY</span>
-              <p class="sig-person-name" id="pv-prepare-name">Bunthai Tha</p>
               <div class="sig-image-holder" id="pv-sig-prepare-box">
                 <img id="pv-sig-prepare-img" src="" alt="Prepared Signature" style="display:none;">
               </div>
               <div class="sig-line-rule"></div>
+              <p class="sig-person-name" id="pv-prepare-name">Bunthai Tha</p>
               <p class="sig-person-date" id="pv-prepare-date">Date: 2026-10-19</p>
             </div>
 
             <!-- Approved By (Stick at Center) -->
             <div class="signature-column sig-center" id="pv-col-approve">
               <span class="sig-caption">APPROVED BY</span>
-              <p class="sig-person-name" id="pv-approve-name" style="display:none;">Alex Morgan</p>
               <div class="sig-image-holder" id="pv-sig-approve-box">
                 <img id="pv-sig-approve-img" src="" alt="Approved Signature" style="display:none;">
               </div>
               <div class="sig-line-rule"></div>
+              <p class="sig-person-name" id="pv-approve-name" style="display:none;">Alex Morgan</p>
               <p class="sig-person-date" id="pv-approve-date">Date: 2026-10-19</p>
             </div>
 
             <!-- Customer Acceptance (Stick at Right) -->
             <div class="signature-column sig-right" id="pv-col-customer">
               <span class="sig-caption">CUSTOMER ACCEPTANCE</span>
-              <p class="sig-person-name" id="pv-customer-name" style="display:none;"></p>
               <div class="sig-image-holder" id="pv-sig-customer-box">
                 <img id="pv-sig-customer-img" src="" alt="Customer Signature" style="display:none;">
               </div>
               <div class="sig-line-rule"></div>
+              <p class="sig-person-name" id="pv-customer-name" style="display:none;"></p>
               <p class="sig-person-date" id="pv-customer-date">Date: ___________</p>
             </div>
           </div>

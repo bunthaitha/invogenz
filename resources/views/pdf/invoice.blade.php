@@ -545,15 +545,15 @@
                     @if($showPrepare)
                         <div class="sig-block-wrap">
                             <div class="sig-caption">PREPARED BY</div>
-                            @if(!empty($invoice['sig_prepare_name']))
-                                <div class="sig-name">{{ $invoice['sig_prepare_name'] }}</div>
-                            @endif
                             <div class="sig-space">
                                 @if(!empty($invoice['sig_prepare_image']))
                                     <img src="{{ $invoice['sig_prepare_image'] }}" class="sig-img" alt="Prepared Signature">
                                 @endif
                             </div>
                             <div class="sig-line"></div>
+                            @if(!empty($invoice['sig_prepare_name']))
+                                <div class="sig-name">{{ $invoice['sig_prepare_name'] }}</div>
+                            @endif
                             @if(!empty($invoice['sig_prepare_date']))
                                 <div class="sig-date">Date: {{ $invoice['sig_prepare_date'] }}</div>
                             @endif
@@ -571,15 +571,15 @@
                         @endphp
                         <div class="sig-block-wrap">
                             <div class="sig-caption">APPROVED BY</div>
-                            @if(!empty($approveName))
-                                <div class="sig-name">{{ $approveName }}</div>
-                            @endif
                             <div class="sig-space">
                                 @if(!empty($approveImg))
                                     <img src="{{ $approveImg }}" class="sig-img" alt="Approved Signature">
                                 @endif
                             </div>
                             <div class="sig-line"></div>
+                            @if(!empty($approveName))
+                                <div class="sig-name">{{ $approveName }}</div>
+                            @endif
                             @if(!empty($approveDate))
                                 <div class="sig-date">Date: {{ $approveDate }}</div>
                             @endif
@@ -592,15 +592,15 @@
                     @if($showCustomer)
                         <div class="sig-block-wrap">
                             <div class="sig-caption">CUSTOMER ACCEPTANCE</div>
-                            @if(!empty($invoice['sig_customer_name']))
-                                <div class="sig-name">{{ $invoice['sig_customer_name'] }}</div>
-                            @endif
                             <div class="sig-space">
                                 @if(!empty($invoice['sig_customer_image']))
                                     <img src="{{ $invoice['sig_customer_image'] }}" class="sig-img" alt="Customer Acceptance">
                                 @endif
                             </div>
                             <div class="sig-line"></div>
+                            @if(!empty($invoice['sig_customer_name']))
+                                <div class="sig-name">{{ $invoice['sig_customer_name'] }}</div>
+                            @endif
                             <div class="sig-date">{{ !empty($invoice['sig_customer_date']) ? 'Date: ' . $invoice['sig_customer_date'] : 'Date: ___________' }}</div>
                         </div>
                     @endif
