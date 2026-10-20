@@ -2293,16 +2293,16 @@
         max-width: 100% !important;
         min-height: 0 !important;
         height: auto !important;
-        padding: 28px 36px 45px 36px !important;
+        padding: 0.25in !important;
         position: relative !important;
         page-break-after: avoid !important;
         break-after: avoid !important;
       }
       .paper-micro-footer {
         position: fixed !important;
-        bottom: 12mm !important;
-        left: 36px !important;
-        right: 36px !important;
+        bottom: 0.25in !important;
+        left: 0.25in !important;
+        right: 0.25in !important;
         margin: 0 !important;
         padding-top: 8px !important;
         border-top: 1px solid #E2E8F0 !important;
