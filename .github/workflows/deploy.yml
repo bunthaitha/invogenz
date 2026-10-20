@@ -18,29 +18,38 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
-          extensions: mbstring, xml, ctype, iconv, gd, zip
+          extensions: mbstring, xml, ctype, iconv, gd, zip, sqlite3, pdo_sqlite
           coverage: none
 
-      - name: 3. Install production dependencies without dev tools
+      - name: 3. Install composer dependencies
+        run: |
+          composer install --optimize-autoloader --no-interaction --prefer-dist
+
+      - name: 4. Run automated test suite
+        run: |
+          php artisan test
+
+      - name: 5. Prune dev dependencies for production
         run: |
           composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 
-      - name: 4. Build and package backend PDF microservice artifact
+      - name: 6. Build and package backend PDF microservice artifact
         run: |
           mkdir -p build_artifact/public
           mkdir -p build_artifact/bootstrap/cache
-          mkdir -p build_artifact/storage/framework/cache
+          mkdir -p build_artifact/storage/framework/cache/data
           mkdir -p build_artifact/storage/framework/sessions
           mkdir -p build_artifact/storage/framework/views
           mkdir -p build_artifact/storage/logs
 
-          # Copy core execution runtime (Zero-source-repo exposure)
+          # Copy core execution runtime
           cp -r app build_artifact/
           cp -r bootstrap build_artifact/
           cp -r config build_artifact/
           cp -r public build_artifact/
           cp -r resources build_artifact/
           cp -r routes build_artifact/
+          cp -r storage build_artifact/
           cp -r vendor build_artifact/
           cp artisan build_artifact/
           cp index.php build_artifact/
@@ -50,12 +59,13 @@ jobs:
 
           # Clean caches & dev logs
           rm -rf build_artifact/bootstrap/cache/*.php
+          rm -rf build_artifact/storage/framework/cache/data/*
+          rm -rf build_artifact/storage/framework/sessions/*
+          rm -rf build_artifact/storage/framework/views/*
           rm -rf build_artifact/storage/logs/*.log
 
-          # Package as production zip
-          cd build_artifact && zip -r ../invogenz-runtime-deploy.zip . && cd ..
-
-      - name: 5. Deploy Cloudflare Edge Gateway Worker
+      - name: 7. Deploy Cloudflare Edge Gateway Worker
+        if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -63,11 +73,9 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
-      - name: 6. Deploy compiled runtime to Interserver Hosting via FTP/SFTP
+      - name: 8. Deploy compiled runtime to Interserver Hosting via FTP/SFTP
+        if: ${{ secrets.INTERSERVER_FTP_HOST != '' && secrets.INTERSERVER_FTP_USER != '' }}
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        if: ${{ env.FTP_SERVER != '' }}
-        env:
-          FTP_SERVER: ${{ secrets.INTERSERVER_FTP_HOST }}
         with:
           server: ${{ secrets.INTERSERVER_FTP_HOST }}
           username: ${{ secrets.INTERSERVER_FTP_USER }}
