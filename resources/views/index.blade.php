@@ -623,12 +623,26 @@
             </div>
           </div>
 
+          <!-- Payment QR Code Image Uploader -->
           <div class="form-group mt-2">
-            <label for="qr_data">Payment Link or QR Code URL (Optional)</label>
-            <div class="input-with-icon">
-              <input type="text" id="qr_data" class="form-control " placeholder="e.g. https://paypal.me/yourcompany or Pay link">
+            <div class="label-row">
+              <label>Payment QR Code Image</label>
+              <span class="field-pill optional-pill">Optional</span>
             </div>
-            <span class="helper-text">Generates an instant scannable payment QR code inside the PDF and live preview.</span>
+            <div class="logo-uploader-zone" id="qr-dropzone">
+              <div class="logo-preview-wrapper" id="qr-preview-box" style="display:none;">
+                <img id="qr-preview-img" src="" alt="Payment QR Code">
+                <button type="button" class="btn-remove-logo" id="btn-remove-qr" title="Remove QR Code">
+                  <i data-lucide="x"></i>
+                </button>
+              </div>
+              <div class="logo-upload-prompt" id="qr-upload-prompt">
+                <i data-lucide="qr-code"></i>
+                <span>Drop payment QR code image here, or <b>browse</b></span>
+                <span class="subtext">Upload bank QR (KHQR, ABA, etc.) or mobile payment QR</span>
+              </div>
+              <input type="file" id="qr-file-input" accept="image/*" style="display:none;">
+            </div>
           </div>
         </div>
 
@@ -1036,10 +1050,11 @@
               <!-- Dynamic QR Code Preview Box -->
               <div id="pv-qr-box" class="pv-qr-card" style="display:none;">
                 <div class="qr-canvas-holder">
-                  <canvas id="pv-qr-canvas"></canvas>
+                  <img id="pv-qr-img" src="" alt="Payment QR Code" style="display:none;">
+                  <canvas id="pv-qr-canvas" style="display:none;"></canvas>
                 </div>
                 <div class="qr-text-meta">
-                  <span class="qr-title">Scan to Pay / Verify</span>
+                  <span class="qr-title">Scan to Pay</span>
                   <span class="qr-sub">Instant mobile checkout</span>
                 </div>
               </div>

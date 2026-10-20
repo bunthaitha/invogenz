@@ -68,6 +68,7 @@
     account_name: 'Invogenz',
     account_number: '',
     routing_swift: '',
+    qr_image: '',
     qr_data: '',
     notes: 'Thank you for your business! All deliverables are backed by our 30-day warranty and SLA guarantee.',
     terms: 'Payment is due within 14 calendar days from invoice issue date. A late fee of 1.5% per month applies to overdue balances.',
@@ -180,6 +181,12 @@
     accountNumber: document.getElementById('account_number'),
     routingSwift: document.getElementById('routing_swift'),
     qrData: document.getElementById('qr_data'),
+    qrDropzone: document.getElementById('qr-dropzone'),
+    qrFileInput: document.getElementById('qr-file-input'),
+    qrPreviewBox: document.getElementById('qr-preview-box'),
+    qrPreviewImg: document.getElementById('qr-preview-img'),
+    qrUploadPrompt: document.getElementById('qr-upload-prompt'),
+    btnRemoveQr: document.getElementById('btn-remove-qr'),
 
     // Notes & Multi-party Signatures Form Elements
     notes: document.getElementById('notes'),
@@ -290,6 +297,7 @@
     pvPaySwift: document.getElementById('pv-pay-swift'),
 
     pvQrBox: document.getElementById('pv-qr-box'),
+    pvQrImg: document.getElementById('pv-qr-img'),
     pvQrCanvas: document.getElementById('pv-qr-canvas'),
     pvDefaultThanks: document.getElementById('pv-default-thanks'),
 
@@ -605,7 +613,18 @@
     els.accountName.value = activeData.account_name || '';
     els.accountNumber.value = activeData.account_number || '';
     els.routingSwift.value = activeData.routing_swift || '';
-    els.qrData.value = activeData.qr_data || '';
+    if (els.qrData) els.qrData.value = activeData.qr_data || '';
+
+    // Payment QR Code Image
+    if (activeData.qr_image || activeData.qr_data) {
+      const qrVal = activeData.qr_image || activeData.qr_data;
+      if (els.qrPreviewImg) els.qrPreviewImg.src = qrVal;
+      if (els.qrPreviewBox) els.qrPreviewBox.style.display = 'inline-flex';
+      if (els.qrUploadPrompt) els.qrUploadPrompt.style.display = 'none';
+    } else {
+      if (els.qrPreviewBox) els.qrPreviewBox.style.display = 'none';
+      if (els.qrUploadPrompt) els.qrUploadPrompt.style.display = 'flex';
+    }
 
     // Notes & Multi-party Signatures
     els.notes.value = activeData.notes || '';
@@ -1176,24 +1195,21 @@
       els.pvPaymentBox.style.display = 'none';
     }
 
-    // QR Code rendering
-    if (data.qr_data && data.qr_data.trim() && window.QRious) {
+    // QR Code rendering (Image upload or generated)
+    const qrSrc = activeData.qr_image || activeData.qr_data;
+    if (qrSrc && qrSrc.trim()) {
       els.pvQrBox.style.display = 'flex';
-      if (!qrInstance) {
-        qrInstance = new QRious({
-          element: els.pvQrCanvas,
-          size: 100,
-          value: data.qr_data.trim()
-        });
-      } else {
-        qrInstance.value = data.qr_data.trim();
+      if (els.pvQrImg) {
+        els.pvQrImg.src = qrSrc;
+        els.pvQrImg.style.display = 'block';
       }
+      if (els.pvQrCanvas) els.pvQrCanvas.style.display = 'none';
     } else {
       els.pvQrBox.style.display = 'none';
     }
 
     // Default Thanks note
-    if (!hasPayInfo && !data.qr_data) {
+    if (!hasPayInfo && !qrSrc) {
       els.pvDefaultThanks.style.display = 'block';
     } else {
       els.pvDefaultThanks.style.display = 'none';
@@ -1632,6 +1648,31 @@
       els.logoUploadPrompt.style.display = 'none';
       triggerAutoSave();
       showToast('Logo uploaded successfully!', 'success');
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // --- Payment QR Code Image Upload Handling ---
+  function handleQrFile(file) {
+    if (!file || !file.type.startsWith('image/')) {
+      showToast('Please select a valid image file (PNG, JPG, SVG, WebP)', 'error');
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      showToast('QR code image file size must be less than 2MB', 'error');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const base64Data = e.target.result;
+      activeData.qr_image = base64Data;
+      activeData.qr_data = base64Data;
+      if (els.qrPreviewImg) els.qrPreviewImg.src = base64Data;
+      if (els.qrPreviewBox) els.qrPreviewBox.style.display = 'inline-flex';
+      if (els.qrUploadPrompt) els.qrUploadPrompt.style.display = 'none';
+      triggerAutoSave();
+      showToast('Payment QR code image uploaded successfully!', 'success');
     };
     reader.readAsDataURL(file);
   }
@@ -2252,6 +2293,8 @@
       invoice_number: 'INV-' + Math.floor(1000 + Math.random() * 9000),
       items: [{ description: '', sub_description: '', quantity: 1, rate: 0, tax_rate: 0 }],
       company_logo: '',
+      qr_image: '',
+      qr_data: '',
       discount_value: 0,
       overall_tax_rate: 0,
       shipping_fee: 0,
@@ -2364,6 +2407,50 @@
         handleLogoFile(e.dataTransfer.files[0]);
       }
     });
+
+    // Payment QR Code Drag & Drop & Upload
+    if (els.qrDropzone && els.qrFileInput) {
+      els.qrDropzone.addEventListener('click', (e) => {
+        if (e.target.closest('#btn-remove-qr')) return;
+        els.qrFileInput.click();
+      });
+
+      els.qrFileInput.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files[0]) {
+          handleQrFile(e.target.files[0]);
+        }
+      });
+
+      if (els.btnRemoveQr) {
+        els.btnRemoveQr.addEventListener('click', (e) => {
+          e.stopPropagation();
+          activeData.qr_image = '';
+          activeData.qr_data = '';
+          if (els.qrPreviewBox) els.qrPreviewBox.style.display = 'none';
+          if (els.qrUploadPrompt) els.qrUploadPrompt.style.display = 'flex';
+          if (els.qrFileInput) els.qrFileInput.value = '';
+          triggerAutoSave();
+          showToast('Payment QR code image removed', 'info');
+        });
+      }
+
+      els.qrDropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        els.qrDropzone.style.borderColor = 'var(--accent-color)';
+      });
+
+      els.qrDropzone.addEventListener('dragleave', () => {
+        els.qrDropzone.style.borderColor = '';
+      });
+
+      els.qrDropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        els.qrDropzone.style.borderColor = '';
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+          handleQrFile(e.dataTransfer.files[0]);
+        }
+      });
+    }
 
     // Auto-update inputs on change
     const autoInputs = [

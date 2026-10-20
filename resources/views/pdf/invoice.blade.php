@@ -560,24 +560,40 @@
     <table class="bottom-table">
         <tr>
             <td style="width: 55%;">
-                @if(!empty($invoice['bank_name']) || !empty($invoice['account_number']) || !empty($invoice['payment_method']))
+                @php
+                    $hasQr = !empty($invoice['qr_image']) || (!empty($invoice['qr_data']) && str_starts_with($invoice['qr_data'], 'data:image'));
+                    $qrSrc = !empty($invoice['qr_image']) ? $invoice['qr_image'] : ($invoice['qr_data'] ?? '');
+                @endphp
+                @if(!empty($invoice['bank_name']) || !empty($invoice['account_number']) || !empty($invoice['payment_method']) || !empty($invoice['account_name']) || $hasQr)
                     <div class="payment-box">
-                        <div class="payment-title">PAYMENT DETAILS</div>
-                        @if(!empty($invoice['payment_method']))
-                            <div><strong>Method:</strong> {{ $invoice['payment_method'] }}</div>
-                        @endif
-                        @if(!empty($invoice['bank_name']))
-                            <div><strong>Bank:</strong> {{ $invoice['bank_name'] }}</div>
-                        @endif
-                        @if(!empty($invoice['account_name']))
-                            <div><strong>Account Name:</strong> {{ $invoice['account_name'] }}</div>
-                        @endif
-                        @if(!empty($invoice['account_number']))
-                            <div><strong>Account #:</strong> {{ $invoice['account_number'] }}</div>
-                        @endif
-                        @if(!empty($invoice['routing_swift']))
-                            <div><strong>SWIFT / Routing:</strong> {{ $invoice['routing_swift'] }}</div>
-                        @endif
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <tr>
+                                <td style="vertical-align: top;">
+                                    <div class="payment-title">PAYMENT DETAILS</div>
+                                    @if(!empty($invoice['payment_method']))
+                                        <div><strong>Method:</strong> {{ $invoice['payment_method'] }}</div>
+                                    @endif
+                                    @if(!empty($invoice['bank_name']))
+                                        <div><strong>Bank:</strong> {{ $invoice['bank_name'] }}</div>
+                                    @endif
+                                    @if(!empty($invoice['account_name']))
+                                        <div><strong>Account Name:</strong> {{ $invoice['account_name'] }}</div>
+                                    @endif
+                                    @if(!empty($invoice['account_number']))
+                                        <div><strong>Account #:</strong> {{ $invoice['account_number'] }}</div>
+                                    @endif
+                                    @if(!empty($invoice['routing_swift']))
+                                        <div><strong>SWIFT / Routing:</strong> {{ $invoice['routing_swift'] }}</div>
+                                    @endif
+                                </td>
+                                @if($hasQr)
+                                    <td style="width: 70px; vertical-align: top; text-align: right; padding-left: 8px;">
+                                        <img src="{{ $qrSrc }}" style="max-width: 65px; max-height: 65px; object-fit: contain; border-radius: 4px;" alt="QR Code">
+                                        <div style="font-size: 7px; color: #64748b; font-weight: bold; text-align: center; margin-top: 3px;">Scan to Pay</div>
+                                    </td>
+                                @endif
+                            </tr>
+                        </table>
                     </div>
                 @endif
             </td>

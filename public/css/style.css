@@ -1586,13 +1586,20 @@ textarea.form-control {
 }
 
 .qr-canvas-holder {
-  width: 64px;
-  height: 64px;
+  width: 68px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
+.qr-canvas-holder img,
 .qr-canvas-holder canvas {
-  width: 100% !important;
-  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain;
+  border-radius: 4px;
 }
 
 .qr-text-meta {
