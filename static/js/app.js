@@ -24,11 +24,11 @@
     due_date: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
     po_number: '',
     company_name: 'Vertex Digital Solutions Inc.',
-    company_contact: 'Marcus Vance',
+    company_contact: 'Bunthai Tha',
     company_tagline: 'Enterprise Cloud Architecture & Digital Products',
     company_address: '742 Evergreen Terrace, Suite 500\nSan Francisco, CA 94107\nUnited States',
-    company_email: 'billing@vertexdigital.com',
-    company_phone: '+1 (415) 555-0199',
+    company_email: 'thabunthai168@gmail.com',
+    company_phone: '088 694 9852',
     company_logo: '',
     client_name: 'Sarah Connor',
     client_company: 'Cyberdyne Systems Corp.',
@@ -232,9 +232,14 @@
     pvAccentBar: document.getElementById('pv-accent-bar'),
 
     pvFromName: document.getElementById('pv-from-name'),
+    pvFromPersonRow: document.getElementById('pv-from-person-row'),
     pvFromPerson: document.getElementById('pv-from-person'),
+    pvFromPhoneRow: document.getElementById('pv-from-phone-row'),
+    pvFromPhone: document.getElementById('pv-from-phone'),
+    pvFromEmailRow: document.getElementById('pv-from-email-row'),
+    pvFromEmail: document.getElementById('pv-from-email'),
+    pvFromAddressRow: document.getElementById('pv-from-address-row'),
     pvFromAddress: document.getElementById('pv-from-address'),
-    pvFromContact: document.getElementById('pv-from-contact'),
 
     pvClientCompany: document.getElementById('pv-client-company'),
     pvClientName: document.getElementById('pv-client-name'),
@@ -812,27 +817,45 @@
       els.pvCompanyTagline.style.display = 'none';
     }
 
-    // Sender Details (Rendered in Brand Header under Company Name / Logo)
-    if (els.pvFromPerson) {
-      if (data.company_contact && data.company_contact.trim()) {
-        const contactVal = data.company_contact.trim();
-        const displayVal = contactVal.toLowerCase().startsWith('contact person:') ? contactVal : `Contact Person: ${contactVal}`;
-        els.pvFromPerson.textContent = displayVal;
-        els.pvFromPerson.style.display = 'block';
+    // Sender / Company Details (Rendered in Brand Header under Company Name / Logo)
+    if (els.pvFromPersonRow && els.pvFromPerson) {
+      const contactVal = (data.company_contact || '').trim();
+      if (contactVal) {
+        els.pvFromPerson.textContent = contactVal;
+        els.pvFromPersonRow.style.display = 'flex';
       } else {
-        els.pvFromPerson.style.display = 'none';
+        els.pvFromPersonRow.style.display = 'none';
       }
     }
 
-    if (els.pvFromAddress) {
-      els.pvFromAddress.textContent = data.company_address || '';
+    if (els.pvFromPhoneRow && els.pvFromPhone) {
+      const phoneVal = (data.company_phone || '').trim();
+      if (phoneVal) {
+        els.pvFromPhone.textContent = phoneVal;
+        els.pvFromPhoneRow.style.display = 'flex';
+      } else {
+        els.pvFromPhoneRow.style.display = 'none';
+      }
     }
 
-    const compContacts = [];
-    if (data.company_phone) compContacts.push(data.company_phone);
-    if (data.company_email) compContacts.push(data.company_email);
-    if (els.pvFromContact) {
-      els.pvFromContact.textContent = compContacts.join(' • ');
+    if (els.pvFromEmailRow && els.pvFromEmail) {
+      const emailVal = (data.company_email || '').trim();
+      if (emailVal) {
+        els.pvFromEmail.textContent = emailVal;
+        els.pvFromEmailRow.style.display = 'flex';
+      } else {
+        els.pvFromEmailRow.style.display = 'none';
+      }
+    }
+
+    if (els.pvFromAddressRow && els.pvFromAddress) {
+      const addrVal = (data.company_address || '').trim();
+      if (addrVal) {
+        els.pvFromAddress.textContent = addrVal;
+        els.pvFromAddressRow.style.display = 'flex';
+      } else {
+        els.pvFromAddressRow.style.display = 'none';
+      }
     }
 
     // Invoice Meta

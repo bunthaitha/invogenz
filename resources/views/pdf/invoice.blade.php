@@ -330,16 +330,16 @@
                 @endif
                 <div class="company-info">
                     @if(!empty($invoice['company_contact']))
-                        <div><strong>Contact Person:</strong> {{ $invoice['company_contact'] }}</div>
+                        <div><strong>Contact:</strong> {{ $invoice['company_contact'] }}</div>
+                    @endif
+                    @if(!empty($invoice['company_phone']))
+                        <div><strong>Phone:</strong> {{ $invoice['company_phone'] }}</div>
+                    @endif
+                    @if(!empty($invoice['company_email']))
+                        <div><strong>Email:</strong> {{ $invoice['company_email'] }}</div>
                     @endif
                     @if(!empty($invoice['company_address']))
-                        <div>{!! nl2br(e($invoice['company_address'])) !!}</div>
-                    @endif
-                    @php
-                        $contacts = array_filter([$invoice['company_phone'] ?? '', $invoice['company_email'] ?? '']);
-                    @endphp
-                    @if(count($contacts))
-                        <div>{{ implode(' • ', $contacts) }}</div>
+                        <div><strong>Address:</strong> {!! nl2br(e($invoice['company_address'])) !!}</div>
                     @endif
                 </div>
             </td>

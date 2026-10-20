@@ -313,7 +313,7 @@
             <!-- Contact Person -->
             <div class="form-group">
               <div class="label-row">
-                <label for="company_contact">Contact Person</label>
+                <label for="company_contact">Contact</label>
                 <span class="field-pill optional-pill">Optional</span>
               </div>
               <div class="input-with-icon">
@@ -786,10 +786,23 @@
               <div class="pv-brand-text">
                 <h2 id="pv-company-name" style="display:none;"></h2>
                 <p id="pv-company-tagline" class="pv-tagline" style="display:none;"></p>
-                <div class="pv-brand-details">
-                  <div class="pv-brand-person" id="pv-from-person" style="display:none;"></div>
-                  <div class="pv-brand-address" id="pv-from-address"></div>
-                  <div class="pv-brand-contact" id="pv-from-contact"></div>
+                <div class="pv-brand-details" id="pv-brand-details">
+                  <div class="pv-brand-row" id="pv-from-person-row" style="display:none;">
+                    <span class="pv-brand-lbl">Contact:</span>
+                    <span class="pv-brand-val" id="pv-from-person"></span>
+                  </div>
+                  <div class="pv-brand-row" id="pv-from-phone-row" style="display:none;">
+                    <span class="pv-brand-lbl">Phone:</span>
+                    <span class="pv-brand-val" id="pv-from-phone"></span>
+                  </div>
+                  <div class="pv-brand-row" id="pv-from-email-row" style="display:none;">
+                    <span class="pv-brand-lbl">Email:</span>
+                    <span class="pv-brand-val" id="pv-from-email"></span>
+                  </div>
+                  <div class="pv-brand-row" id="pv-from-address-row" style="display:none;">
+                    <span class="pv-brand-lbl">Address:</span>
+                    <span class="pv-brand-val" id="pv-from-address"></span>
+                  </div>
                 </div>
               </div>
             </div>
