@@ -242,9 +242,15 @@
     pvFromAddress: document.getElementById('pv-from-address'),
 
     pvClientCompany: document.getElementById('pv-client-company'),
+    pvClientNameRow: document.getElementById('pv-client-name-row'),
     pvClientName: document.getElementById('pv-client-name'),
+    pvClientPhoneRow: document.getElementById('pv-client-phone-row'),
+    pvClientPhone: document.getElementById('pv-client-phone'),
+    pvClientEmailRow: document.getElementById('pv-client-email-row'),
+    pvClientEmail: document.getElementById('pv-client-email'),
+    pvClientAddressRow: document.getElementById('pv-client-address-row'),
     pvClientAddress: document.getElementById('pv-client-address'),
-    pvClientContact: document.getElementById('pv-client-contact'),
+    pvClientTaxRow: document.getElementById('pv-client-tax-row'),
     pvClientTax: document.getElementById('pv-client-tax'),
 
     pvTableHead: document.getElementById('pv-table-head'),
@@ -888,21 +894,70 @@
     }
 
     // Client Card
-    if (data.client_company) {
-      els.pvClientCompany.textContent = data.client_company;
-      els.pvClientCompany.style.display = 'block';
-      els.pvClientName.textContent = data.client_name ? `Attn: ${data.client_name}` : '';
-    } else {
-      els.pvClientCompany.style.display = 'none';
-      els.pvClientName.textContent = data.client_name || 'Valued Client';
+    if (els.pvClientCompany) {
+      const compVal = (data.client_company || '').trim();
+      if (compVal) {
+        els.pvClientCompany.textContent = compVal;
+        els.pvClientCompany.style.display = 'block';
+      } else {
+        els.pvClientCompany.style.display = 'none';
+      }
     }
 
-    els.pvClientAddress.textContent = data.client_address || '';
-    const clientContacts = [];
-    if (data.client_email) clientContacts.push(data.client_email);
-    if (data.client_phone) clientContacts.push(data.client_phone);
-    els.pvClientContact.textContent = clientContacts.join(' • ');
-    els.pvClientTax.textContent = data.client_tax_id ? `Tax / VAT: ${data.client_tax_id}` : '';
+    if (els.pvClientNameRow && els.pvClientName) {
+      const nameVal = (data.client_name || '').trim();
+      if (nameVal) {
+        els.pvClientName.textContent = nameVal;
+        els.pvClientNameRow.style.display = 'flex';
+      } else {
+        if (!data.client_company && !data.client_phone && !data.client_email && !data.client_address) {
+          els.pvClientName.textContent = 'Valued Client';
+          els.pvClientNameRow.style.display = 'flex';
+        } else {
+          els.pvClientNameRow.style.display = 'none';
+        }
+      }
+    }
+
+    if (els.pvClientPhoneRow && els.pvClientPhone) {
+      const phoneVal = (data.client_phone || '').trim();
+      if (phoneVal) {
+        els.pvClientPhone.textContent = phoneVal;
+        els.pvClientPhoneRow.style.display = 'flex';
+      } else {
+        els.pvClientPhoneRow.style.display = 'none';
+      }
+    }
+
+    if (els.pvClientEmailRow && els.pvClientEmail) {
+      const emailVal = (data.client_email || '').trim();
+      if (emailVal) {
+        els.pvClientEmail.textContent = emailVal;
+        els.pvClientEmailRow.style.display = 'flex';
+      } else {
+        els.pvClientEmailRow.style.display = 'none';
+      }
+    }
+
+    if (els.pvClientAddressRow && els.pvClientAddress) {
+      const addrVal = (data.client_address || '').trim();
+      if (addrVal) {
+        els.pvClientAddress.textContent = addrVal;
+        els.pvClientAddressRow.style.display = 'flex';
+      } else {
+        els.pvClientAddressRow.style.display = 'none';
+      }
+    }
+
+    if (els.pvClientTaxRow && els.pvClientTax) {
+      const taxVal = (data.client_tax_id || '').trim();
+      if (taxVal) {
+        els.pvClientTax.textContent = taxVal;
+        els.pvClientTaxRow.style.display = 'flex';
+      } else {
+        els.pvClientTaxRow.style.display = 'none';
+      }
+    }
 
     // Render Items on Preview
     els.pvItemsBody.innerHTML = '';
@@ -1066,6 +1121,14 @@
         els.pvSignaturesSection.style.display = 'grid';
         els.pvSignaturesSection.style.gridTemplateColumns = 'repeat(3, 1fr)';
 
+        const buildDateMarkup = (dateVal) => {
+          const val = (dateVal || '').trim();
+          if (val) {
+            return `<span class="sig-date-label">Date:</span> <span class="sig-date-val">${val}</span>`;
+          }
+          return `<span class="sig-date-label">Date:</span> <span class="sig-date-line"></span>`;
+        };
+
         // 1. Prepared by
         if (els.pvColPrepare) {
           if (showPrepare) {
@@ -1076,7 +1139,7 @@
               els.pvPrepareName.style.display = prepName ? 'block' : 'none';
             }
             if (els.pvPrepareDate) {
-              els.pvPrepareDate.textContent = data.sig_prepare_date ? `Date: ${data.sig_prepare_date}` : 'Date: ___________';
+              els.pvPrepareDate.innerHTML = buildDateMarkup(data.sig_prepare_date);
             }
             if (els.pvSigPrepareBox && els.pvSigPrepareImg) {
               els.pvSigPrepareBox.style.display = 'flex';
@@ -1103,7 +1166,7 @@
               els.pvApproveName.style.display = approveName ? 'block' : 'none';
             }
             if (els.pvApproveDate) {
-              els.pvApproveDate.textContent = data.sig_approve_date ? `Date: ${data.sig_approve_date}` : 'Date: ___________';
+              els.pvApproveDate.innerHTML = buildDateMarkup(data.sig_approve_date);
             }
             if (els.pvSigApproveBox && els.pvSigApproveImg) {
               els.pvSigApproveBox.style.display = 'flex';
@@ -1130,7 +1193,7 @@
               els.pvCustomerName.style.display = custName ? 'block' : 'none';
             }
             if (els.pvCustomerDate) {
-              els.pvCustomerDate.textContent = data.sig_customer_date ? `Date: ${data.sig_customer_date}` : 'Date: ___________';
+              els.pvCustomerDate.innerHTML = buildDateMarkup(data.sig_customer_date);
             }
             if (els.pvSigCustomerBox && els.pvSigCustomerImg) {
               els.pvSigCustomerBox.style.display = 'flex';
@@ -1435,21 +1498,136 @@
     reader.readAsDataURL(file);
   }
 
-  // --- Client-Side & Server PDF Generation ---
+  // --- High-Fidelity PDF Generation (100% Matches Web Preview with all fonts, styles & layout) ---
   async function downloadPdf() {
     gatherFormData();
+    renderPaperPreview(activeData);
 
     const originalBtnHtml = els.btnPdfLabel.textContent;
     els.btnPdfLabel.textContent = 'Generating PDF...';
     els.btnDownloadPdf.disabled = true;
 
     const filename = `${activeData.invoice_number || 'invoice'}.pdf`;
+    const isLetter = (activeData.paper_size || 'a4').toLowerCase() === 'letter';
+    const targetWidth = isLetter ? 816 : 794;
+    const targetHeight = isLetter ? 1056 : 1123;
+    const formatName = isLetter ? 'letter' : 'a4';
 
-    // 1. Try backend API first (if hosted on server with PHP/Python)
+    // 1. Primary: Direct 100% Web Preview capture using html2pdf with full font fidelity
+    if (window.html2pdf) {
+      let exportWrapper = null;
+      try {
+        if (document.fonts) {
+          await document.fonts.ready;
+        }
+
+        const origSheet = document.getElementById('invoice-sheet');
+        if (!origSheet) throw new Error('Invoice sheet DOM element not found');
+
+        const sheetClone = origSheet.cloneNode(true);
+
+        // Convert canvases (e.g. QR code) to high-res image elements so pixels are preserved
+        const origCanvases = origSheet.querySelectorAll('canvas');
+        const cloneCanvases = sheetClone.querySelectorAll('canvas');
+        origCanvases.forEach((origCanvas, i) => {
+          if (cloneCanvases[i]) {
+            const img = document.createElement('img');
+            img.src = origCanvas.toDataURL('image/png');
+            img.style.cssText = origCanvas.style.cssText;
+            img.className = origCanvas.className;
+            img.width = origCanvas.width;
+            img.height = origCanvas.height;
+            cloneCanvases[i].parentNode.replaceChild(img, cloneCanvases[i]);
+          }
+        });
+
+        // Ensure all img sources (logos, signatures) are preserved in the clone
+        const origImages = origSheet.querySelectorAll('img');
+        const cloneImages = sheetClone.querySelectorAll('img');
+        origImages.forEach((origImg, i) => {
+          if (cloneImages[i] && origImg.src) {
+            cloneImages[i].src = origImg.src;
+          }
+        });
+
+        // Reset preview-only zoom transforms and container styles
+        sheetClone.id = 'invoice-sheet-export';
+        sheetClone.style.transform = 'none';
+        sheetClone.style.boxShadow = 'none';
+        sheetClone.style.borderRadius = '0';
+        sheetClone.style.margin = '0';
+        sheetClone.style.width = `${targetWidth}px`;
+        sheetClone.style.maxWidth = `${targetWidth}px`;
+        sheetClone.style.minHeight = `${targetHeight}px`;
+        sheetClone.style.boxSizing = 'border-box';
+        sheetClone.style.backgroundColor = '#ffffff';
+
+        // Mount clone in hidden zero-offset container so html2canvas renders exact (0,0) bounds
+        exportWrapper = document.createElement('div');
+        exportWrapper.style.position = 'fixed';
+        exportWrapper.style.top = '0';
+        exportWrapper.style.left = '0';
+        exportWrapper.style.width = `${targetWidth}px`;
+        exportWrapper.style.zIndex = '-9999';
+        exportWrapper.style.pointerEvents = 'none';
+        exportWrapper.style.overflow = 'hidden';
+        exportWrapper.appendChild(sheetClone);
+        document.body.appendChild(exportWrapper);
+
+        // Allow microtask tick for rendering
+        await new Promise(r => setTimeout(r, 60));
+
+        // If content fits within single page, lock height to prevent spurious blank 2nd page
+        if (sheetClone.scrollHeight <= (targetHeight + 20)) {
+          sheetClone.style.height = `${targetHeight}px`;
+          sheetClone.style.overflow = 'hidden';
+        }
+
+        const opt = {
+          margin: 0,
+          filename: filename,
+          image: { type: 'jpeg', quality: 0.98 },
+          enableLinks: false,
+          html2canvas: {
+            scale: 2.5,
+            useCORS: true,
+            logging: false,
+            backgroundColor: '#ffffff',
+            width: targetWidth,
+            windowWidth: targetWidth,
+            scrollX: 0,
+            scrollY: 0
+          },
+          jsPDF: {
+            unit: 'mm',
+            format: formatName,
+            orientation: 'portrait'
+          },
+          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+        };
+
+        await html2pdf().set(opt).from(sheetClone).save();
+        showToast(`Downloaded ${filename} successfully!`, 'success');
+        return;
+      } catch (clientErr) {
+        console.warn('Client-side 100% PDF generation error, trying backend:', clientErr);
+      } finally {
+        if (exportWrapper && exportWrapper.parentNode) {
+          exportWrapper.remove();
+        }
+        els.btnPdfLabel.textContent = originalBtnHtml;
+        els.btnDownloadPdf.disabled = false;
+      }
+    }
+
+    // 2. Secondary / Fallback: Server-side PDF via Laravel DomPDF
     try {
       const response = await fetch('/api/generate-pdf', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/pdf'
+        },
         body: JSON.stringify(activeData)
       });
       if (response.ok) {
@@ -1461,37 +1639,12 @@
         document.body.appendChild(a);
         a.click();
         a.remove();
-        window.URL.revokeObjectURL(downloadUrl);
+        setTimeout(() => window.URL.revokeObjectURL(downloadUrl), 1000);
         showToast(`Downloaded ${filename} successfully!`, 'success');
-        els.btnPdfLabel.textContent = originalBtnHtml;
-        els.btnDownloadPdf.disabled = false;
         return;
       }
-    } catch (e) {
-      // Backend not running (e.g. Cloudflare Pages static edge) -> Fallback to client-side
-    }
-
-    // 2. Client-side PDF generation via html2pdf (Works 100% on Cloudflare Pages!)
-    try {
-      const sheet = document.getElementById('invoice-sheet');
-      const format = (activeData.paper_size || 'a4').toLowerCase() === 'letter' ? 'letter' : 'a4';
-
-      if (window.html2pdf) {
-        const opt = {
-          margin: [8, 8, 8, 8],
-          filename: filename,
-          image: { type: 'jpeg', quality: 0.98 },
-          html2canvas: { scale: 2, useCORS: true, logging: false },
-          jsPDF: { unit: 'mm', format: format, orientation: 'portrait' }
-        };
-        await html2pdf().set(opt).from(sheet).save();
-        showToast(`Downloaded ${filename} successfully!`, 'success');
-      } else {
-        window.print();
-      }
-    } catch (err) {
-      console.error('PDF generation error:', err);
-      window.print();
+    } catch (serverErr) {
+      console.error('Server PDF download error:', serverErr);
     } finally {
       els.btnPdfLabel.textContent = originalBtnHtml;
       els.btnDownloadPdf.disabled = false;
@@ -1506,7 +1659,6 @@
     const previewWin = window.open('', '_blank');
     if (!previewWin) {
       showToast('Popup blocked! Please allow popups to open the web preview tab.', 'warning');
-      window.print();
       return;
     }
 
@@ -1514,7 +1666,7 @@
     const sheetEl = document.getElementById('invoice-sheet');
     if (!sheetEl) {
       previewWin.close();
-      window.print();
+      showToast('Invoice sheet not found for preview.', 'error');
       return;
     }
 

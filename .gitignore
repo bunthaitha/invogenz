@@ -21,4 +21,5 @@ composer.phar
 *.pyc
 __pycache__/
 venv/
+*.zip
 

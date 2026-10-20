@@ -3,18 +3,22 @@
 <head>
     <meta charset="utf-8">
     <title>{{ $invoice['invoice_number'] ?? 'Invoice' }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         @page {
             margin: 28px 36px 36px 36px;
         }
         body {
-            font-family: 'Helvetica', 'Arial', sans-serif;
+            font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             font-size: 11px;
             line-height: 1.45;
             color: #1e293b;
             background: #ffffff;
             margin: 0;
             padding: 0;
+            -webkit-font-smoothing: antialiased;
         }
         .header-table {
             width: 100%;
@@ -83,7 +87,7 @@
         .meta-val {
             color: #0f172a;
             font-weight: bold;
-            font-family: 'Courier', monospace;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
         }
         .accent-bar {
             height: 3px;
@@ -186,7 +190,7 @@
             font-weight: 600;
         }
         .totals-value {
-            font-family: 'Courier', monospace;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
             font-weight: bold;
             color: #0f172a;
         }
@@ -252,7 +256,7 @@
         .sig-caption {
             font-size: 8px;
             font-weight: bold;
-            color: {{ $accent }};
+            color: {{ $invoice['accent_color'] ?? '#4F46E5' }};
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 2px;
@@ -282,6 +286,31 @@
             font-size: 8px;
             color: #64748b;
             margin-top: 2px;
+        }
+        .sig-date-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 3px;
+        }
+        .sig-date-lbl {
+            width: 26px;
+            font-size: 8px;
+            font-weight: bold;
+            color: #64748b;
+            padding: 0;
+            text-align: left;
+            vertical-align: middle;
+        }
+        .sig-date-cell {
+            padding: 0 0 0 3px;
+            vertical-align: middle;
+            text-align: left;
+        }
+        .sig-date-line-pdf {
+            border-bottom: 1px solid #94a3b8;
+            height: 1px;
+            width: 100%;
+            display: block;
         }
         .sig-img {
             max-height: 36px;
@@ -395,19 +424,19 @@
         @endif
         <div class="client-details">
             @if(!empty($invoice['client_name']))
-                <div><strong>Attn:</strong> {{ $invoice['client_name'] }}</div>
+                <div><strong>Name:</strong> {{ $invoice['client_name'] }}</div>
+            @endif
+            @if(!empty($invoice['client_phone']))
+                <div><strong>Phone:</strong> {{ $invoice['client_phone'] }}</div>
+            @endif
+            @if(!empty($invoice['client_email']))
+                <div><strong>Email:</strong> {{ $invoice['client_email'] }}</div>
             @endif
             @if(!empty($invoice['client_address']))
-                <div>{!! nl2br(e($invoice['client_address'])) !!}</div>
-            @endif
-            @php
-                $clientContacts = array_filter([$invoice['client_phone'] ?? '', $invoice['client_email'] ?? '']);
-            @endphp
-            @if(count($clientContacts))
-                <div>{{ implode(' • ', $clientContacts) }}</div>
+                <div><strong>Address:</strong> {!! nl2br(e($invoice['client_address'])) !!}</div>
             @endif
             @if(!empty($invoice['client_tax_id']))
-                <div>Tax / VAT ID: {{ $invoice['client_tax_id'] }}</div>
+                <div><strong>Tax / VAT:</strong> {{ $invoice['client_tax_id'] }}</div>
             @endif
         </div>
     </div>
@@ -555,7 +584,12 @@
                                 <div class="sig-name">{{ $invoice['sig_prepare_name'] }}</div>
                             @endif
                             @if(!empty($invoice['sig_prepare_date']))
-                                <div class="sig-date">Date: {{ $invoice['sig_prepare_date'] }}</div>
+                                <table class="sig-date-table">
+                                    <tr>
+                                        <td class="sig-date-lbl">Date:</td>
+                                        <td class="sig-date-cell"><span style="font-size: 8px; color: #0f172a; font-weight: bold;">{{ $invoice['sig_prepare_date'] }}</span></td>
+                                    </tr>
+                                </table>
                             @endif
                         </div>
                     @endif
@@ -581,7 +615,12 @@
                                 <div class="sig-name">{{ $approveName }}</div>
                             @endif
                             @if(!empty($approveDate))
-                                <div class="sig-date">Date: {{ $approveDate }}</div>
+                                <table class="sig-date-table">
+                                    <tr>
+                                        <td class="sig-date-lbl">Date:</td>
+                                        <td class="sig-date-cell"><span style="font-size: 8px; color: #0f172a; font-weight: bold;">{{ $approveDate }}</span></td>
+                                    </tr>
+                                </table>
                             @endif
                         </div>
                     @endif
@@ -601,7 +640,18 @@
                             @if(!empty($invoice['sig_customer_name']))
                                 <div class="sig-name">{{ $invoice['sig_customer_name'] }}</div>
                             @endif
-                            <div class="sig-date">{{ !empty($invoice['sig_customer_date']) ? 'Date: ' . $invoice['sig_customer_date'] : 'Date: ___________' }}</div>
+                            <table class="sig-date-table">
+                                <tr>
+                                    <td class="sig-date-lbl">Date:</td>
+                                    <td class="sig-date-cell">
+                                        @if(!empty($invoice['sig_customer_date']))
+                                            <span style="font-size: 8px; color: #0f172a; font-weight: bold;">{{ $invoice['sig_customer_date'] }}</span>
+                                        @else
+                                            <div class="sig-date-line-pdf"></div>
+                                        @endif
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     @endif
                 </td>

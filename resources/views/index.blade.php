@@ -380,7 +380,7 @@
             <!-- Row 1: Client Company Name -->
             <div class="form-group">
               <div class="label-row">
-                <label for="client_company">Client Company Name</label>
+                <label for="client_company">Company</label>
                 <span class="field-pill optional-pill">Optional</span>
               </div>
               <div class="input-with-icon">
@@ -388,10 +388,10 @@
               </div>
             </div>
 
-            <!-- Row 2: Contact Person -->
+            <!-- Row 2: Client / Contact Name -->
             <div class="form-group">
               <div class="label-row">
-                <label for="client_name">Contact Person</label>
+                <label for="client_name">Name</label>
                 <span class="field-pill required-pill">Required</span>
               </div>
               <div class="input-with-icon">
@@ -399,21 +399,10 @@
               </div>
             </div>
 
-            <!-- Row 3: Client Email -->
+            <!-- Row 3: Client Phone -->
             <div class="form-group">
               <div class="label-row">
-                <label for="client_email">Client Email</label>
-                <span class="field-pill optional-pill">Optional</span>
-              </div>
-              <div class="input-with-icon">
-                <input type="email" id="client_email" class="form-control " placeholder="e.g. sconnor@cyberdyne.io">
-              </div>
-            </div>
-
-            <!-- Row 4: Client Phone -->
-            <div class="form-group">
-              <div class="label-row">
-                <label for="client_phone">Client Phone</label>
+                <label for="client_phone">Phone</label>
                 <span class="field-pill optional-pill">Optional</span>
               </div>
               <div class="input-with-icon">
@@ -421,7 +410,27 @@
               </div>
             </div>
 
-            <!-- Row 5: Client Tax / VAT ID -->
+            <!-- Row 4: Client Email -->
+            <div class="form-group">
+              <div class="label-row">
+                <label for="client_email">Email</label>
+                <span class="field-pill optional-pill">Optional</span>
+              </div>
+              <div class="input-with-icon">
+                <input type="email" id="client_email" class="form-control " placeholder="e.g. sconnor@cyberdyne.io">
+              </div>
+            </div>
+
+            <!-- Row 5: Client Billing Address -->
+            <div class="form-group">
+              <div class="label-row">
+                <label for="client_address">Address</label>
+                <span class="field-pill optional-pill">Optional</span>
+              </div>
+              <textarea id="client_address" class="form-control" rows="2" placeholder="18144 El Camino Real, Building 4&#10;Sunnyvale, CA 94087, United States"></textarea>
+            </div>
+
+            <!-- Row 6: Client Tax / VAT ID -->
             <div class="form-group">
               <div class="label-row">
                 <label for="client_tax_id">Client Tax / VAT ID</label>
@@ -430,15 +439,6 @@
               <div class="input-with-icon">
                 <input type="text" id="client_tax_id" class="form-control font-mono " placeholder="e.g. US-10294857">
               </div>
-            </div>
-
-            <!-- Row 6: Client Billing Address -->
-            <div class="form-group">
-              <div class="label-row">
-                <label for="client_address">Client Billing Address</label>
-                <span class="field-pill optional-pill">Optional</span>
-              </div>
-              <textarea id="client_address" class="form-control" rows="2" placeholder="18144 El Camino Real, Building 4&#10;Sunnyvale, CA 94087, United States"></textarea>
             </div>
           </div>
         </div>
@@ -837,11 +837,29 @@
           <div class="paper-billing-grid">
             <div class="billing-card to-card">
               <h4 class="card-caption">BILLED TO / CLIENT</h4>
-              <p class="strong-name" id="pv-client-company"></p>
-              <p class="contact-name" id="pv-client-name">Valued Client</p>
-              <div class="card-address" id="pv-client-address"></div>
-              <div class="card-contact" id="pv-client-contact"></div>
-              <div class="card-tax" id="pv-client-tax"></div>
+              <p class="strong-name" id="pv-client-company" style="display:none;"></p>
+              <div class="pv-client-details" id="pv-client-details">
+                <div class="pv-client-row" id="pv-client-name-row" style="display:none;">
+                  <span class="pv-client-lbl">Name:</span>
+                  <span class="pv-client-val" id="pv-client-name"></span>
+                </div>
+                <div class="pv-client-row" id="pv-client-phone-row" style="display:none;">
+                  <span class="pv-client-lbl">Phone:</span>
+                  <span class="pv-client-val" id="pv-client-phone"></span>
+                </div>
+                <div class="pv-client-row" id="pv-client-email-row" style="display:none;">
+                  <span class="pv-client-lbl">Email:</span>
+                  <span class="pv-client-val" id="pv-client-email"></span>
+                </div>
+                <div class="pv-client-row" id="pv-client-address-row" style="display:none;">
+                  <span class="pv-client-lbl">Address:</span>
+                  <span class="pv-client-val" id="pv-client-address"></span>
+                </div>
+                <div class="pv-client-row" id="pv-client-tax-row" style="display:none;">
+                  <span class="pv-client-lbl">Tax / VAT:</span>
+                  <span class="pv-client-val" id="pv-client-tax"></span>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -970,7 +988,7 @@
               </div>
               <div class="sig-line-rule"></div>
               <p class="sig-person-name" id="pv-prepare-name">Bunthai Tha</p>
-              <p class="sig-person-date" id="pv-prepare-date">Date: 2026-10-19</p>
+              <div class="sig-person-date" id="pv-prepare-date"><span class="sig-date-label">Date:</span> <span class="sig-date-val">2026-10-19</span></div>
             </div>
 
             <!-- Approved By (Stick at Center) -->
@@ -981,7 +999,7 @@
               </div>
               <div class="sig-line-rule"></div>
               <p class="sig-person-name" id="pv-approve-name" style="display:none;">Alex Morgan</p>
-              <p class="sig-person-date" id="pv-approve-date">Date: 2026-10-19</p>
+              <div class="sig-person-date" id="pv-approve-date"><span class="sig-date-label">Date:</span> <span class="sig-date-val">2026-10-19</span></div>
             </div>
 
             <!-- Customer Acceptance (Stick at Right) -->
@@ -992,7 +1010,7 @@
               </div>
               <div class="sig-line-rule"></div>
               <p class="sig-person-name" id="pv-customer-name" style="display:none;"></p>
-              <p class="sig-person-date" id="pv-customer-date">Date: ___________</p>
+              <div class="sig-person-date" id="pv-customer-date"><span class="sig-date-label">Date:</span> <span class="sig-date-line"></span></div>
             </div>
           </div>
 

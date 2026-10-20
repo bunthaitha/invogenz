@@ -13,15 +13,30 @@
 # Invogenz • Laravel 10 cPanel & LiteSpeed Front-Controller Rewrite
 # ===================================================================
 
+DirectoryIndex index.php public/index.php
+
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    RewriteBase /
 
-    # Forward all incoming traffic to the public/ directory
-    RewriteCond %{REQUEST_URI} !^/public/
+    # 1. Directly handle the domain root
+    RewriteRule ^$ index.php [L]
+
+    # 2. If requested asset exists directly in public/, serve it directly
+    RewriteCond %{DOCUMENT_ROOT}/public/$1 -f
     RewriteRule ^(.*)$ public/$1 [L]
+
+    # 3. If file or directory already exists on disk, do not rewrite
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # 4. Forward all other requests to the front controller
+    RewriteRule ^(.*)$ index.php [L]
 </IfModule>
 
 <IfModule mod_headers.c>
     Header set X-Content-Type-Options "nosniff"
     Header set X-Frame-Options "SAMEORIGIN"
 </IfModule>
+

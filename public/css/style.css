@@ -1442,24 +1442,35 @@ textarea.form-control {
   font-size: 0.95rem;
   font-weight: 700;
   color: #0F172A;
-  margin-bottom: 0.15rem;
+  margin-bottom: 0.35rem;
 }
 
-.billing-card .contact-name {
-  font-weight: 600;
-  color: #334155;
+.pv-client-details {
+  margin-top: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+  font-size: 0.78rem;
+  line-height: 1.45;
 }
 
-.billing-card .card-address {
-  white-space: pre-line;
+.pv-client-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.35rem;
+}
+
+.pv-client-lbl {
+  font-weight: 700;
+  color: #0F172A;
+  font-size: 0.78rem;
+  min-width: 54px;
+  flex-shrink: 0;
+}
+
+.pv-client-val {
   color: #475569;
-  margin: 0.25rem 0;
-}
-
-.billing-card .card-contact,
-.billing-card .card-tax {
-  color: #64748B;
-  font-size: 0.76rem;
+  white-space: pre-line;
 }
 
 /* Paper Table */
@@ -1993,10 +2004,17 @@ textarea.form-control {
 
 #pv-col-customer .sig-caption,
 #pv-col-customer .sig-person-name,
-#pv-col-customer .sig-person-role,
-#pv-col-customer .sig-person-date {
+#pv-col-customer .sig-person-role {
   text-align: right;
   width: 100%;
+}
+
+#pv-col-customer .sig-person-date {
+  text-align: left;
+  width: 100%;
+  max-width: 180px;
+  margin-left: auto;
+  margin-right: 0;
 }
 
 #pv-col-customer .sig-image-holder {
@@ -2052,14 +2070,64 @@ textarea.form-control {
 .sig-person-date {
   color: #64748B;
   font-size: 0.74rem;
-  margin-top: 0.1rem;
+  margin-top: 0.35rem;
   line-height: 1.2;
+  display: flex !important;
+  align-items: center;
+  width: 100%;
+  max-width: 180px;
+}
+
+#pv-col-prepare .sig-person-date {
+  margin-left: 0;
+  margin-right: auto;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+#pv-col-approve .sig-person-date {
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+  text-align: center;
+}
+
+#pv-col-customer .sig-person-date {
+  margin-left: auto;
+  margin-right: 0;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.sig-date-label {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #64748B;
+  flex-shrink: 0;
+  margin-right: 6px;
+  line-height: 1;
+}
+
+.sig-date-line {
+  flex: 1;
+  height: 1px;
+  background-color: #94A3B8;
+  display: inline-block;
+  min-width: 40px;
+  margin-top: 1px;
+}
+
+.sig-date-val {
+  color: #0F172A;
+  font-weight: 600;
+  font-size: 0.74rem;
+  line-height: 1;
 }
 
 /* Micro Footer */
 .paper-micro-footer {
-  margin-top: 1.5rem;
-  padding-top: 0.5rem;
+  margin-top: auto;
+  padding-top: 1rem;
   border-top: 1px solid #E2E8F0;
   display: flex;
   justify-content: space-between;
@@ -2142,6 +2210,16 @@ textarea.form-control {
     padding: 0 !important;
     margin: 0 !important;
     border: none !important;
+  }
+
+  .paper-items-table tr,
+  .paper-bottom-grid,
+  .signature-block-row,
+  .paper-brand,
+  .paper-invoice-title,
+  .client-info-box {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
 }
 
