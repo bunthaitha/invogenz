@@ -1130,8 +1130,8 @@
                 <img id="pv-sig-prepare-img" src="" alt="Prepared Signature" style="display:none;">
               </div>
               <div class="sig-line-rule"></div>
-              <p class="sig-person-name" id="pv-prepare-name">xxxxxx</p>
-              <div class="sig-person-date" id="pv-prepare-date"><span class="sig-date-label">Date:</span> <span class="sig-date-val">2026-10-20</span></div>
+              <div class="sig-person-row" id="pv-prepare-name-row"><span class="sig-field-label">Name:</span> <span class="sig-field-val" id="pv-prepare-name">xxxxxx</span></div>
+              <div class="sig-person-row" id="pv-prepare-date"><span class="sig-date-label">Date:</span> <span class="sig-date-val">2026-10-20</span></div>
             </div>
 
             <!-- Approved By (Stick at Center) -->
@@ -1141,8 +1141,8 @@
                 <img id="pv-sig-approve-img" src="" alt="Approved Signature" style="display:none;">
               </div>
               <div class="sig-line-rule"></div>
-              <p class="sig-person-name" id="pv-approve-name">xxxxxx</p>
-              <div class="sig-person-date" id="pv-approve-date"><span class="sig-date-label">Date:</span> <span class="sig-date-val">2026-10-20</span></div>
+              <div class="sig-person-row" id="pv-approve-name-row"><span class="sig-field-label">Name:</span> <span class="sig-field-val" id="pv-approve-name">xxxxxx</span></div>
+              <div class="sig-person-row" id="pv-approve-date"><span class="sig-date-label">Date:</span> <span class="sig-date-val">2026-10-20</span></div>
             </div>
 
             <!-- Customer Acceptance (Stick at Right) -->
@@ -1152,8 +1152,8 @@
                 <img id="pv-sig-customer-img" src="" alt="Customer Signature" style="display:none;">
               </div>
               <div class="sig-line-rule"></div>
-              <p class="sig-person-name" id="pv-customer-name" style="display:none;"></p>
-              <div class="sig-person-date" id="pv-customer-date"><span class="sig-date-label">Date:</span> <span class="sig-date-line"></span></div>
+              <div class="sig-person-row" id="pv-customer-name-row" style="display:none;"><span class="sig-field-label">Name:</span> <span class="sig-field-val" id="pv-customer-name"></span></div>
+              <div class="sig-person-row" id="pv-customer-date"><span class="sig-date-label">Date:</span> <span class="sig-date-line"></span></div>
             </div>
           </div>
 

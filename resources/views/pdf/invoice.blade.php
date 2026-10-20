@@ -251,7 +251,7 @@
             text-align: center;
         }
         .signature-cell-right .sig-block-wrap {
-            text-align: right;
+            text-align: left;
         }
         .sig-caption {
             font-size: 8px;
@@ -261,42 +261,29 @@
             letter-spacing: 0.5px;
             margin-bottom: 2px;
         }
-        .sig-name {
-            font-size: 9.5px;
-            font-weight: bold;
-            color: #0f172a;
-            margin-top: 4px;
-            margin-bottom: 6px;
+        .sig-row {
+            margin-top: 3px;
+            font-size: 8.5px;
+            line-height: 1.35;
         }
-        .sig-space {
-            height: 38px;
-            position: relative;
-        }
-        .sig-line {
-            border-top: 1px solid #94a3b8;
-            margin-top: 2px;
-            padding-top: 0;
-        }
-        .sig-date-block {
-            margin-top: 6px;
-        }
-        .sig-date-lbl {
+        .sig-lbl {
             font-size: 8px;
-            font-weight: bold;
+            font-weight: 600;
             color: #64748b;
-            margin-bottom: 2px;
+            margin-right: 4px;
         }
-        .sig-date-val {
+        .sig-val {
             font-size: 8.5px;
             color: #0f172a;
             font-weight: bold;
         }
-        .sig-date-line-pdf {
+        .sig-line-inline {
             border-bottom: 1px solid #94a3b8;
             height: 1px;
-            width: 100%;
-            display: block;
-            margin-top: 6px;
+            display: inline-block;
+            width: 75px;
+            vertical-align: middle;
+            margin-bottom: 2px;
         }
         .sig-img {
             max-height: 36px;
@@ -675,14 +662,17 @@
                             </div>
                             <div class="sig-line"></div>
                             @if(!empty($prepName))
-                                <div class="sig-name">{{ $prepName }}</div>
+                                <div class="sig-row">
+                                    <span class="sig-lbl">Name:</span>
+                                    <span class="sig-val">{{ $prepName }}</span>
+                                </div>
                             @endif
-                            <div class="sig-date-block">
-                                <div class="sig-date-lbl">Date:</div>
+                            <div class="sig-row">
+                                <span class="sig-lbl">Date:</span>
                                 @if(!empty($prepDate))
-                                    <div class="sig-date-val">{{ $prepDate }}</div>
+                                    <span class="sig-val">{{ $prepDate }}</span>
                                 @else
-                                    <div class="sig-date-line-pdf"></div>
+                                    <span class="sig-line-inline"></span>
                                 @endif
                             </div>
                         </div>
@@ -701,14 +691,17 @@
                             </div>
                             <div class="sig-line"></div>
                             @if(!empty($approveName))
-                                <div class="sig-name">{{ $approveName }}</div>
+                                <div class="sig-row">
+                                    <span class="sig-lbl">Name:</span>
+                                    <span class="sig-val">{{ $approveName }}</span>
+                                </div>
                             @endif
-                            <div class="sig-date-block">
-                                <div class="sig-date-lbl">Date:</div>
+                            <div class="sig-row">
+                                <span class="sig-lbl">Date:</span>
                                 @if(!empty($approveDate))
-                                    <div class="sig-date-val">{{ $approveDate }}</div>
+                                    <span class="sig-val">{{ $approveDate }}</span>
                                 @else
-                                    <div class="sig-date-line-pdf"></div>
+                                    <span class="sig-line-inline"></span>
                                 @endif
                             </div>
                         </div>
@@ -726,12 +719,18 @@
                                 @endif
                             </div>
                             <div class="sig-line"></div>
-                            <div class="sig-date-block">
-                                <div class="sig-date-lbl">Date:</div>
+                            @if(!empty($invoice['sig_customer_name']))
+                                <div class="sig-row">
+                                    <span class="sig-lbl">Name:</span>
+                                    <span class="sig-val">{{ $invoice['sig_customer_name'] }}</span>
+                                </div>
+                            @endif
+                            <div class="sig-row">
+                                <span class="sig-lbl">Date:</span>
                                 @if(!empty($invoice['sig_customer_date']))
-                                    <div class="sig-date-val">{{ $invoice['sig_customer_date'] }}</div>
+                                    <span class="sig-val">{{ $invoice['sig_customer_date'] }}</span>
                                 @else
-                                    <div class="sig-date-line-pdf"></div>
+                                    <span class="sig-line-inline"></span>
                                 @endif
                             </div>
                         </div>

@@ -1424,8 +1424,12 @@
         if (els.pvColPrepare) {
           if (showPrepare) {
             els.pvColPrepare.style.display = 'flex';
-            if (els.pvPrepareName) {
-              const prepName = (data.sig_prepare_name || '').trim();
+            const prepName = (data.sig_prepare_name || '').trim();
+            const prepNameRow = document.getElementById('pv-prepare-name-row');
+            if (prepNameRow) {
+              prepNameRow.innerHTML = buildFieldMarkup('Name', prepName);
+              prepNameRow.style.display = prepName ? 'flex' : 'none';
+            } else if (els.pvPrepareName) {
               els.pvPrepareName.textContent = prepName;
               els.pvPrepareName.style.display = prepName ? 'block' : 'none';
             }
@@ -1452,7 +1456,11 @@
           if (showApprove) {
             els.pvColApprove.style.display = 'flex';
             const approveName = (data.sig_approve_name || data.signature_name || '').trim();
-            if (els.pvApproveName) {
+            const approveNameRow = document.getElementById('pv-approve-name-row');
+            if (approveNameRow) {
+              approveNameRow.innerHTML = buildFieldMarkup('Name', approveName);
+              approveNameRow.style.display = approveName ? 'flex' : 'none';
+            } else if (els.pvApproveName) {
               els.pvApproveName.textContent = approveName;
               els.pvApproveName.style.display = approveName ? 'block' : 'none';
             }
@@ -1474,13 +1482,22 @@
           }
         }
 
-        // 3. Customer Acceptance (no name, only date)
+        // 3. Customer Acceptance
         if (els.pvColCustomer) {
           if (showCustomer) {
             els.pvColCustomer.style.display = 'flex';
-            if (els.pvCustomerName) {
-              els.pvCustomerName.textContent = '';
-              els.pvCustomerName.style.display = 'none';
+            const customerName = (data.sig_customer_name || '').trim();
+            const customerNameRow = document.getElementById('pv-customer-name-row');
+            if (customerNameRow) {
+              if (customerName) {
+                customerNameRow.innerHTML = buildFieldMarkup('Name', customerName);
+                customerNameRow.style.display = 'flex';
+              } else {
+                customerNameRow.style.display = 'none';
+              }
+            } else if (els.pvCustomerName) {
+              els.pvCustomerName.textContent = customerName;
+              els.pvCustomerName.style.display = customerName ? 'block' : 'none';
             }
             if (els.pvCustomerDate) {
               els.pvCustomerDate.innerHTML = buildDateMarkup(data.sig_customer_date);
