@@ -265,7 +265,8 @@
             font-size: 9.5px;
             font-weight: bold;
             color: #0f172a;
-            margin-bottom: 2px;
+            margin-top: 4px;
+            margin-bottom: 6px;
         }
         .sig-space {
             height: 38px;
@@ -274,43 +275,28 @@
         .sig-line {
             border-top: 1px solid #94a3b8;
             margin-top: 2px;
-            padding-top: 3px;
+            padding-top: 0;
         }
-        .sig-role {
-            font-size: 8px;
-            color: #64748b;
-            text-transform: uppercase;
-            margin-top: 1px;
-        }
-        .sig-date {
-            font-size: 8px;
-            color: #64748b;
-            margin-top: 2px;
-        }
-        .sig-date-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 3px;
+        .sig-date-block {
+            margin-top: 6px;
         }
         .sig-date-lbl {
-            width: 26px;
             font-size: 8px;
             font-weight: bold;
             color: #64748b;
-            padding: 0;
-            text-align: left;
-            vertical-align: middle;
+            margin-bottom: 2px;
         }
-        .sig-date-cell {
-            padding: 0 0 0 3px;
-            vertical-align: middle;
-            text-align: left;
+        .sig-date-val {
+            font-size: 8.5px;
+            color: #0f172a;
+            font-weight: bold;
         }
         .sig-date-line-pdf {
             border-bottom: 1px solid #94a3b8;
             height: 1px;
             width: 100%;
             display: block;
+            margin-top: 6px;
         }
         .sig-img {
             max-height: 36px;
@@ -691,18 +677,14 @@
                             @if(!empty($prepName))
                                 <div class="sig-name">{{ $prepName }}</div>
                             @endif
-                            <table class="sig-date-table">
-                                <tr>
-                                    <td class="sig-date-lbl">Date:</td>
-                                    <td class="sig-date-cell">
-                                        @if(!empty($prepDate))
-                                            <span style="font-size: 8px; color: #0f172a; font-weight: bold;">{{ $prepDate }}</span>
-                                        @else
-                                            <span class="sig-date-line-pdf"></span>
-                                        @endif
-                                    </td>
-                                </tr>
-                            </table>
+                            <div class="sig-date-block">
+                                <div class="sig-date-lbl">Date:</div>
+                                @if(!empty($prepDate))
+                                    <div class="sig-date-val">{{ $prepDate }}</div>
+                                @else
+                                    <div class="sig-date-line-pdf"></div>
+                                @endif
+                            </div>
                         </div>
                     @endif
                 </td>
@@ -721,18 +703,14 @@
                             @if(!empty($approveName))
                                 <div class="sig-name">{{ $approveName }}</div>
                             @endif
-                            <table class="sig-date-table">
-                                <tr>
-                                    <td class="sig-date-lbl">Date:</td>
-                                    <td class="sig-date-cell">
-                                        @if(!empty($approveDate))
-                                            <span style="font-size: 8px; color: #0f172a; font-weight: bold;">{{ $approveDate }}</span>
-                                        @else
-                                            <span class="sig-date-line-pdf"></span>
-                                        @endif
-                                    </td>
-                                </tr>
-                            </table>
+                            <div class="sig-date-block">
+                                <div class="sig-date-lbl">Date:</div>
+                                @if(!empty($approveDate))
+                                    <div class="sig-date-val">{{ $approveDate }}</div>
+                                @else
+                                    <div class="sig-date-line-pdf"></div>
+                                @endif
+                            </div>
                         </div>
                     @endif
                 </td>
@@ -748,21 +726,14 @@
                                 @endif
                             </div>
                             <div class="sig-line"></div>
-                            @if(!empty($invoice['sig_customer_name']))
-                                <div class="sig-name">{{ $invoice['sig_customer_name'] }}</div>
-                            @endif
-                            <table class="sig-date-table">
-                                <tr>
-                                    <td class="sig-date-lbl">Date:</td>
-                                    <td class="sig-date-cell">
-                                        @if(!empty($invoice['sig_customer_date']))
-                                            <span style="font-size: 8px; color: #0f172a; font-weight: bold;">{{ $invoice['sig_customer_date'] }}</span>
-                                        @else
-                                            <span class="sig-date-line-pdf"></span>
-                                        @endif
-                                    </td>
-                                </tr>
-                            </table>
+                            <div class="sig-date-block">
+                                <div class="sig-date-lbl">Date:</div>
+                                @if(!empty($invoice['sig_customer_date']))
+                                    <div class="sig-date-val">{{ $invoice['sig_customer_date'] }}</div>
+                                @else
+                                    <div class="sig-date-line-pdf"></div>
+                                @endif
+                            </div>
                         </div>
                     @endif
                 </td>

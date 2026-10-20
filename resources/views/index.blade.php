@@ -812,13 +812,8 @@
               </label>
             </div>
             <div class="sig-fields-collapsible" id="fields-sig-customer">
-            <div class="form-grid grid-2">
-              <div class="form-group">
-                <label for="sig_customer_name">Customer / Client Name</label>
-                <div class="input-with-icon">
-                  <input type="text" id="sig_customer_name" class="form-control" value="" placeholder="Name">
-                </div>
-              </div>
+            <div class="form-grid">
+              <input type="hidden" id="sig_customer_name" value="">
               <div class="form-group">
                 <div class="label-row">
                   <label for="sig_customer_date">Date</label>
