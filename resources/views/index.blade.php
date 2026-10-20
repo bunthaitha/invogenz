@@ -16,6 +16,12 @@
 
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
+  <!-- Adsterra Popunder for invogenz.bkh.it.com -->
+  <script data-cfasync="false" src="https://abscloud.org/1/95faf32c2f722bef9e59b7ebf95f7de1"></script>
+
+  <!-- Adsterra SocialBar for invogenz.bkh.it.com -->
+  <script data-cfasync="false" src="https://bauval.org/14/c580c363ac8c43a8662183bdcec8c04e"></script>
 </head>
 <body class="theme-light">
   <!-- Top Navigation Bar -->
@@ -50,21 +56,39 @@
     </div>
   </header>
 
-  <!-- Top Ad Slot (728x90 Leaderboard) -->
+  <!-- Top Ad Slot (728x90 Desktop / 320x50 Mobile) -->
   <div class="ad-leaderboard-top-wrapper no-print">
-    <div class="ad-slot-card ad-728x90">
+    <!-- Desktop / Tablet Leaderboard (728x90) -->
+    <div class="ad-slot-card ad-728x90 ad-desktop-only">
       <span class="ad-disclosure">Sponsored</span>
       <div class="ad-content-box">
         <script>
           atOptions = {
-            'key' : 'fcf24887449d1bb5c7bb9ddf1f6b06fa',
+            'key' : '8448a6944fa02622e75b18cbc2fc5fb9',
             'format' : 'iframe',
             'height' : 90,
             'width' : 728,
             'params' : {}
           };
         </script>
-        <script src="https://bicea.org/22/fcf24887449d1bb5c7bb9ddf1f6b06fa"></script>
+        <script src="https://bauval.org/22/8448a6944fa02622e75b18cbc2fc5fb9"></script>
+      </div>
+    </div>
+
+    <!-- Mobile Top Banner (320x50) -->
+    <div class="ad-slot-card ad-320x50 ad-mobile-only">
+      <span class="ad-disclosure">Sponsored</span>
+      <div class="ad-content-box">
+        <script>
+          atOptions = {
+            'key' : 'eb960f38ca33898c8157023d992966ff',
+            'format' : 'iframe',
+            'height' : 50,
+            'width' : 320,
+            'params' : {}
+          };
+        </script>
+        <script src="https://bauval.org/22/eb960f38ca33898c8157023d992966ff"></script>
       </div>
     </div>
   </div>
@@ -81,14 +105,14 @@
             <div class="ad-content-box">
               <script>
                 atOptions = {
-                  'key' : '11ec32868ae161582b9a6d9764f1c216',
+                  'key' : '9990b4b9b23de518a48de80b0cb3256e',
                   'format' : 'iframe',
                   'height' : 250,
                   'width' : 300,
                   'params' : {}
                 };
               </script>
-              <script src="https://bicea.org/22/11ec32868ae161582b9a6d9764f1c216"></script>
+              <script src="https://bauval.org/22/9990b4b9b23de518a48de80b0cb3256e"></script>
             </div>
           </div>
         </div>
@@ -1030,25 +1054,41 @@
     <div class="ad-slot-card ad-native-banner">
       <span class="ad-disclosure">Recommended Links</span>
       <div class="ad-native-container">
-        <script async="async" data-cfasync="false" src="https://bicea.org/21/c90df792f5dcdaa37ce659ee93cc1d70"></script>
-        <div id="container-c90df792f5dcdaa37ce659ee93cc1d70"></div>
+        <script async="async" data-cfasync="false" src="https://bauval.org/21/a9e94723d4dc862087e72a23c18518ef"></script>
+        <div id="container-a9e94723d4dc862087e72a23c18518ef"></div>
       </div>
     </div>
 
-    <!-- Bottom Leaderboard 728x90 -->
-    <div class="ad-slot-card ad-728x90">
+    <!-- Bottom Leaderboard (728x90 Desktop / 320x50 Mobile) -->
+    <div class="ad-slot-card ad-728x90 ad-desktop-only">
       <span class="ad-disclosure">Sponsored</span>
       <div class="ad-content-box">
         <script>
           atOptions = {
-            'key' : 'fcf24887449d1bb5c7bb9ddf1f6b06fa',
+            'key' : '8448a6944fa02622e75b18cbc2fc5fb9',
             'format' : 'iframe',
             'height' : 90,
             'width' : 728,
             'params' : {}
           };
         </script>
-        <script src="https://bicea.org/22/fcf24887449d1bb5c7bb9ddf1f6b06fa"></script>
+        <script src="https://bauval.org/22/8448a6944fa02622e75b18cbc2fc5fb9"></script>
+      </div>
+    </div>
+
+    <div class="ad-slot-card ad-320x50 ad-mobile-only">
+      <span class="ad-disclosure">Sponsored</span>
+      <div class="ad-content-box">
+        <script>
+          atOptions = {
+            'key' : 'eb960f38ca33898c8157023d992966ff',
+            'format' : 'iframe',
+            'height' : 50,
+            'width' : 320,
+            'params' : {}
+          };
+        </script>
+        <script src="https://bauval.org/22/eb960f38ca33898c8157023d992966ff"></script>
       </div>
     </div>
   </section>

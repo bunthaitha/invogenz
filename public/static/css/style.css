@@ -2315,3 +2315,23 @@ textarea.form-control {
   justify-content: center;
   align-items: center;
 }
+
+.ad-320x50 {
+  min-height: 70px;
+  width: 340px;
+  max-width: 100%;
+}
+
+.ad-mobile-only {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .ad-desktop-only {
+    display: none !important;
+  }
+  .ad-mobile-only {
+    display: flex !important;
+  }
+}
+
