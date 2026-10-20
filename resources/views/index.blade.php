@@ -323,10 +323,10 @@
           </div>
 
           <div class="form-grid grid-2 mt-2">
-            <!-- Company / Business Name (Optional) -->
+            <!-- Business Name (Optional) -->
             <div class="form-group">
               <div class="label-row">
-                <label for="company_name">Company / Business Name</label>
+                <label for="company_name">Business Name</label>
                 <span class="field-pill optional-pill">Optional</span>
               </div>
               <div class="input-with-icon">
