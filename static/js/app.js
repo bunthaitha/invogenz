@@ -1558,9 +1558,14 @@
         sheetClone.style.margin = '0';
         sheetClone.style.width = `${targetWidth}px`;
         sheetClone.style.maxWidth = `${targetWidth}px`;
-        sheetClone.style.minHeight = `${targetHeight}px`;
+        sheetClone.style.minHeight = '0';
         sheetClone.style.boxSizing = 'border-box';
         sheetClone.style.backgroundColor = '#ffffff';
+
+        const microFooter = sheetClone.querySelector('.paper-micro-footer');
+        if (microFooter) {
+          microFooter.style.marginTop = '1.5rem';
+        }
 
         // Mount clone in hidden zero-offset container so html2canvas renders exact (0,0) bounds
         exportWrapper = document.createElement('div');
@@ -1577,9 +1582,9 @@
         // Allow microtask tick for rendering
         await new Promise(r => setTimeout(r, 60));
 
-        // If content fits within single page, lock height to prevent spurious blank 2nd page
-        if (sheetClone.scrollHeight <= (targetHeight + 20)) {
-          sheetClone.style.height = `${targetHeight}px`;
+        // If content fits within single page, lock height slightly below targetHeight to guarantee jsPDF doesn't trigger a 2nd page
+        if (sheetClone.scrollHeight <= (targetHeight + 50)) {
+          sheetClone.style.height = `${targetHeight - 12}px`;
           sheetClone.style.overflow = 'hidden';
         }
 
@@ -1589,7 +1594,7 @@
           image: { type: 'jpeg', quality: 0.98 },
           enableLinks: false,
           html2canvas: {
-            scale: 2.5,
+            scale: 2.0,
             useCORS: true,
             logging: false,
             backgroundColor: '#ffffff',
@@ -1603,7 +1608,7 @@
             format: formatName,
             orientation: 'portrait'
           },
-          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+          pagebreak: { mode: ['avoid-all', 'css'] }
         };
 
         await html2pdf().set(opt).from(sheetClone).save();
@@ -1791,19 +1796,52 @@
       transform: none !important;
     }
     @media print {
-      body {
-        background: transparent !important;
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+      html, body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        height: auto !important;
+        min-height: 0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
       .web-preview-header {
         display: none !important;
       }
       .web-preview-stage {
         padding: 0 !important;
+        margin: 0 !important;
+        display: block !important;
       }
       .web-preview-stage .paper-sheet {
         box-shadow: none !important;
         border: none !important;
         margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: 0 !important;
+        height: auto !important;
+        padding: 28px 36px !important;
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+      }
+      .paper-micro-footer {
+        margin-top: 1.5rem !important;
+        page-break-before: avoid !important;
+        break-before: avoid !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+      .paper-signatures-grid {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        page-break-after: avoid !important;
+        break-after: avoid !important;
       }
     }
   </style>
