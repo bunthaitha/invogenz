@@ -734,32 +734,6 @@
               </div>
             </div>
 
-            <!-- Customer Signature Optional Image -->
-            <div class="form-group mt-2">
-              <div class="label-row">
-                <label>Customer Signature Image</label>
-                <span class="field-pill optional-pill">Optional</span>
-              </div>
-              <div class="sig-upload-zone" id="zone-sig-customer">
-                <div class="sig-preview-holder" id="preview-sig-customer-box" style="display:none;">
-                  <div class="checkerboard-bg">
-                    <img id="img-sig-customer" src="" alt="Customer Signature">
-                  </div>
-                  <div class="sig-actions-row">
-                    <button type="button" class="btn-sig-clean active" id="btn-clean-customer" title="Background Cleaned & Transparent"><span>Background Cleaned</span>
-                    </button>
-                    <button type="button" class="btn-sig-remove" id="btn-remove-customer" title="Remove Signature">
-                      <i data-lucide="trash-2"></i>
-                    </button>
-                  </div>
-                </div>
-                <div class="sig-upload-prompt" id="prompt-sig-customer">
-                  <i data-lucide="pen-tool"></i>
-                  <span>Upload customer signature or leave for client sign-off</span>
-                  <input type="file" id="file-sig-customer" accept="image/*" style="display:none;">
-                </div>
-              </div>
-            </div>
             </div>
           </div>
         </div>
