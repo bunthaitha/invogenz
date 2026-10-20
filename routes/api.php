@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('/health', function () {
+    return response()->json([
+        'status' => 'ok',
+        'service' => 'invogenz-pdf-engine',
+        'timestamp' => now()->toIso8601String(),
+    ]);
 });
+
+Route::post('/generate-pdf', [\App\Http\Controllers\InvoiceController::class, 'generatePdf']);
+Route::post('/preview-pdf', [\App\Http\Controllers\InvoiceController::class, 'previewPdf']);
+

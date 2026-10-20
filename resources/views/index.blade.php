@@ -391,102 +391,109 @@
           </div>
         </div>
 
-        <!-- Editor Section 4: Client (Billed To) -->
-        <div class="card form-section card-client">
-          <div class="section-title">
-            <div class="title-text-group">
-              <h3>Client Information (Billed To)</h3>
-              <span class="section-subtitle">Customer organization, primary contact & billing address</span>
-            </div>
-          </div>
-
-          <div class="form-grid grid-1">
-            <!-- Row 1: Client Company Name -->
-            <div class="form-group">
-              <div class="label-row">
-                <label for="client_company">Company</label>
-                <span class="field-pill optional-pill">Optional</span>
-              </div>
-              <div class="input-with-icon">
-                <input type="text" id="client_company" class="form-control" placeholder="e.g. xxx">
+        <!-- Editor Section 4: Client & Shipping (Side by Side in Same Row) -->
+        <div class="client-shipping-row">
+          <!-- Column 1: Client Information (Billed To) -->
+          <div class="card form-section card-client">
+            <div class="section-title">
+              <div class="title-text-group">
+                <h3>Client Information (Billed To)</h3>
+                <span class="section-subtitle">Customer organization & billing address</span>
               </div>
             </div>
 
-            <!-- Row 2: Client / Contact Name -->
-            <div class="form-group">
-              <div class="label-row">
-                <label for="client_name">Name</label>
-                <span class="field-pill required-pill">Required</span>
-              </div>
-              <div class="input-with-icon">
-                <input type="text" id="client_name" class="form-control" placeholder="e.g. xxx">
-              </div>
-            </div>
-
-            <!-- Row 3: Client Phone -->
-            <div class="form-group">
-              <div class="label-row">
-                <label for="client_phone">Phone</label>
-                <span class="field-pill optional-pill">Optional</span>
-              </div>
-              <div class="input-with-icon">
-                <input type="text" id="client_phone" class="form-control" placeholder="e.g. 012 xxx xxx">
-              </div>
-            </div>
-
-            <!-- Row 4: Client Email -->
-            <div class="form-group">
-              <div class="label-row">
-                <label for="client_email">Email</label>
-                <span class="field-pill optional-pill">Optional</span>
-              </div>
-              <div class="input-with-icon">
-                <input type="email" id="client_email" class="form-control" placeholder="e.g. xxx@xample.com">
-              </div>
-            </div>
-
-            <!-- Row 5: Client Billing Address -->
-            <div class="form-group">
-              <div class="label-row">
-                <label for="client_address">Address</label>
-                <span class="field-pill optional-pill">Optional</span>
-              </div>
-              <textarea id="client_address" class="form-control" rows="2" placeholder="Phnom Penh, Cambodia"></textarea>
-            </div>
-
-            <!-- Row 6: Client Tax / VAT ID -->
-            <div class="form-group">
-              <div class="label-row">
-                <label for="client_tax_id">Client Tax / VAT ID</label>
-                <span class="field-pill optional-pill">Optional</span>
-              </div>
-              <div class="input-with-icon">
-                <input type="text" id="client_tax_id" class="form-control font-mono" placeholder="e.g. US-10294857">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Editor Section 4B: Shipping To / Client (Optional Toggle) -->
-        <div class="card form-section card-shipping" id="card-shipping-editor">
-          <div class="section-title flex-between">
-            <div class="title-text-group">
-              <h3>Shipping To / Client</h3>
-              <span class="section-subtitle">Deliver to recipient or secondary destination</span>
-            </div>
-            <label class="sig-toggle-label" title="Enable / Disable Shipping Details on Invoice">
-              <input type="checkbox" id="check_show_shipping" class="sig-toggle-checkbox">
-              <span class="sig-toggle-slider"></span>
-              <span class="sig-toggle-text">Show on Invoice</span>
-            </label>
-          </div>
-
-          <div class="sig-fields-collapsible" id="shipping-fields-collapsible" style="display:none;">
             <div class="form-grid grid-1">
+              <!-- Row 1: Client Company Name -->
+              <div class="form-group">
+                <div class="label-row">
+                  <label for="client_company">Company</label>
+                  <span class="field-pill optional-pill">Optional</span>
+                </div>
+                <div class="input-with-icon">
+                  <input type="text" id="client_company" class="form-control" placeholder="e.g. xxx">
+                </div>
+              </div>
+
+              <!-- Row 2: Client / Contact Name -->
+              <div class="form-group">
+                <div class="label-row">
+                  <label for="client_name">Name</label>
+                  <span class="field-pill required-pill">Required</span>
+                </div>
+                <div class="input-with-icon">
+                  <input type="text" id="client_name" class="form-control" placeholder="e.g. xxx">
+                </div>
+              </div>
+
+              <!-- Row 3: Client Phone -->
+              <div class="form-group">
+                <div class="label-row">
+                  <label for="client_phone">Phone</label>
+                  <span class="field-pill optional-pill">Optional</span>
+                </div>
+                <div class="input-with-icon">
+                  <input type="text" id="client_phone" class="form-control" placeholder="e.g. 012 xxx xxx">
+                </div>
+              </div>
+
+              <!-- Row 4: Client Email -->
+              <div class="form-group">
+                <div class="label-row">
+                  <label for="client_email">Email</label>
+                  <span class="field-pill optional-pill">Optional</span>
+                </div>
+                <div class="input-with-icon">
+                  <input type="email" id="client_email" class="form-control" placeholder="e.g. xxx@xample.com">
+                </div>
+              </div>
+
+              <!-- Row 5: Client Billing Address -->
+              <div class="form-group">
+                <div class="label-row">
+                  <label for="client_address">Address</label>
+                  <span class="field-pill optional-pill">Optional</span>
+                </div>
+                <textarea id="client_address" class="form-control" rows="2" placeholder="Phnom Penh, Cambodia"></textarea>
+              </div>
+
+              <!-- Row 6: Client Tax / VAT ID -->
+              <div class="form-group">
+                <div class="label-row">
+                  <label for="client_tax_id">Client Tax / VAT ID</label>
+                  <span class="field-pill optional-pill">Optional</span>
+                </div>
+                <div class="input-with-icon">
+                  <input type="text" id="client_tax_id" class="form-control font-mono" placeholder="e.g. US-10294857">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 2: Shipping To / Client -->
+          <div class="card form-section card-shipping" id="card-shipping-editor">
+            <div class="section-title flex-between">
+              <div class="title-text-group">
+                <h3>Shipping To / Client</h3>
+                <span class="section-subtitle">Deliver to recipient or destination</span>
+              </div>
+              <label class="sig-toggle-label" title="Check if shipping address is the same as Client Information (Billed To)">
+                <input type="checkbox" id="check_same_as_client" class="sig-toggle-checkbox" checked>
+                <span class="sig-toggle-slider"></span>
+                <span class="sig-toggle-text">Same as Billed To</span>
+              </label>
+            </div>
+
+            <!-- Auto-synced indicator banner -->
+            <div id="shipping-synced-badge" class="shipping-synced-banner">
+              <i data-lucide="check-check"></i>
+              <span>Same address as Client Information (Billed To).</span>
+            </div>
+
+            <div class="form-grid grid-1" id="shipping-fields-collapsible">
               <!-- Shipping Company Name -->
               <div class="form-group">
                 <div class="label-row">
-                  <label for="shipping_company">Company Name</label>
+                  <label for="shipping_company">Company</label>
                   <span class="field-pill optional-pill">Optional</span>
                 </div>
                 <div class="input-with-icon">
@@ -535,6 +542,9 @@
                 </div>
                 <textarea id="shipping_address" class="form-control" rows="2" placeholder="Phnom Penh, Cambodia"></textarea>
               </div>
+
+              <!-- Visual alignment spacer matching Tax / VAT ID -->
+              <div class="shipping-align-spacer" style="height: 58px;" aria-hidden="true"></div>
             </div>
           </div>
         </div>
@@ -592,7 +602,25 @@
           </div>
         </div>
 
-        <!-- Editor Section 7: Payment Details & QR Code -->
+        <!-- Editor Section 7: Notes & Terms -->
+        <div class="card form-section">
+          <div class="section-title">
+            <div class="title-text-group">
+              <h3>Notes & Terms</h3>
+              <span class="section-subtitle">Terms of agreement and customer notes</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="terms">Terms & Conditions</label>
+            <textarea id="terms" class="form-control" rows="2" placeholder="Payment due within 14 days. Late fees apply to overdue amounts."></textarea>
+          </div>
+          <div class="form-group mt-2">
+            <label for="notes">Customer Notes / Thank You Message</label>
+            <textarea id="notes" class="form-control" rows="2" placeholder="Thank you for your business!"></textarea>
+          </div>
+        </div>
+
+        <!-- Editor Section 8: Payment Details & QR Code -->
         <div class="card form-section">
           <div class="section-title">
             <i data-lucide="credit-card"></i>
@@ -646,24 +674,6 @@
           </div>
         </div>
 
-        <!-- Editor Section 8: Notes & Terms -->
-        <div class="card form-section">
-          <div class="section-title">
-            <div class="title-text-group">
-              <h3>Notes & Terms</h3>
-              <span class="section-subtitle">Customer notes and terms of agreement</span>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="notes">Customer Notes / Thank You Message</label>
-            <textarea id="notes" class="form-control" rows="2" placeholder="Thank you for your business!"></textarea>
-          </div>
-          <div class="form-group mt-2">
-            <label for="terms">Terms & Conditions</label>
-            <textarea id="terms" class="form-control" rows="2" placeholder="Payment due within 14 days. Late fees apply to overdue amounts."></textarea>
-          </div>
-        </div>
-
         <!-- Editor Section 9: Signatures & Approvals -->
         <div class="card form-section card-signatures-editor">
           <div class="section-title flex-between">
@@ -690,7 +700,7 @@
               <div class="form-group">
                 <label for="sig_prepare_name">Name & Title</label>
                 <div class="input-with-icon">
-                  <input type="text" id="sig_prepare_name" class="form-control " placeholder="e.g. Marcus Vance, Billing Specialist">
+                  <input type="text" id="sig_prepare_name" class="form-control" value="xxxxxx" placeholder="xxxxxx">
                 </div>
               </div>
               <div class="form-group">
@@ -699,7 +709,7 @@
                   <button type="button" class="label-action-btn" id="btn-prepare-today">Auto (Today)</button>
                 </div>
                 <div class="input-with-icon">
-                  <input type="date" id="sig_prepare_date" class="form-control ">
+                  <input type="date" id="sig_prepare_date" class="form-control" value="2026-10-20">
                 </div>
               </div>
             </div>
@@ -748,7 +758,7 @@
               <div class="form-group">
                 <label for="sig_approve_name">Name & Title</label>
                 <div class="input-with-icon">
-                  <input type="text" id="sig_approve_name" class="form-control " placeholder="e.g. Alex Morgan, Director of Finance">
+                  <input type="text" id="sig_approve_name" class="form-control" value="xxxxxx" placeholder="xxxxxx">
                 </div>
               </div>
               <div class="form-group">
@@ -757,7 +767,7 @@
                   <button type="button" class="label-action-btn" id="btn-approve-today">Auto (Today)</button>
                 </div>
                 <div class="input-with-icon">
-                  <input type="date" id="sig_approve_date" class="form-control ">
+                  <input type="date" id="sig_approve_date" class="form-control" value="2026-10-20">
                 </div>
               </div>
             </div>
@@ -806,7 +816,7 @@
               <div class="form-group">
                 <label for="sig_customer_name">Customer / Client Name</label>
                 <div class="input-with-icon">
-                  <input type="text" id="sig_customer_name" class="form-control " placeholder="e.g. Sarah Connor, Authorized Client">
+                  <input type="text" id="sig_customer_name" class="form-control" value="" placeholder="Name">
                 </div>
               </div>
               <div class="form-group">
@@ -815,7 +825,7 @@
                   <button type="button" class="label-action-btn" id="btn-customer-today">Auto (Today)</button>
                 </div>
                 <div class="input-with-icon">
-                  <input type="date" id="sig_customer_date" class="form-control ">
+                  <input type="date" id="sig_customer_date" class="form-control" value="">
                 </div>
               </div>
             </div>
@@ -1054,7 +1064,10 @@
                   <canvas id="pv-qr-canvas" style="display:none;"></canvas>
                 </div>
                 <div class="qr-text-meta">
-                  <span class="qr-title">Scan to Pay</span>
+                  <div class="qr-title-row">
+                    <span class="qr-title">Scan to Pay</span>
+                    <span class="qr-pill-secure"><i data-lucide="shield-check"></i> KHQR / Pay</span>
+                  </div>
                   <span class="qr-sub">Instant mobile checkout</span>
                 </div>
               </div>
@@ -1103,13 +1116,13 @@
           <!-- Notes & Terms Block -->
           <div class="paper-footer-section">
             <div class="footer-notes-left">
-              <div class="note-block" id="pv-notes-block" style="display:none;">
-                <span class="note-title">Notes:</span>
-                <p id="pv-notes-text"></p>
-              </div>
               <div class="note-block" id="pv-terms-block" style="display:none;">
                 <span class="note-title">Terms & Conditions:</span>
                 <p id="pv-terms-text"></p>
+              </div>
+              <div class="note-block" id="pv-notes-block" style="display:none;">
+                <span class="note-title">Customer Notes:</span>
+                <p id="pv-notes-text"></p>
               </div>
             </div>
           </div>
@@ -1123,8 +1136,8 @@
                 <img id="pv-sig-prepare-img" src="" alt="Prepared Signature" style="display:none;">
               </div>
               <div class="sig-line-rule"></div>
-              <p class="sig-person-name" id="pv-prepare-name">Bunthai Tha</p>
-              <div class="sig-person-date" id="pv-prepare-date"><span class="sig-date-label">Date:</span> <span class="sig-date-val">2026-10-19</span></div>
+              <p class="sig-person-name" id="pv-prepare-name">xxxxxx</p>
+              <div class="sig-person-date" id="pv-prepare-date"><span class="sig-date-label">Date:</span> <span class="sig-date-val">2026-10-20</span></div>
             </div>
 
             <!-- Approved By (Stick at Center) -->
@@ -1134,8 +1147,8 @@
                 <img id="pv-sig-approve-img" src="" alt="Approved Signature" style="display:none;">
               </div>
               <div class="sig-line-rule"></div>
-              <p class="sig-person-name" id="pv-approve-name" style="display:none;">Alex Morgan</p>
-              <div class="sig-person-date" id="pv-approve-date"><span class="sig-date-label">Date:</span> <span class="sig-date-val">2026-10-19</span></div>
+              <p class="sig-person-name" id="pv-approve-name">xxxxxx</p>
+              <div class="sig-person-date" id="pv-approve-date"><span class="sig-date-label">Date:</span> <span class="sig-date-val">2026-10-20</span></div>
             </div>
 
             <!-- Customer Acceptance (Stick at Right) -->
@@ -1146,7 +1159,7 @@
               </div>
               <div class="sig-line-rule"></div>
               <p class="sig-person-name" id="pv-customer-name" style="display:none;"></p>
-              <div class="sig-person-date" id="pv-customer-date"><span class="sig-date-label">Date:</span> <span class="sig-date-val"></span></div>
+              <div class="sig-person-date" id="pv-customer-date"><span class="sig-date-label">Date:</span> <span class="sig-date-line"></span></div>
             </div>
           </div>
 

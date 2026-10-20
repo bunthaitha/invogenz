@@ -36,7 +36,8 @@
     client_email: 'xxx@xample.com',
     client_phone: '012 xxx xxx',
     client_tax_id: '',
-    show_shipping: false,
+    same_as_client: true,
+    show_shipping: true,
     shipping_company: 'xxx',
     shipping_name: 'xxx',
     shipping_phone: '012 xxx xxx',
@@ -72,19 +73,19 @@
     qr_data: '',
     notes: 'Thank you for your business! All deliverables are backed by our 30-day warranty and SLA guarantee.',
     terms: 'Payment is due within 14 calendar days from invoice issue date. A late fee of 1.5% per month applies to overdue balances.',
-    sig_prepare_name: 'Mr. Invogenz',
-    sig_prepare_date: new Date().toISOString().split('T')[0],
+    sig_prepare_name: 'xxxxxx',
+    sig_prepare_date: '2026-10-20',
     sig_prepare_image: '',
     show_sig_prepare: true,
-    sig_approve_name: 'Alex Morgan',
-    sig_approve_date: new Date().toISOString().split('T')[0],
+    sig_approve_name: 'xxxxxx',
+    sig_approve_date: '2026-10-20',
     sig_approve_image: '',
     show_sig_approve: true,
     sig_customer_name: '',
     sig_customer_date: '',
     sig_customer_image: '',
     show_sig_customer: true,
-    signature_name: 'Mr. Invogenz'
+    signature_name: 'xxxxxx'
   };
 
   let activeData = { ...defaultInvoiceData };
@@ -154,8 +155,10 @@
     clientTaxId: document.getElementById('client_tax_id'),
     clientAddress: document.getElementById('client_address'),
 
-    // Shipping To
-    checkShowShipping: document.getElementById('check_show_shipping'),
+    // Shipping To (Same row as Client)
+    checkSameAsClient: document.getElementById('check_same_as_client') || document.getElementById('check_show_shipping'),
+    checkShowShipping: document.getElementById('check_same_as_client') || document.getElementById('check_show_shipping'),
+    shippingSyncedBadge: document.getElementById('shipping-synced-badge'),
     shippingBlock: document.getElementById('shipping-fields-collapsible'),
     shippingCompany: document.getElementById('shipping_company'),
     shippingName: document.getElementById('shipping_name'),
@@ -498,6 +501,9 @@
         if (activeData.routing_swift === 'SVCBUS6S') {
           activeData.routing_swift = '';
         }
+        if (activeData.same_as_client === undefined) {
+          activeData.same_as_client = defaultInvoiceData.same_as_client;
+        }
         if (activeData.shipping_company === undefined) {
           activeData.show_shipping = defaultInvoiceData.show_shipping;
           activeData.shipping_company = defaultInvoiceData.shipping_company;
@@ -505,6 +511,28 @@
           activeData.shipping_phone = defaultInvoiceData.shipping_phone;
           activeData.shipping_email = defaultInvoiceData.shipping_email;
           activeData.shipping_address = defaultInvoiceData.shipping_address;
+        }
+        if (activeData.sig_prepare_name === 'Mr. Invogenz' || activeData.sig_prepare_name === 'Bunthai Tha' || !activeData.sig_prepare_name) {
+          activeData.sig_prepare_name = 'xxxxxx';
+        }
+        if (activeData.sig_approve_name === 'Alex Morgan' || !activeData.sig_approve_name) {
+          activeData.sig_approve_name = 'xxxxxx';
+        }
+        if (!activeData.sig_prepare_date || activeData.sig_prepare_date === '2026-10-19') {
+          activeData.sig_prepare_date = '2026-10-20';
+        }
+        if (!activeData.sig_approve_date || activeData.sig_approve_date === '2026-10-19') {
+          activeData.sig_approve_date = '2026-10-20';
+        }
+        if (activeData.sig_customer_name === 'Sarah Connor') {
+          activeData.sig_customer_name = '';
+        }
+        // Clean invalid qr_image if it's text or broken instead of an image URL
+        if (activeData.qr_image && !activeData.qr_image.startsWith('data:image/') && !activeData.qr_image.startsWith('http') && !activeData.qr_image.startsWith('/')) {
+          if (!activeData.qr_data) {
+            activeData.qr_data = activeData.qr_image;
+          }
+          activeData.qr_image = generateQrDataUrl(activeData.qr_data, 280);
         }
       }
     } catch (e) {
@@ -536,6 +564,73 @@
       els.themeIcon.setAttribute('data-lucide', 'moon');
     }
     if (window.lucide) lucide.createIcons();
+  }
+
+  // Helper: Generate crisp, high-resolution QR Code Data URL using QRious
+  function generateQrDataUrl(textValue, size = 280) {
+    const val = (textValue || '').trim();
+    if (!val) return '';
+    if (window.QRious) {
+      try {
+        const qr = new QRious({
+          value: val,
+          size: size,
+          level: 'H',
+          background: '#FFFFFF',
+          foreground: '#0F172A',
+          padding: 6
+        });
+        return qr.toDataURL('image/png');
+      } catch (err) {
+        console.warn('QRious generation error:', err);
+      }
+    }
+    return '';
+  }
+
+  // Sync shipping inputs with client information when same_as_client is active
+  function applyShippingSyncState() {
+    const isSame = (activeData.same_as_client !== undefined) ? !!activeData.same_as_client : true;
+    activeData.same_as_client = isSame;
+    activeData.show_shipping = true;
+
+    const checkEl = els.checkSameAsClient || els.checkShowShipping;
+    if (checkEl) {
+      checkEl.checked = isSame;
+    }
+    if (els.shippingSyncedBadge) {
+      els.shippingSyncedBadge.style.display = isSame ? 'flex' : 'none';
+    }
+
+    const shipInputs = [
+      els.shippingCompany,
+      els.shippingName,
+      els.shippingPhone,
+      els.shippingEmail,
+      els.shippingAddress
+    ];
+
+    if (isSame) {
+      if (els.shippingCompany && els.clientCompany) els.shippingCompany.value = els.clientCompany.value;
+      if (els.shippingName && els.clientName) els.shippingName.value = els.clientName.value;
+      if (els.shippingPhone && els.clientPhone) els.shippingPhone.value = els.clientPhone.value;
+      if (els.shippingEmail && els.clientEmail) els.shippingEmail.value = els.clientEmail.value;
+      if (els.shippingAddress && els.clientAddress) els.shippingAddress.value = els.clientAddress.value;
+
+      shipInputs.forEach(inp => {
+        if (inp) {
+          inp.setAttribute('readonly', 'readonly');
+          inp.classList.add('is-synced');
+        }
+      });
+    } else {
+      shipInputs.forEach(inp => {
+        if (inp) {
+          inp.removeAttribute('readonly');
+          inp.classList.remove('is-synced');
+        }
+      });
+    }
   }
 
   // --- Form Populating & Gathering ---
@@ -587,18 +682,18 @@
     els.clientTaxId.value = activeData.client_tax_id || '';
     els.clientAddress.value = activeData.client_address || '';
 
-    // Shipping To
-    if (els.checkShowShipping) {
-      els.checkShowShipping.checked = !!activeData.show_shipping;
-      if (els.shippingBlock) {
-        els.shippingBlock.style.display = activeData.show_shipping ? 'block' : 'none';
-      }
+    // Shipping To (Same row as Client Information)
+    if (activeData.same_as_client === undefined) {
+      activeData.same_as_client = true;
     }
-    if (els.shippingCompany) els.shippingCompany.value = activeData.shipping_company || '';
-    if (els.shippingName) els.shippingName.value = activeData.shipping_name || '';
-    if (els.shippingPhone) els.shippingPhone.value = activeData.shipping_phone || '';
-    if (els.shippingEmail) els.shippingEmail.value = activeData.shipping_email || '';
-    if (els.shippingAddress) els.shippingAddress.value = activeData.shipping_address || '';
+    if (!activeData.same_as_client) {
+      if (els.shippingCompany) els.shippingCompany.value = activeData.shipping_company || '';
+      if (els.shippingName) els.shippingName.value = activeData.shipping_name || '';
+      if (els.shippingPhone) els.shippingPhone.value = activeData.shipping_phone || '';
+      if (els.shippingEmail) els.shippingEmail.value = activeData.shipping_email || '';
+      if (els.shippingAddress) els.shippingAddress.value = activeData.shipping_address || '';
+    }
+    applyShippingSyncState();
 
     // Adjustments
     els.discountType.value = activeData.discount_type || 'percentage';
@@ -615,10 +710,23 @@
     els.routingSwift.value = activeData.routing_swift || '';
     if (els.qrData) els.qrData.value = activeData.qr_data || '';
 
-    // Payment QR Code Image
-    if (activeData.qr_image || activeData.qr_data) {
-      const qrVal = activeData.qr_image || activeData.qr_data;
-      if (els.qrPreviewImg) els.qrPreviewImg.src = qrVal;
+    // Payment QR Code Image (Enhanced & Fail-safe)
+    const isImageUri = (activeData.qr_image || '').startsWith('data:image/') || (activeData.qr_image || '').startsWith('http') || (activeData.qr_image || '').startsWith('/');
+    let previewQr = '';
+    if (isImageUri) {
+      previewQr = activeData.qr_image;
+    } else if (activeData.qr_image || activeData.qr_data) {
+      previewQr = generateQrDataUrl(activeData.qr_image || activeData.qr_data, 200);
+    }
+
+    if (previewQr) {
+      if (els.qrPreviewImg) {
+        els.qrPreviewImg.src = previewQr;
+        els.qrPreviewImg.onerror = () => {
+          if (els.qrPreviewBox) els.qrPreviewBox.style.display = 'none';
+          if (els.qrUploadPrompt) els.qrUploadPrompt.style.display = 'flex';
+        };
+      }
       if (els.qrPreviewBox) els.qrPreviewBox.style.display = 'inline-flex';
       if (els.qrUploadPrompt) els.qrUploadPrompt.style.display = 'none';
     } else {
@@ -703,12 +811,24 @@
     activeData.client_tax_id = els.clientTaxId.value.trim();
     activeData.client_address = els.clientAddress.value;
 
-    activeData.show_shipping = els.checkShowShipping ? els.checkShowShipping.checked : false;
-    activeData.shipping_company = els.shippingCompany ? els.shippingCompany.value.trim() : '';
-    activeData.shipping_name = els.shippingName ? els.shippingName.value.trim() : '';
-    activeData.shipping_phone = els.shippingPhone ? els.shippingPhone.value.trim() : '';
-    activeData.shipping_email = els.shippingEmail ? els.shippingEmail.value.trim() : '';
-    activeData.shipping_address = els.shippingAddress ? els.shippingAddress.value : '';
+    const shipCheckEl = els.checkSameAsClient || els.checkShowShipping;
+    const isSame = shipCheckEl ? shipCheckEl.checked : true;
+    activeData.same_as_client = isSame;
+    activeData.show_shipping = true;
+
+    if (isSame) {
+      activeData.shipping_company = activeData.client_company;
+      activeData.shipping_name = activeData.client_name;
+      activeData.shipping_phone = activeData.client_phone;
+      activeData.shipping_email = activeData.client_email;
+      activeData.shipping_address = activeData.client_address;
+    } else {
+      activeData.shipping_company = els.shippingCompany ? els.shippingCompany.value.trim() : '';
+      activeData.shipping_name = els.shippingName ? els.shippingName.value.trim() : '';
+      activeData.shipping_phone = els.shippingPhone ? els.shippingPhone.value.trim() : '';
+      activeData.shipping_email = els.shippingEmail ? els.shippingEmail.value.trim() : '';
+      activeData.shipping_address = els.shippingAddress ? els.shippingAddress.value : '';
+    }
 
     activeData.discount_type = els.discountType.value;
     activeData.discount_value = parseFloat(els.discountValue.value) || 0;
@@ -1069,13 +1189,21 @@
       }
     }
 
-    // Shipping To / Client Card
+    // Shipping To / Client Card (Displayed on the same row with Client Information)
+    const isSameAsClient = (data.same_as_client !== undefined) ? !!data.same_as_client : true;
+    const sCompVal = isSameAsClient ? (data.client_company || '').trim() : (data.shipping_company || '').trim();
+    const sNameVal = isSameAsClient ? (data.client_name || '').trim() : (data.shipping_name || '').trim();
+    const sPhoneVal = isSameAsClient ? (data.client_phone || '').trim() : (data.shipping_phone || '').trim();
+    const sEmailVal = isSameAsClient ? (data.client_email || '').trim() : (data.shipping_email || '').trim();
+    const sAddrVal = isSameAsClient ? (data.client_address || '').trim() : (data.shipping_address || '').trim();
+
+    const hasShipping = isSameAsClient || !!(sCompVal || sNameVal || sPhoneVal || sEmailVal || sAddrVal);
+
     if (els.pvShippingCard && els.pvBillingGrid) {
-      if (data.show_shipping) {
+      if (hasShipping) {
         els.pvShippingCard.style.display = 'block';
         els.pvBillingGrid.classList.add('has-shipping');
 
-        const sCompVal = (data.shipping_company || '').trim();
         if (sCompVal) {
           els.pvShippingCompany.textContent = sCompVal;
           els.pvShippingCompany.style.display = 'block';
@@ -1083,10 +1211,10 @@
           els.pvShippingCompany.style.display = 'none';
         }
 
-        toggleRow(els.pvShippingNameRow, els.pvShippingName, data.shipping_name);
-        toggleRow(els.pvShippingPhoneRow, els.pvShippingPhone, data.shipping_phone);
-        toggleRow(els.pvShippingEmailRow, els.pvShippingEmail, data.shipping_email);
-        toggleRow(els.pvShippingAddressRow, els.pvShippingAddress, data.shipping_address);
+        toggleRow(els.pvShippingNameRow, els.pvShippingName, sNameVal);
+        toggleRow(els.pvShippingPhoneRow, els.pvShippingPhone, sPhoneVal);
+        toggleRow(els.pvShippingEmailRow, els.pvShippingEmail, sEmailVal);
+        toggleRow(els.pvShippingAddressRow, els.pvShippingAddress, sAddrVal);
       } else {
         els.pvShippingCard.style.display = 'none';
         els.pvBillingGrid.classList.remove('has-shipping');
@@ -1195,21 +1323,45 @@
       els.pvPaymentBox.style.display = 'none';
     }
 
-    // QR Code rendering (Image upload or generated)
-    const qrSrc = activeData.qr_image || activeData.qr_data;
-    if (qrSrc && qrSrc.trim()) {
+    // QR Code rendering (Enhanced, High-Resolution & Fail-Safe)
+    const rawImage = (activeData.qr_image || '').trim();
+    const rawData = (activeData.qr_data || '').trim();
+    const isImageUri = rawImage.startsWith('data:image/') || rawImage.startsWith('http://') || rawImage.startsWith('https://') || rawImage.startsWith('/');
+
+    let effectiveQrSrc = '';
+    if (isImageUri) {
+      effectiveQrSrc = rawImage;
+    } else if (rawImage || rawData) {
+      effectiveQrSrc = generateQrDataUrl(rawImage || rawData, 280);
+    }
+
+    if (effectiveQrSrc) {
       els.pvQrBox.style.display = 'flex';
       if (els.pvQrImg) {
-        els.pvQrImg.src = qrSrc;
+        els.pvQrImg.src = effectiveQrSrc;
         els.pvQrImg.style.display = 'block';
+        els.pvQrImg.onerror = () => {
+          const fallbackPayload = rawData || activeData.account_number || activeData.invoice_number || 'INVOGENZ-PAY';
+          const fallback = generateQrDataUrl(fallbackPayload, 280);
+          if (fallback && els.pvQrImg.src !== fallback) {
+            els.pvQrImg.src = fallback;
+          } else {
+            els.pvQrBox.style.display = 'none';
+          }
+        };
       }
       if (els.pvQrCanvas) els.pvQrCanvas.style.display = 'none';
+      if (window.lucide) lucide.createIcons();
     } else {
       els.pvQrBox.style.display = 'none';
+      if (els.pvQrImg) {
+        els.pvQrImg.src = '';
+        els.pvQrImg.style.display = 'none';
+      }
     }
 
     // Default Thanks note
-    if (!hasPayInfo && !qrSrc) {
+    if (!hasPayInfo && !effectiveQrSrc) {
       els.pvDefaultThanks.style.display = 'block';
     } else {
       els.pvDefaultThanks.style.display = 'none';
@@ -2254,6 +2406,7 @@
       client_phone: '012 xxx xxx',
       client_email: 'xxx@xample.com',
       client_address: 'Phnom Penh, Cambodia',
+      same_as_client: true,
       show_shipping: true,
       shipping_company: 'xxx',
       shipping_name: 'xxx',
@@ -2478,17 +2631,36 @@
       }
     });
 
-    // Checkbox toggle for Shipping To / Client
-    if (els.checkShowShipping) {
-      els.checkShowShipping.addEventListener('change', (e) => {
-        activeData.show_shipping = e.target.checked;
-        if (els.shippingBlock) {
-          els.shippingBlock.style.display = e.target.checked ? 'block' : 'none';
-        }
+    // Checkbox toggle for Shipping To (Same as Client Information / Billed To)
+    const shipToggle = els.checkSameAsClient || els.checkShowShipping;
+    if (shipToggle) {
+      shipToggle.addEventListener('change', (e) => {
+        activeData.same_as_client = e.target.checked;
+        activeData.show_shipping = true;
+        applyShippingSyncState();
+        gatherFormData();
+        updateLivePreview();
         triggerAutoSave();
-        showToast(e.target.checked ? 'Shipping To enabled' : 'Shipping To hidden from invoice', 'info');
+        showToast(
+          e.target.checked
+            ? 'Shipping address set to same as Client (Billed To)'
+            : 'Custom shipping destination enabled — fill in details',
+          'info'
+        );
       });
     }
+
+    // Live sync from Client Information to Shipping To when same_as_client is checked
+    ['clientCompany', 'clientName', 'clientPhone', 'clientEmail', 'clientAddress'].forEach(fieldKey => {
+      if (els[fieldKey]) {
+        els[fieldKey].addEventListener('input', () => {
+          if (activeData.same_as_client) {
+            applyShippingSyncState();
+            updateLivePreview();
+          }
+        });
+      }
+    });
 
     // Checkbox toggle animations
     if (els.checkSigPrepare && els.blockSigPrepare) {

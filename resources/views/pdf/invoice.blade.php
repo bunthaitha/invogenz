@@ -435,7 +435,15 @@
     <div class="accent-bar"></div>
 
     @php
-        $showShipping = !empty($invoice['show_shipping']);
+        $isSameAsClient = !empty($invoice['same_as_client']) || !empty($invoice['shipping_same_as_client']);
+        $hasShippingData = !empty($invoice['shipping_company']) || !empty($invoice['shipping_name']) || !empty($invoice['shipping_phone']) || !empty($invoice['shipping_email']) || !empty($invoice['shipping_address']);
+        $showShipping = !empty($invoice['show_shipping']) || $isSameAsClient || $hasShippingData;
+
+        $shipCompany = ($isSameAsClient && empty($invoice['shipping_company'])) ? ($invoice['client_company'] ?? '') : ($invoice['shipping_company'] ?? ($isSameAsClient ? ($invoice['client_company'] ?? '') : ''));
+        $shipName = ($isSameAsClient && empty($invoice['shipping_name'])) ? ($invoice['client_name'] ?? '') : ($invoice['shipping_name'] ?? ($isSameAsClient ? ($invoice['client_name'] ?? '') : ''));
+        $shipPhone = ($isSameAsClient && empty($invoice['shipping_phone'])) ? ($invoice['client_phone'] ?? '') : ($invoice['shipping_phone'] ?? ($isSameAsClient ? ($invoice['client_phone'] ?? '') : ''));
+        $shipEmail = ($isSameAsClient && empty($invoice['shipping_email'])) ? ($invoice['client_email'] ?? '') : ($invoice['shipping_email'] ?? ($isSameAsClient ? ($invoice['client_email'] ?? '') : ''));
+        $shipAddress = ($isSameAsClient && empty($invoice['shipping_address'])) ? ($invoice['client_address'] ?? '') : ($invoice['shipping_address'] ?? ($isSameAsClient ? ($invoice['client_address'] ?? '') : ''));
     @endphp
 
     @if($showShipping)
@@ -471,21 +479,21 @@
                 <td style="width: 49%; vertical-align: top;">
                     <div class="client-box" style="margin-bottom: 0;">
                         <div class="client-caption">SHIPPING TO / CLIENT</div>
-                        @if(!empty($invoice['shipping_company']))
-                            <div class="client-company">{{ $invoice['shipping_company'] }}</div>
+                        @if(!empty($shipCompany))
+                            <div class="client-company">{{ $shipCompany }}</div>
                         @endif
                         <div class="client-details">
-                            @if(!empty($invoice['shipping_name']))
-                                <div><strong>Name:</strong> {{ $invoice['shipping_name'] }}</div>
+                            @if(!empty($shipName))
+                                <div><strong>Name:</strong> {{ $shipName }}</div>
                             @endif
-                            @if(!empty($invoice['shipping_phone']))
-                                <div><strong>Phone:</strong> {{ $invoice['shipping_phone'] }}</div>
+                            @if(!empty($shipPhone))
+                                <div><strong>Phone:</strong> {{ $shipPhone }}</div>
                             @endif
-                            @if(!empty($invoice['shipping_email']))
-                                <div><strong>Email:</strong> {{ $invoice['shipping_email'] }}</div>
+                            @if(!empty($shipEmail))
+                                <div><strong>Email:</strong> {{ $shipEmail }}</div>
                             @endif
-                            @if(!empty($invoice['shipping_address']))
-                                <div><strong>Address:</strong> {!! nl2br(e($invoice['shipping_address'])) !!}</div>
+                            @if(!empty($shipAddress))
+                                <div><strong>Address:</strong> {!! nl2br(e($shipAddress)) !!}</div>
                             @endif
                         </div>
                     </div>
@@ -641,23 +649,29 @@
     </table>
 
     <!-- Notes & Terms -->
-    @if(!empty($invoice['notes']) || !empty($invoice['terms']))
+    @if(!empty($invoice['terms']) || !empty($invoice['notes']))
         <div class="notes-box">
-            @if(!empty($invoice['notes']))
-                <div><strong>Notes:</strong> {{ $invoice['notes'] }}</div>
-            @endif
             @if(!empty($invoice['terms']))
-                <div style="margin-top: 4px;"><strong>Terms & Conditions:</strong> {{ $invoice['terms'] }}</div>
+                <div><strong>Terms & Conditions:</strong> {{ $invoice['terms'] }}</div>
+            @endif
+            @if(!empty($invoice['notes']))
+                <div style="margin-top: 4px;"><strong>Customer Notes:</strong> {{ $invoice['notes'] }}</div>
             @endif
         </div>
     @endif
 
     <!-- Signatures -->
     @php
-        $showPrepare = ($invoice['show_sig_prepare'] ?? true) && (!empty($invoice['sig_prepare_name']) || !empty($invoice['sig_prepare_image']) || !empty($invoice['sig_prepare_date']));
-        $showApprove = ($invoice['show_sig_approve'] ?? true) && (!empty($invoice['sig_approve_name']) || !empty($invoice['sig_approve_image']) || !empty($invoice['sig_approve_date']) || !empty($invoice['signature_name']));
-        $showCustomer = ($invoice['show_sig_customer'] ?? true) && (!empty($invoice['sig_customer_name']) || !empty($invoice['sig_customer_image']) || !empty($invoice['sig_customer_date']));
+        $showPrepare = ($invoice['show_sig_prepare'] ?? true);
+        $showApprove = ($invoice['show_sig_approve'] ?? true);
+        $showCustomer = ($invoice['show_sig_customer'] ?? true);
         $hasAnySigner = $showPrepare || $showApprove || $showCustomer;
+
+        $prepName = $invoice['sig_prepare_name'] ?? 'xxxxxx';
+        $prepDate = $invoice['sig_prepare_date'] ?? '2026-10-20';
+        $approveImg = $invoice['sig_approve_image'] ?? '';
+        $approveName = $invoice['sig_approve_name'] ?? $invoice['signature_name'] ?? 'xxxxxx';
+        $approveDate = $invoice['sig_approve_date'] ?? '2026-10-20';
     @endphp
 
     @if($hasAnySigner)
@@ -674,17 +688,21 @@
                                 @endif
                             </div>
                             <div class="sig-line"></div>
-                            @if(!empty($invoice['sig_prepare_name']))
-                                <div class="sig-name">{{ $invoice['sig_prepare_name'] }}</div>
+                            @if(!empty($prepName))
+                                <div class="sig-name">{{ $prepName }}</div>
                             @endif
-                            @if(!empty($invoice['sig_prepare_date']))
-                                <table class="sig-date-table">
-                                    <tr>
-                                        <td class="sig-date-lbl">Date:</td>
-                                        <td class="sig-date-cell"><span style="font-size: 8px; color: #0f172a; font-weight: bold;">{{ $invoice['sig_prepare_date'] }}</span></td>
-                                    </tr>
-                                </table>
-                            @endif
+                            <table class="sig-date-table">
+                                <tr>
+                                    <td class="sig-date-lbl">Date:</td>
+                                    <td class="sig-date-cell">
+                                        @if(!empty($prepDate))
+                                            <span style="font-size: 8px; color: #0f172a; font-weight: bold;">{{ $prepDate }}</span>
+                                        @else
+                                            <span class="sig-date-line-pdf"></span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     @endif
                 </td>
@@ -692,11 +710,6 @@
                 <!-- APPROVED BY: Automatically sticks at center -->
                 <td class="signature-cell signature-cell-center" style="width: 33.34%;">
                     @if($showApprove)
-                        @php
-                            $approveImg = $invoice['sig_approve_image'] ?? '';
-                            $approveName = $invoice['sig_approve_name'] ?? $invoice['signature_name'] ?? '';
-                            $approveDate = $invoice['sig_approve_date'] ?? '';
-                        @endphp
                         <div class="sig-block-wrap">
                             <div class="sig-caption">APPROVED BY</div>
                             <div class="sig-space">
@@ -708,14 +721,18 @@
                             @if(!empty($approveName))
                                 <div class="sig-name">{{ $approveName }}</div>
                             @endif
-                            @if(!empty($approveDate))
-                                <table class="sig-date-table">
-                                    <tr>
-                                        <td class="sig-date-lbl">Date:</td>
-                                        <td class="sig-date-cell"><span style="font-size: 8px; color: #0f172a; font-weight: bold;">{{ $approveDate }}</span></td>
-                                    </tr>
-                                </table>
-                            @endif
+                            <table class="sig-date-table">
+                                <tr>
+                                    <td class="sig-date-lbl">Date:</td>
+                                    <td class="sig-date-cell">
+                                        @if(!empty($approveDate))
+                                            <span style="font-size: 8px; color: #0f172a; font-weight: bold;">{{ $approveDate }}</span>
+                                        @else
+                                            <span class="sig-date-line-pdf"></span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     @endif
                 </td>
@@ -734,14 +751,18 @@
                             @if(!empty($invoice['sig_customer_name']))
                                 <div class="sig-name">{{ $invoice['sig_customer_name'] }}</div>
                             @endif
-                            @if(!empty($invoice['sig_customer_date']))
-                                <table class="sig-date-table">
-                                    <tr>
-                                        <td class="sig-date-lbl">Date:</td>
-                                        <td class="sig-date-cell"><span style="font-size: 8px; color: #0f172a; font-weight: bold;">{{ $invoice['sig_customer_date'] }}</span></td>
-                                    </tr>
-                                </table>
-                            @endif
+                            <table class="sig-date-table">
+                                <tr>
+                                    <td class="sig-date-lbl">Date:</td>
+                                    <td class="sig-date-cell">
+                                        @if(!empty($invoice['sig_customer_date']))
+                                            <span style="font-size: 8px; color: #0f172a; font-weight: bold;">{{ $invoice['sig_customer_date'] }}</span>
+                                        @else
+                                            <span class="sig-date-line-pdf"></span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     @endif
                 </td>

@@ -43,5 +43,37 @@ A modern, high-performance invoice generation application built with **Laravel 1
 
 ---
 
+## 🏗️ Microservices Architecture (Serverless & Edge)
+
+Invogenz is architected as a lightweight, distributed microservice system:
+
+```
+[ User Browser / Client App ]
+              │
+              ▼
+    [ Cloudflare Worker ] ── (Edge Gateway / Router: worker.js)
+        ├── GET /api/health       (Gateway health, edge node metadata)
+        ├── GET /api/qr?text=...  (Edge QR Code Generation Microservice)
+        └── POST /api/*           (Reverse proxy with CORS & load routing)
+              │
+              ▼
+    [ PDF Engine Microservice ] (Laravel 10 DomPDF Engine)
+        ├── GET  /api/health       (Microservice liveness check)
+        ├── POST /api/generate-pdf (Binary vector PDF download)
+        └── POST /api/preview-pdf  (Streamed PDF render)
+```
+
+### Microservice Endpoints
+
+| Service | Route | Method | Purpose |
+| :--- | :--- | :--- | :--- |
+| **Edge Gateway** | `/api/health` | `GET` | Edge gateway liveness & upstream connectivity status |
+| **Edge QR Engine** | `/api/qr?text={str}&size={px}` | `GET` | Ultra-fast SVG QR code generator at the CDN edge |
+| **PDF Microservice** | `/api/generate-pdf` | `POST` | Stateless invoice JSON to downloadable vector PDF |
+| **PDF Microservice** | `/api/preview-pdf` | `POST` | Stateless invoice JSON to inline preview stream |
+
+---
+
 ## 📄 License
 MIT License.
+

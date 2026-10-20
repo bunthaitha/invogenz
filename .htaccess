@@ -31,7 +31,10 @@ DirectoryIndex index.php public/index.php
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
-    # 4. Forward all other requests to the front controller
+    # 4. Block access to hidden files, git repos, and sensitive configs
+    RewriteRule ^(\.git|\.env|\.github|tests|node_modules|composer\.(json|lock)|package(-lock)?\.json|wrangler\.json|worker\.js) - [F,L]
+
+    # 5. Forward all other requests to the front controller
     RewriteRule ^(.*)$ index.php [L]
 </IfModule>
 
@@ -39,4 +42,5 @@ DirectoryIndex index.php public/index.php
     Header set X-Content-Type-Options "nosniff"
     Header set X-Frame-Options "SAMEORIGIN"
 </IfModule>
+
 

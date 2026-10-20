@@ -22,7 +22,7 @@ foreach ($folder in $folders) {
 }
 
 Write-Host "==> Staging root config & front-controller files..." -ForegroundColor Cyan
-$files = @('.env', '.env.example', '.htaccess', 'index.php', 'artisan', 'composer.json', 'composer.lock', 'package.json', 'package-lock.json', 'vite.config.js', 'wrangler.json', 'worker.js', 'README.md')
+$files = @('.env', '.env.example', '.htaccess', 'index.php', 'artisan', 'composer.json', 'composer.lock')
 foreach ($file in $files) {
     $src = Join-Path $workspace $file
     if (Test-Path $src) {
