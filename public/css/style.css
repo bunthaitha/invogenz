@@ -1914,7 +1914,7 @@ textarea.form-control {
 /* Paper Preview: 3-column Signature Block */
 .paper-signatures-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr) !important;
   gap: 1.5rem;
   margin-top: 2rem;
   padding-top: 1.25rem;
@@ -1924,9 +1924,86 @@ textarea.form-control {
 .signature-column {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   font-size: 0.78rem;
   line-height: 1.35;
+}
+
+/* 1. Prepared By - Automatically sticks at left side */
+.signature-column.sig-left,
+#pv-col-prepare {
+  grid-column: 1 !important;
+  align-items: flex-start !important;
+  text-align: left !important;
+}
+
+#pv-col-prepare .sig-caption,
+#pv-col-prepare .sig-person-name,
+#pv-col-prepare .sig-person-role,
+#pv-col-prepare .sig-person-date {
+  text-align: left;
+  width: 100%;
+}
+
+#pv-col-prepare .sig-image-holder {
+  justify-content: flex-start;
+  width: 100%;
+}
+
+#pv-col-prepare .sig-line-rule {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+/* 2. Approved By - Automatically sticks at center */
+.signature-column.sig-center,
+#pv-col-approve {
+  grid-column: 2 !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+
+#pv-col-approve .sig-caption,
+#pv-col-approve .sig-person-name,
+#pv-col-approve .sig-person-role,
+#pv-col-approve .sig-person-date {
+  text-align: center;
+  width: 100%;
+}
+
+#pv-col-approve .sig-image-holder {
+  justify-content: center;
+  width: 100%;
+}
+
+#pv-col-approve .sig-line-rule {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 3. Customer Acceptance - Automatically sticks at right side */
+.signature-column.sig-right,
+#pv-col-customer {
+  grid-column: 3 !important;
+  align-items: flex-end !important;
+  text-align: right !important;
+}
+
+#pv-col-customer .sig-caption,
+#pv-col-customer .sig-person-name,
+#pv-col-customer .sig-person-role,
+#pv-col-customer .sig-person-date {
+  text-align: right;
+  width: 100%;
+}
+
+#pv-col-customer .sig-image-holder {
+  justify-content: flex-end;
+  width: 100%;
+}
+
+#pv-col-customer .sig-line-rule {
+  margin-left: auto;
+  margin-right: 0;
 }
 
 .sig-caption {

@@ -217,11 +217,37 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 28px;
+            table-layout: fixed;
         }
         .signature-cell {
-            text-align: center;
             vertical-align: top;
-            padding: 0 14px;
+            padding: 0 8px;
+        }
+        .signature-cell-left {
+            text-align: left;
+            width: 33.33%;
+        }
+        .signature-cell-center {
+            text-align: center;
+            width: 33.34%;
+        }
+        .signature-cell-right {
+            text-align: right;
+            width: 33.33%;
+        }
+        .sig-block-wrap {
+            display: inline-block;
+            width: 140px;
+            max-width: 100%;
+        }
+        .signature-cell-left .sig-block-wrap {
+            text-align: left;
+        }
+        .signature-cell-center .sig-block-wrap {
+            text-align: center;
+        }
+        .signature-cell-right .sig-block-wrap {
+            text-align: right;
         }
         .sig-line {
             border-top: 1px solid #94a3b8;
@@ -237,6 +263,11 @@
             font-size: 8.5px;
             color: #64748b;
             text-transform: uppercase;
+        }
+        .sig-date {
+            font-size: 8px;
+            color: #64748b;
+            margin-top: 2px;
         }
         .sig-img {
             max-height: 40px;
@@ -487,29 +518,73 @@
 
     <!-- Signatures -->
     @php
-        $showPrepare = ($invoice['show_sig_prepare'] ?? true) && (!empty($invoice['sig_prepare_name']) || !empty($invoice['sig_prepare_image']));
-        $showApprove = ($invoice['show_sig_approve'] ?? true) && (!empty($invoice['sig_approve_name']) || !empty($invoice['sig_approve_image']) || !empty($invoice['signature_name']));
-        $showCustomer = ($invoice['show_sig_customer'] ?? true) && (!empty($invoice['sig_customer_name']) || !empty($invoice['sig_customer_image']));
-        $activeSigners = [];
-        if ($showPrepare) $activeSigners[] = ['role' => 'Prepared By', 'name' => $invoice['sig_prepare_name'] ?? '', 'img' => $invoice['sig_prepare_image'] ?? ''];
-        if ($showApprove) $activeSigners[] = ['role' => 'Approved By', 'name' => $invoice['sig_approve_name'] ?? $invoice['signature_name'] ?? '', 'img' => $invoice['sig_approve_image'] ?? ''];
-        if ($showCustomer) $activeSigners[] = ['role' => 'Customer Signature', 'name' => $invoice['sig_customer_name'] ?? '', 'img' => $invoice['sig_customer_image'] ?? ''];
+        $showPrepare = ($invoice['show_sig_prepare'] ?? true) && (!empty($invoice['sig_prepare_name']) || !empty($invoice['sig_prepare_image']) || !empty($invoice['sig_prepare_date']));
+        $showApprove = ($invoice['show_sig_approve'] ?? true) && (!empty($invoice['sig_approve_name']) || !empty($invoice['sig_approve_image']) || !empty($invoice['sig_approve_date']) || !empty($invoice['signature_name']));
+        $showCustomer = ($invoice['show_sig_customer'] ?? true) && (!empty($invoice['sig_customer_name']) || !empty($invoice['sig_customer_image']) || !empty($invoice['sig_customer_date']));
+        $hasAnySigner = $showPrepare || $showApprove || $showCustomer;
     @endphp
 
-    @if(count($activeSigners) > 0)
+    @if($hasAnySigner)
         <table class="signatures-table">
             <tr>
-                @foreach($activeSigners as $signer)
-                    <td class="signature-cell" style="width: {{ round(100 / count($activeSigners)) }}%;">
-                        @if(!empty($signer['img']))
-                            <div><img src="{{ $signer['img'] }}" class="sig-img" alt="Signature"></div>
-                        @endif
-                        <div class="sig-line">
-                            <div class="sig-name">{{ $signer['name'] ?: '( Authorized Signer )' }}</div>
-                            <div class="sig-role">{{ $signer['role'] }}</div>
+                <!-- PREPARED BY: Automatically sticks at left side -->
+                <td class="signature-cell signature-cell-left" style="width: 33.33%;">
+                    @if($showPrepare)
+                        <div class="sig-block-wrap">
+                            @if(!empty($invoice['sig_prepare_image']))
+                                <div><img src="{{ $invoice['sig_prepare_image'] }}" class="sig-img" alt="Prepared Signature"></div>
+                            @endif
+                            <div class="sig-line">
+                                <div class="sig-name">{{ $invoice['sig_prepare_name'] ?: '( Authorized Signer )' }}</div>
+                                <div class="sig-role">Prepared By</div>
+                                @if(!empty($invoice['sig_prepare_date']))
+                                    <div class="sig-date">Date: {{ $invoice['sig_prepare_date'] }}</div>
+                                @endif
+                            </div>
                         </div>
-                    </td>
-                @endforeach
+                    @endif
+                </td>
+
+                <!-- APPROVED BY: Automatically sticks at center -->
+                <td class="signature-cell signature-cell-center" style="width: 33.34%;">
+                    @if($showApprove)
+                        @php
+                            $approveImg = $invoice['sig_approve_image'] ?? '';
+                            $approveName = $invoice['sig_approve_name'] ?? $invoice['signature_name'] ?? '';
+                            $approveDate = $invoice['sig_approve_date'] ?? '';
+                        @endphp
+                        <div class="sig-block-wrap">
+                            @if(!empty($approveImg))
+                                <div><img src="{{ $approveImg }}" class="sig-img" alt="Approved Signature"></div>
+                            @endif
+                            <div class="sig-line">
+                                <div class="sig-name">{{ $approveName ?: '( Authorized Signer )' }}</div>
+                                <div class="sig-role">Approved By</div>
+                                @if(!empty($approveDate))
+                                    <div class="sig-date">Date: {{ $approveDate }}</div>
+                                @endif
+                            </div>
+                        </div>
+                    @endif
+                </td>
+
+                <!-- CUSTOMER ACCEPTANCE: Automatically sticks at right side -->
+                <td class="signature-cell signature-cell-right" style="width: 33.33%;">
+                    @if($showCustomer)
+                        <div class="sig-block-wrap">
+                            @if(!empty($invoice['sig_customer_image']))
+                                <div><img src="{{ $invoice['sig_customer_image'] }}" class="sig-img" alt="Customer Acceptance"></div>
+                            @endif
+                            <div class="sig-line">
+                                <div class="sig-name">{{ $invoice['sig_customer_name'] ?: '( Customer Acceptance )' }}</div>
+                                <div class="sig-role">Customer Acceptance</div>
+                                @if(!empty($invoice['sig_customer_date']))
+                                    <div class="sig-date">Date: {{ $invoice['sig_customer_date'] }}</div>
+                                @endif
+                            </div>
+                        </div>
+                    @endif
+                </td>
             </tr>
         </table>
     @endif

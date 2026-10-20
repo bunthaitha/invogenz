@@ -684,7 +684,7 @@
           <!-- 3. Customer Signature Block -->
           <div class="sig-editor-block mt-2" id="block-sig-customer">
             <div class="sig-block-header">
-              <span class="sig-block-tag"><i data-lucide="handshake"></i> Customer Signature</span>
+              <span class="sig-block-tag"><i data-lucide="handshake"></i> Customer Acceptance</span>
               <label class="sig-toggle-label" title="Enable / Disable Customer Signature on invoice">
                 <input type="checkbox" id="check-sig-customer" class="sig-toggle-checkbox" checked>
                 <span class="sig-toggle-slider"></span>
@@ -943,10 +943,10 @@
             </div>
           </div>
 
-          <!-- Multi-party Signatures Grid (Prepared By, Approved By, Customer Signature) -->
+          <!-- Multi-party Signatures Grid (Prepared By, Approved By, Customer Acceptance) -->
           <div class="paper-signatures-grid" id="pv-signatures-section">
-            <!-- Prepared By -->
-            <div class="signature-column" id="pv-col-prepare">
+            <!-- Prepared By (Stick at Left) -->
+            <div class="signature-column sig-left" id="pv-col-prepare">
               <span class="sig-caption">PREPARED BY</span>
               <div class="sig-image-holder" id="pv-sig-prepare-box" style="display:none;">
                 <img id="pv-sig-prepare-img" src="" alt="Prepared Signature">
@@ -957,8 +957,8 @@
               <p class="sig-person-date" id="pv-prepare-date">Date: 2026-10-19</p>
             </div>
 
-            <!-- Approved By -->
-            <div class="signature-column" id="pv-col-approve">
+            <!-- Approved By (Stick at Center) -->
+            <div class="signature-column sig-center" id="pv-col-approve">
               <span class="sig-caption">APPROVED BY</span>
               <div class="sig-image-holder" id="pv-sig-approve-box" style="display:none;">
                 <img id="pv-sig-approve-img" src="" alt="Approved Signature">
@@ -969,15 +969,15 @@
               <p class="sig-person-date" id="pv-approve-date">Date: 2026-10-19</p>
             </div>
 
-            <!-- Customer Signature -->
-            <div class="signature-column" id="pv-col-customer">
+            <!-- Customer Acceptance (Stick at Right) -->
+            <div class="signature-column sig-right" id="pv-col-customer">
               <span class="sig-caption">CUSTOMER ACCEPTANCE</span>
               <div class="sig-image-holder" id="pv-sig-customer-box" style="display:none;">
                 <img id="pv-sig-customer-img" src="" alt="Customer Signature">
               </div>
               <div class="sig-line-rule"></div>
               <p class="sig-person-name" id="pv-customer-name">Valued Client</p>
-              <p class="sig-person-role">Customer Signature</p>
+              <p class="sig-person-role">Customer Acceptance</p>
               <p class="sig-person-date" id="pv-customer-date">Date: 2026-10-19</p>
             </div>
           </div>

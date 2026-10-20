@@ -27,9 +27,9 @@ A modern, high-performance invoice generation application built with **Laravel 1
 ## 🌐 cPanel / Production Deployment
 
 ### Option A: Upload Pre-Built Deployment Zip (Fastest)
-1. Upload the generated `invogenz-laravel-deploy.zip` to your cPanel folder (`inv.bkh.it.com`).
+1. Upload the generated `invogenz-laravel-deploy.zip` to your cPanel folder (`invogenz.bkh.it.com`).
 2. Extract the zip file in File Manager.
-3. Access `https://inv.bkh.it.com/`!
+3. Access `https://invogenz.bkh.it.com/`!
 
 ### Option B: Deploy from GitHub
 1. Pull the repository onto your server:

@@ -1041,7 +1041,7 @@
     if (els.pvSignaturesSection) {
       if (hasAnySignature && activeColsCount > 0) {
         els.pvSignaturesSection.style.display = 'grid';
-        els.pvSignaturesSection.style.gridTemplateColumns = `repeat(${activeColsCount}, 1fr)`;
+        els.pvSignaturesSection.style.gridTemplateColumns = 'repeat(3, 1fr)';
 
         // 1. Prepared by
         if (els.pvColPrepare) {
