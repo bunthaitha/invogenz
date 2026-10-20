@@ -1413,6 +1413,16 @@ textarea.form-control {
   margin-bottom: 1.5rem;
 }
 
+.paper-billing-grid.has-shipping {
+  grid-template-columns: 1fr 1fr !important;
+}
+
+@media (max-width: 640px) {
+  .paper-billing-grid.has-shipping {
+    grid-template-columns: 1fr !important;
+  }
+}
+
 .billing-card {
   padding: 0.85rem 1rem;
   border-radius: 6px;
@@ -2269,6 +2279,12 @@ textarea.form-control {
     z-index: 9999 !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
+  }
+
+  .paper-billing-grid.has-shipping {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 1.25rem !important;
   }
 
   .paper-signatures-grid {

@@ -434,30 +434,90 @@
 
     <div class="accent-bar"></div>
 
-    <!-- Billed To / Client -->
-    <div class="client-box">
-        <div class="client-caption">BILLED TO / CLIENT</div>
-        @if(!empty($invoice['client_company']))
-            <div class="client-company">{{ $invoice['client_company'] }}</div>
-        @endif
-        <div class="client-details">
-            @if(!empty($invoice['client_name']))
-                <div><strong>Name:</strong> {{ $invoice['client_name'] }}</div>
+    @php
+        $showShipping = !empty($invoice['show_shipping']);
+    @endphp
+
+    @if($showShipping)
+        <!-- Billed To & Shipping To (2-Column Grid) -->
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 18px;">
+            <tr>
+                <td style="width: 49%; vertical-align: top;">
+                    <div class="client-box" style="margin-bottom: 0;">
+                        <div class="client-caption">BILLED TO / CLIENT</div>
+                        @if(!empty($invoice['client_company']))
+                            <div class="client-company">{{ $invoice['client_company'] }}</div>
+                        @endif
+                        <div class="client-details">
+                            @if(!empty($invoice['client_name']))
+                                <div><strong>Name:</strong> {{ $invoice['client_name'] }}</div>
+                            @endif
+                            @if(!empty($invoice['client_phone']))
+                                <div><strong>Phone:</strong> {{ $invoice['client_phone'] }}</div>
+                            @endif
+                            @if(!empty($invoice['client_email']))
+                                <div><strong>Email:</strong> {{ $invoice['client_email'] }}</div>
+                            @endif
+                            @if(!empty($invoice['client_address']))
+                                <div><strong>Address:</strong> {!! nl2br(e($invoice['client_address'])) !!}</div>
+                            @endif
+                            @if(!empty($invoice['client_tax_id']))
+                                <div><strong>Tax / VAT:</strong> {{ $invoice['client_tax_id'] }}</div>
+                            @endif
+                        </div>
+                    </div>
+                </td>
+                <td style="width: 2%;"></td>
+                <td style="width: 49%; vertical-align: top;">
+                    <div class="client-box" style="margin-bottom: 0;">
+                        <div class="client-caption">SHIPPING TO / CLIENT</div>
+                        @if(!empty($invoice['shipping_company']))
+                            <div class="client-company">{{ $invoice['shipping_company'] }}</div>
+                        @endif
+                        <div class="client-details">
+                            @if(!empty($invoice['shipping_name']))
+                                <div><strong>Name:</strong> {{ $invoice['shipping_name'] }}</div>
+                            @endif
+                            @if(!empty($invoice['shipping_phone']))
+                                <div><strong>Phone:</strong> {{ $invoice['shipping_phone'] }}</div>
+                            @endif
+                            @if(!empty($invoice['shipping_email']))
+                                <div><strong>Email:</strong> {{ $invoice['shipping_email'] }}</div>
+                            @endif
+                            @if(!empty($invoice['shipping_address']))
+                                <div><strong>Address:</strong> {!! nl2br(e($invoice['shipping_address'])) !!}</div>
+                            @endif
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    @else
+        <!-- Billed To / Client (Single Box) -->
+        <div class="client-box">
+            <div class="client-caption">BILLED TO / CLIENT</div>
+            @if(!empty($invoice['client_company']))
+                <div class="client-company">{{ $invoice['client_company'] }}</div>
             @endif
-            @if(!empty($invoice['client_phone']))
-                <div><strong>Phone:</strong> {{ $invoice['client_phone'] }}</div>
-            @endif
-            @if(!empty($invoice['client_email']))
-                <div><strong>Email:</strong> {{ $invoice['client_email'] }}</div>
-            @endif
-            @if(!empty($invoice['client_address']))
-                <div><strong>Address:</strong> {!! nl2br(e($invoice['client_address'])) !!}</div>
-            @endif
-            @if(!empty($invoice['client_tax_id']))
-                <div><strong>Tax / VAT:</strong> {{ $invoice['client_tax_id'] }}</div>
-            @endif
+            <div class="client-details">
+                @if(!empty($invoice['client_name']))
+                    <div><strong>Name:</strong> {{ $invoice['client_name'] }}</div>
+                @endif
+                @if(!empty($invoice['client_phone']))
+                    <div><strong>Phone:</strong> {{ $invoice['client_phone'] }}</div>
+                @endif
+                @if(!empty($invoice['client_email']))
+                    <div><strong>Email:</strong> {{ $invoice['client_email'] }}</div>
+                @endif
+                @if(!empty($invoice['client_address']))
+                    <div><strong>Address:</strong> {!! nl2br(e($invoice['client_address'])) !!}</div>
+                @endif
+                @if(!empty($invoice['client_tax_id']))
+                    <div><strong>Tax / VAT:</strong> {{ $invoice['client_tax_id'] }}</div>
+                @endif
+            </div>
         </div>
-    </div>
+    @endif
 
     <!-- Items Table -->
     <table class="items-table">

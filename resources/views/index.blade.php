@@ -330,7 +330,7 @@
                 <span class="field-pill optional-pill">Optional</span>
               </div>
               <div class="input-with-icon">
-                <input type="text" id="company_name" class="form-control " placeholder="e.g. Vertex Digital Solutions">
+                <input type="text" id="company_name" class="form-control" placeholder="e.g. Invogenz">
               </div>
             </div>
 
@@ -341,7 +341,7 @@
                 <span class="field-pill optional-pill">Optional</span>
               </div>
               <div class="input-with-icon">
-                <input type="text" id="company_contact" class="form-control " placeholder="e.g. Mr. Bunthai Tha">
+                <input type="text" id="company_contact" class="form-control" placeholder="e.g. Mr. Invogenz">
               </div>
             </div>
           </div>
@@ -354,7 +354,7 @@
                 <span class="field-pill optional-pill">Optional</span>
               </div>
               <div class="input-with-icon">
-                <input type="text" id="company_phone" class="form-control " placeholder="+1 (415) 555-0199">
+                <input type="text" id="company_phone" class="form-control" placeholder="012 xxx xxx">
               </div>
             </div>
 
@@ -365,7 +365,7 @@
                 <span class="field-pill optional-pill">Optional</span>
               </div>
               <div class="input-with-icon">
-                <input type="email" id="company_email" class="form-control " placeholder="billing@vertexdigital.com">
+                <input type="email" id="company_email" class="form-control" placeholder="info@xample.com">
               </div>
             </div>
           </div>
@@ -377,7 +377,7 @@
               <span class="field-pill optional-pill">Optional</span>
             </div>
             <div class="input-with-icon">
-              <input type="text" id="company_tagline" class="form-control " placeholder="e.g. Enterprise Cloud Architecture & Digital Products">
+              <input type="text" id="company_tagline" class="form-control" placeholder="e.g. Professional and suitable for a business tool.">
             </div>
           </div>
 
@@ -387,7 +387,7 @@
               <label for="company_address">Address</label>
               <span class="field-pill optional-pill">Optional</span>
             </div>
-            <textarea id="company_address" class="form-control" rows="2" placeholder="742 Evergreen Terrace, Suite 500&#10;San Francisco, CA 94107, United States"></textarea>
+            <textarea id="company_address" class="form-control" rows="2" placeholder="Phnom Penh , Cambodia"></textarea>
           </div>
         </div>
 
@@ -408,7 +408,7 @@
                 <span class="field-pill optional-pill">Optional</span>
               </div>
               <div class="input-with-icon">
-                <input type="text" id="client_company" class="form-control " placeholder="e.g. Cyberdyne Systems Corp.">
+                <input type="text" id="client_company" class="form-control" placeholder="e.g. xxx">
               </div>
             </div>
 
@@ -419,7 +419,7 @@
                 <span class="field-pill required-pill">Required</span>
               </div>
               <div class="input-with-icon">
-                <input type="text" id="client_name" class="form-control " placeholder="e.g. Sarah Connor">
+                <input type="text" id="client_name" class="form-control" placeholder="e.g. xxx">
               </div>
             </div>
 
@@ -430,7 +430,7 @@
                 <span class="field-pill optional-pill">Optional</span>
               </div>
               <div class="input-with-icon">
-                <input type="text" id="client_phone" class="form-control " placeholder="e.g. +1 (408) 555-0811">
+                <input type="text" id="client_phone" class="form-control" placeholder="e.g. 012 xxx xxx">
               </div>
             </div>
 
@@ -441,7 +441,7 @@
                 <span class="field-pill optional-pill">Optional</span>
               </div>
               <div class="input-with-icon">
-                <input type="email" id="client_email" class="form-control " placeholder="e.g. sconnor@cyberdyne.io">
+                <input type="email" id="client_email" class="form-control" placeholder="e.g. xxx@xample.com">
               </div>
             </div>
 
@@ -451,7 +451,7 @@
                 <label for="client_address">Address</label>
                 <span class="field-pill optional-pill">Optional</span>
               </div>
-              <textarea id="client_address" class="form-control" rows="2" placeholder="18144 El Camino Real, Building 4&#10;Sunnyvale, CA 94087, United States"></textarea>
+              <textarea id="client_address" class="form-control" rows="2" placeholder="Phnom Penh, Cambodia"></textarea>
             </div>
 
             <!-- Row 6: Client Tax / VAT ID -->
@@ -461,7 +461,79 @@
                 <span class="field-pill optional-pill">Optional</span>
               </div>
               <div class="input-with-icon">
-                <input type="text" id="client_tax_id" class="form-control font-mono " placeholder="e.g. US-10294857">
+                <input type="text" id="client_tax_id" class="form-control font-mono" placeholder="e.g. US-10294857">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Editor Section 4B: Shipping To / Client (Optional Toggle) -->
+        <div class="card form-section card-shipping" id="card-shipping-editor">
+          <div class="section-title flex-between">
+            <div class="title-text-group">
+              <h3>Shipping To / Client</h3>
+              <span class="section-subtitle">Deliver to recipient or secondary destination</span>
+            </div>
+            <label class="sig-toggle-label" title="Enable / Disable Shipping Details on Invoice">
+              <input type="checkbox" id="check_show_shipping" class="sig-toggle-checkbox">
+              <span class="sig-toggle-slider"></span>
+              <span class="sig-toggle-text">Show on Invoice</span>
+            </label>
+          </div>
+
+          <div class="sig-fields-collapsible" id="shipping-fields-collapsible" style="display:none;">
+            <div class="form-grid grid-1">
+              <!-- Shipping Company Name -->
+              <div class="form-group">
+                <div class="label-row">
+                  <label for="shipping_company">Company Name</label>
+                  <span class="field-pill optional-pill">Optional</span>
+                </div>
+                <div class="input-with-icon">
+                  <input type="text" id="shipping_company" class="form-control" placeholder="e.g. xxx">
+                </div>
+              </div>
+
+              <!-- Shipping Recipient Name -->
+              <div class="form-group">
+                <div class="label-row">
+                  <label for="shipping_name">Name</label>
+                  <span class="field-pill optional-pill">Optional</span>
+                </div>
+                <div class="input-with-icon">
+                  <input type="text" id="shipping_name" class="form-control" placeholder="e.g. xxx">
+                </div>
+              </div>
+
+              <!-- Shipping Phone -->
+              <div class="form-group">
+                <div class="label-row">
+                  <label for="shipping_phone">Phone</label>
+                  <span class="field-pill optional-pill">Optional</span>
+                </div>
+                <div class="input-with-icon">
+                  <input type="text" id="shipping_phone" class="form-control" placeholder="e.g. 012 xxx xxx">
+                </div>
+              </div>
+
+              <!-- Shipping Email -->
+              <div class="form-group">
+                <div class="label-row">
+                  <label for="shipping_email">Email</label>
+                  <span class="field-pill optional-pill">Optional</span>
+                </div>
+                <div class="input-with-icon">
+                  <input type="email" id="shipping_email" class="form-control" placeholder="e.g. xxx@xample.com">
+                </div>
+              </div>
+
+              <!-- Shipping Address -->
+              <div class="form-group">
+                <div class="label-row">
+                  <label for="shipping_address">Address</label>
+                  <span class="field-pill optional-pill">Optional</span>
+                </div>
+                <textarea id="shipping_address" class="form-control" rows="2" placeholder="Phnom Penh, Cambodia"></textarea>
               </div>
             </div>
           </div>
@@ -831,9 +903,9 @@
 
           <div class="paper-divider" id="pv-accent-bar"></div>
 
-          <!-- Billing Info (Billed To / Client) -->
-          <div class="paper-billing-grid">
-            <div class="billing-card to-card">
+          <!-- Billing Info (Billed To & Shipping To) -->
+          <div class="paper-billing-grid" id="pv-billing-grid">
+            <div class="billing-card to-card" id="pv-billed-card">
               <h4 class="card-caption">BILLED TO / CLIENT</h4>
               <p class="strong-name" id="pv-client-company" style="display:none;"></p>
               <div class="pv-client-details" id="pv-client-details">
@@ -856,6 +928,30 @@
                 <div class="pv-client-row" id="pv-client-tax-row" style="display:none;">
                   <span class="pv-client-lbl">Tax / VAT:</span>
                   <span class="pv-client-val" id="pv-client-tax"></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Shipping Info (Shipping To / Client) -->
+            <div class="billing-card to-card" id="pv-shipping-card" style="display:none;">
+              <h4 class="card-caption">SHIPPING TO / CLIENT</h4>
+              <p class="strong-name" id="pv-shipping-company" style="display:none;"></p>
+              <div class="pv-client-details" id="pv-shipping-details">
+                <div class="pv-client-row" id="pv-shipping-name-row" style="display:none;">
+                  <span class="pv-client-lbl">Name:</span>
+                  <span class="pv-client-val" id="pv-shipping-name"></span>
+                </div>
+                <div class="pv-client-row" id="pv-shipping-phone-row" style="display:none;">
+                  <span class="pv-client-lbl">Phone:</span>
+                  <span class="pv-client-val" id="pv-shipping-phone"></span>
+                </div>
+                <div class="pv-client-row" id="pv-shipping-email-row" style="display:none;">
+                  <span class="pv-client-lbl">Email:</span>
+                  <span class="pv-client-val" id="pv-shipping-email"></span>
+                </div>
+                <div class="pv-client-row" id="pv-shipping-address-row" style="display:none;">
+                  <span class="pv-client-lbl">Address:</span>
+                  <span class="pv-client-val" id="pv-shipping-address"></span>
                 </div>
               </div>
             </div>

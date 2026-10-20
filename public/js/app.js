@@ -23,56 +23,55 @@
     issue_date: new Date().toISOString().split('T')[0],
     due_date: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
     po_number: '',
-    company_name: 'Vertex Digital Solutions Inc.',
-    company_contact: 'Bunthai Tha',
-    company_tagline: 'Enterprise Cloud Architecture & Digital Products',
-    company_address: '742 Evergreen Terrace, Suite 500\nSan Francisco, CA 94107\nUnited States',
-    company_email: 'thabunthai168@gmail.com',
-    company_phone: '088 694 9852',
+    company_name: 'Invogenz',
+    company_contact: 'Mr. Invogenz',
+    company_tagline: 'Professional and suitable for a business tool.',
+    company_address: 'Phnom Penh , Cambodia',
+    company_email: 'info@xample.com',
+    company_phone: '012 xxx xxx',
     company_logo: '',
-    client_name: 'Sarah Connor',
-    client_company: 'Cyberdyne Systems Corp.',
-    client_address: '18144 El Camino Real, Building 4\nSunnyvale, CA 94087\nUnited States',
-    client_email: 'sconnor@cyberdyne.io',
-    client_phone: '+1 (408) 555-0811',
-    client_tax_id: 'US-10294857',
+    client_name: 'xxx',
+    client_company: 'xxx',
+    client_address: 'Phnom Penh, Cambodia',
+    client_email: 'xxx@xample.com',
+    client_phone: '012 xxx xxx',
+    client_tax_id: '',
+    show_shipping: false,
+    shipping_company: 'xxx',
+    shipping_name: 'xxx',
+    shipping_phone: '012 xxx xxx',
+    shipping_email: 'xxx@xample.com',
+    shipping_address: 'Phnom Penh, Cambodia',
     items: [
       {
-        description: 'Cloud Architecture & Security Audit',
-        sub_description: 'Multi-region AWS Kubernetes architecture design and migration roadmap',
-        quantity: 30,
-        rate: 150,
-        tax_rate: 0
-      },
-      {
-        description: 'API Gateway & Microservices Engineering',
-        sub_description: 'High-throughput asynchronous event streaming with Kafka & FastAPI',
-        quantity: 45,
-        rate: 125,
-        tax_rate: 0
-      },
-      {
-        description: 'Automated CI/CD Pipeline & IaC Setup',
-        sub_description: 'GitHub Actions, Terraform automated infrastructure, container registry security scanning',
+        description: 'Business Solution & Software Architecture',
+        sub_description: 'Professional cloud-native invoicing & workflow management system',
         quantity: 1,
-        rate: 2200,
+        rate: 1200,
+        tax_rate: 0
+      },
+      {
+        description: 'Custom Enterprise Integration',
+        sub_description: 'Automated digital document generation and API deployment',
+        quantity: 2,
+        rate: 350,
         tax_rate: 0
       }
     ],
     discount_type: 'percentage',
-    discount_value: 5,
-    overall_tax_rate: 8.5,
+    discount_value: 0,
+    overall_tax_rate: 0,
     shipping_fee: 0,
-    amount_paid: 2500,
-    payment_method: 'Wire Transfer / ACH',
-    bank_name: 'Silicon Valley Commercial Bank',
-    account_name: 'Vertex Digital Solutions Inc.',
-    account_number: '987654321098',
-    routing_swift: 'SVCBUS6S',
-    qr_data: 'https://pay.vertexdigital.com/inv/INV-2026-0042',
+    amount_paid: 0,
+    payment_method: 'Wire Transfer / Bank Account',
+    bank_name: 'ABA Bank / Wing Bank',
+    account_name: 'Invogenz',
+    account_number: '000 123 456',
+    routing_swift: '',
+    qr_data: '',
     notes: 'Thank you for your business! All deliverables are backed by our 30-day warranty and SLA guarantee.',
     terms: 'Payment is due within 14 calendar days from invoice issue date. A late fee of 1.5% per month applies to overdue balances.',
-    sig_prepare_name: 'Bunthai Tha',
+    sig_prepare_name: 'Mr. Invogenz',
     sig_prepare_date: new Date().toISOString().split('T')[0],
     sig_prepare_image: '',
     show_sig_prepare: true,
@@ -84,7 +83,7 @@
     sig_customer_date: '',
     sig_customer_image: '',
     show_sig_customer: true,
-    signature_name: 'Bunthai Tha'
+    signature_name: 'Mr. Invogenz'
   };
 
   let activeData = { ...defaultInvoiceData };
@@ -153,6 +152,15 @@
     clientPhone: document.getElementById('client_phone'),
     clientTaxId: document.getElementById('client_tax_id'),
     clientAddress: document.getElementById('client_address'),
+
+    // Shipping To
+    checkShowShipping: document.getElementById('check_show_shipping'),
+    shippingBlock: document.getElementById('shipping-fields-collapsible'),
+    shippingCompany: document.getElementById('shipping_company'),
+    shippingName: document.getElementById('shipping_name'),
+    shippingPhone: document.getElementById('shipping_phone'),
+    shippingEmail: document.getElementById('shipping_email'),
+    shippingAddress: document.getElementById('shipping_address'),
 
     // Items
     itemsContainer: document.getElementById('items-container'),
@@ -253,6 +261,18 @@
     pvClientAddress: document.getElementById('pv-client-address'),
     pvClientTaxRow: document.getElementById('pv-client-tax-row'),
     pvClientTax: document.getElementById('pv-client-tax'),
+
+    pvBillingGrid: document.getElementById('pv-billing-grid'),
+    pvShippingCard: document.getElementById('pv-shipping-card'),
+    pvShippingCompany: document.getElementById('pv-shipping-company'),
+    pvShippingNameRow: document.getElementById('pv-shipping-name-row'),
+    pvShippingName: document.getElementById('pv-shipping-name'),
+    pvShippingPhoneRow: document.getElementById('pv-shipping-phone-row'),
+    pvShippingPhone: document.getElementById('pv-shipping-phone'),
+    pvShippingEmailRow: document.getElementById('pv-shipping-email-row'),
+    pvShippingEmail: document.getElementById('pv-shipping-email'),
+    pvShippingAddressRow: document.getElementById('pv-shipping-address-row'),
+    pvShippingAddress: document.getElementById('pv-shipping-address'),
 
     pvTableHead: document.getElementById('pv-table-head'),
     pvItemsBody: document.getElementById('pv-items-body'),
@@ -443,9 +463,35 @@
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         activeData = JSON.parse(saved);
+        if (activeData.company_name === 'Vertex Digital Solutions Inc.') {
+          activeData.company_name = defaultInvoiceData.company_name;
+          activeData.company_contact = defaultInvoiceData.company_contact;
+          activeData.company_tagline = defaultInvoiceData.company_tagline;
+          activeData.company_phone = defaultInvoiceData.company_phone;
+          activeData.company_email = defaultInvoiceData.company_email;
+          activeData.company_address = defaultInvoiceData.company_address;
+          activeData.client_company = defaultInvoiceData.client_company;
+          activeData.client_name = defaultInvoiceData.client_name;
+          activeData.client_phone = defaultInvoiceData.client_phone;
+          activeData.client_email = defaultInvoiceData.client_email;
+          activeData.client_address = defaultInvoiceData.client_address;
+          activeData.shipping_company = defaultInvoiceData.shipping_company;
+          activeData.shipping_name = defaultInvoiceData.shipping_name;
+          activeData.shipping_phone = defaultInvoiceData.shipping_phone;
+          activeData.shipping_email = defaultInvoiceData.shipping_email;
+          activeData.shipping_address = defaultInvoiceData.shipping_address;
+        }
         // Clear previous defaults if cached
         if (activeData.status === 'PENDING') activeData.status = '';
         if (activeData.po_number === 'PO-88412') activeData.po_number = '';
+        if (activeData.shipping_company === undefined) {
+          activeData.show_shipping = defaultInvoiceData.show_shipping;
+          activeData.shipping_company = defaultInvoiceData.shipping_company;
+          activeData.shipping_name = defaultInvoiceData.shipping_name;
+          activeData.shipping_phone = defaultInvoiceData.shipping_phone;
+          activeData.shipping_email = defaultInvoiceData.shipping_email;
+          activeData.shipping_address = defaultInvoiceData.shipping_address;
+        }
       }
     } catch (e) {
       console.warn('Failed to parse saved invoice data:', e);
@@ -526,6 +572,19 @@
     els.clientPhone.value = activeData.client_phone || '';
     els.clientTaxId.value = activeData.client_tax_id || '';
     els.clientAddress.value = activeData.client_address || '';
+
+    // Shipping To
+    if (els.checkShowShipping) {
+      els.checkShowShipping.checked = !!activeData.show_shipping;
+      if (els.shippingBlock) {
+        els.shippingBlock.style.display = activeData.show_shipping ? 'block' : 'none';
+      }
+    }
+    if (els.shippingCompany) els.shippingCompany.value = activeData.shipping_company || '';
+    if (els.shippingName) els.shippingName.value = activeData.shipping_name || '';
+    if (els.shippingPhone) els.shippingPhone.value = activeData.shipping_phone || '';
+    if (els.shippingEmail) els.shippingEmail.value = activeData.shipping_email || '';
+    if (els.shippingAddress) els.shippingAddress.value = activeData.shipping_address || '';
 
     // Adjustments
     els.discountType.value = activeData.discount_type || 'percentage';
@@ -618,6 +677,13 @@
     activeData.client_phone = els.clientPhone.value.trim();
     activeData.client_tax_id = els.clientTaxId.value.trim();
     activeData.client_address = els.clientAddress.value;
+
+    activeData.show_shipping = els.checkShowShipping ? els.checkShowShipping.checked : false;
+    activeData.shipping_company = els.shippingCompany ? els.shippingCompany.value.trim() : '';
+    activeData.shipping_name = els.shippingName ? els.shippingName.value.trim() : '';
+    activeData.shipping_phone = els.shippingPhone ? els.shippingPhone.value.trim() : '';
+    activeData.shipping_email = els.shippingEmail ? els.shippingEmail.value.trim() : '';
+    activeData.shipping_address = els.shippingAddress ? els.shippingAddress.value : '';
 
     activeData.discount_type = els.discountType.value;
     activeData.discount_value = parseFloat(els.discountValue.value) || 0;
@@ -975,6 +1041,30 @@
         els.pvClientTaxRow.style.display = 'flex';
       } else {
         els.pvClientTaxRow.style.display = 'none';
+      }
+    }
+
+    // Shipping To / Client Card
+    if (els.pvShippingCard && els.pvBillingGrid) {
+      if (data.show_shipping) {
+        els.pvShippingCard.style.display = 'block';
+        els.pvBillingGrid.classList.add('has-shipping');
+
+        const sCompVal = (data.shipping_company || '').trim();
+        if (sCompVal) {
+          els.pvShippingCompany.textContent = sCompVal;
+          els.pvShippingCompany.style.display = 'block';
+        } else {
+          els.pvShippingCompany.style.display = 'none';
+        }
+
+        toggleRow(els.pvShippingNameRow, els.pvShippingName, data.shipping_name);
+        toggleRow(els.pvShippingPhoneRow, els.pvShippingPhone, data.shipping_phone);
+        toggleRow(els.pvShippingEmailRow, els.pvShippingEmail, data.shipping_email);
+        toggleRow(els.pvShippingAddressRow, els.pvShippingAddress, data.shipping_address);
+      } else {
+        els.pvShippingCard.style.display = 'none';
+        els.pvBillingGrid.classList.remove('has-shipping');
       }
     }
 
@@ -1811,6 +1901,9 @@
     .card-caption {
       color: ${escapeHtml(accentColor)} !important;
     }
+    .paper-billing-grid.has-shipping {
+      grid-template-columns: 1fr 1fr !important;
+    }
     .total-row-grand .t-lbl,
     .total-row-grand .t-val {
       color: ${escapeHtml(accentColor)} !important;
@@ -2017,6 +2110,11 @@
         page-break-inside: avoid !important;
         break-inside: avoid !important;
       }
+      .paper-billing-grid.has-shipping {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 1.25rem !important;
+      }
       .paper-signatures-grid {
         page-break-inside: avoid !important;
         break-inside: avoid !important;
@@ -2089,21 +2187,45 @@
 
   // --- Sample Data Loader ---
   async function loadSampleData() {
-    try {
-      const res = await fetch('/api/sample');
-      if (res.ok) {
-        const sample = await res.json();
-        activeData = { ...sample };
-        renderFormFromState();
-        triggerAutoSave();
-        showToast('Loaded sample invoice data!', 'success');
-      }
-    } catch (e) {
-      activeData = { ...defaultInvoiceData };
-      renderFormFromState();
-      triggerAutoSave();
-      showToast('Loaded sample invoice data!', 'success');
-    }
+    activeData = {
+      ...defaultInvoiceData,
+      company_name: 'Invogenz',
+      company_contact: 'Mr. Invogenz',
+      company_tagline: 'Professional and suitable for a business tool.',
+      company_phone: '012 xxx xxx',
+      company_email: 'info@xample.com',
+      company_address: 'Phnom Penh , Cambodia',
+      client_company: 'xxx',
+      client_name: 'xxx',
+      client_phone: '012 xxx xxx',
+      client_email: 'xxx@xample.com',
+      client_address: 'Phnom Penh, Cambodia',
+      show_shipping: true,
+      shipping_company: 'xxx',
+      shipping_name: 'xxx',
+      shipping_phone: '012 xxx xxx',
+      shipping_email: 'xxx@xample.com',
+      shipping_address: 'Phnom Penh, Cambodia',
+      items: [
+        {
+          description: 'Business Solution & Software Architecture',
+          sub_description: 'Professional cloud-native invoicing & workflow management system',
+          quantity: 1,
+          rate: 1200,
+          tax_rate: 0
+        },
+        {
+          description: 'Custom Enterprise Integration',
+          sub_description: 'Automated digital document generation and API deployment',
+          quantity: 2,
+          rate: 350,
+          tax_rate: 0
+        }
+      ]
+    };
+    renderFormFromState();
+    triggerAutoSave();
+    showToast('Loaded Invogenz sample invoice data!', 'success');
   }
 
   function resetAll() {
@@ -2236,13 +2358,15 @@
       els.companyAddress,
       els.clientCompany, els.clientName, els.clientEmail, els.clientPhone,
       els.clientTaxId, els.clientAddress,
+      els.shippingCompany, els.shippingName, els.shippingPhone, els.shippingEmail, els.shippingAddress,
       els.discountType, els.discountValue, els.overallTaxRate, els.shippingFee, els.amountPaid,
       els.paymentMethod, els.bankName, els.accountName, els.accountNumber, els.routingSwift, els.qrData,
       els.notes, els.terms, els.signatureName,
       els.sigPrepareName, els.sigPrepareDate,
       els.sigApproveName, els.sigApproveDate,
       els.sigCustomerName, els.sigCustomerDate,
-      els.checkSigPrepare, els.checkSigApprove, els.checkSigCustomer
+      els.checkSigPrepare, els.checkSigApprove, els.checkSigCustomer,
+      els.checkShowShipping
     ];
 
     autoInputs.forEach(input => {
@@ -2251,6 +2375,18 @@
         input.addEventListener('change', triggerAutoSave);
       }
     });
+
+    // Checkbox toggle for Shipping To / Client
+    if (els.checkShowShipping) {
+      els.checkShowShipping.addEventListener('change', (e) => {
+        activeData.show_shipping = e.target.checked;
+        if (els.shippingBlock) {
+          els.shippingBlock.style.display = e.target.checked ? 'block' : 'none';
+        }
+        triggerAutoSave();
+        showToast(e.target.checked ? 'Shipping To enabled' : 'Shipping To hidden from invoice', 'info');
+      });
+    }
 
     // Checkbox toggle animations
     if (els.checkSigPrepare && els.blockSigPrepare) {
