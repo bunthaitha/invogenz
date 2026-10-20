@@ -806,6 +806,33 @@
               </div>
             </div>
 
+            <!-- Signature Image Upload with Magic Clean -->
+            <div class="form-group mt-2">
+              <div class="label-row">
+                <label>Signature Image</label>
+                <span class="field-pill optional-pill">Auto-Clean BG</span>
+              </div>
+              <div class="sig-upload-zone" id="zone-sig-customer">
+                <div class="sig-preview-holder" id="preview-sig-customer-box" style="display:none;">
+                  <div class="checkerboard-bg">
+                    <img id="img-sig-customer" src="" alt="Customer Signature">
+                  </div>
+                  <div class="sig-actions-row">
+                    <button type="button" class="btn-sig-clean active" id="btn-clean-customer" title="Background Cleaned & Transparent"><span>Background Cleaned</span>
+                    </button>
+                    <button type="button" class="btn-sig-remove" id="btn-remove-customer" title="Remove Signature">
+                      <i data-lucide="trash-2"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="sig-upload-prompt" id="prompt-sig-customer">
+                  <i data-lucide="pen-tool"></i>
+                  <span>Upload signature photo (Auto-cleans background)</span>
+                  <input type="file" id="file-sig-customer" accept="image/*" style="display:none;">
+                </div>
+              </div>
+            </div>
+
             </div>
           </div>
         </div>
@@ -1099,16 +1126,12 @@
             <!-- Customer Acceptance (Stick at Right) -->
             <div class="signature-column sig-right" id="pv-col-customer">
               <span class="sig-caption">CUSTOMER ACCEPTANCE</span>
-              <div class="sig-image-holder" id="pv-sig-customer-box" style="display:none;">
+              <div class="sig-image-holder" id="pv-sig-customer-box">
                 <img id="pv-sig-customer-img" src="" alt="Customer Signature" style="display:none;">
               </div>
               <div class="sig-line-rule"></div>
-              <div class="sig-person-row" id="pv-customer-name">
-                <span class="sig-field-label">Name:</span> <span class="sig-field-line"></span>
-              </div>
-              <div class="sig-person-row" id="pv-customer-date">
-                <span class="sig-field-label">Date:</span> <span class="sig-field-line"></span>
-              </div>
+              <p class="sig-person-name" id="pv-customer-name" style="display:none;"></p>
+              <div class="sig-person-date" id="pv-customer-date"><span class="sig-date-label">Date:</span> <span class="sig-date-val"></span></div>
             </div>
           </div>
 

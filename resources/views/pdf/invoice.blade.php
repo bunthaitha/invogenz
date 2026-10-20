@@ -715,28 +715,17 @@
                                 @endif
                             </div>
                             <div class="sig-line"></div>
-                            <table class="sig-date-table">
-                                <tr>
-                                    <td class="sig-date-lbl">Name:</td>
-                                    <td class="sig-date-cell">
-                                        @if(!empty($invoice['sig_customer_name']))
-                                            <span style="font-size: 8px; color: #0f172a; font-weight: bold;">{{ $invoice['sig_customer_name'] }}</span>
-                                        @else
-                                            <div class="sig-date-line-pdf"></div>
-                                        @endif
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="sig-date-lbl" style="padding-top: 3px;">Date:</td>
-                                    <td class="sig-date-cell" style="padding-top: 3px;">
-                                        @if(!empty($invoice['sig_customer_date']))
-                                            <span style="font-size: 8px; color: #0f172a; font-weight: bold;">{{ $invoice['sig_customer_date'] }}</span>
-                                        @else
-                                            <div class="sig-date-line-pdf"></div>
-                                        @endif
-                                    </td>
-                                </tr>
-                            </table>
+                            @if(!empty($invoice['sig_customer_name']))
+                                <div class="sig-name">{{ $invoice['sig_customer_name'] }}</div>
+                            @endif
+                            @if(!empty($invoice['sig_customer_date']))
+                                <table class="sig-date-table">
+                                    <tr>
+                                        <td class="sig-date-lbl">Date:</td>
+                                        <td class="sig-date-cell"><span style="font-size: 8px; color: #0f172a; font-weight: bold;">{{ $invoice['sig_customer_date'] }}</span></td>
+                                    </tr>
+                                </table>
+                            @endif
                         </div>
                     @endif
                 </td>

@@ -1300,20 +1300,27 @@
           }
         }
 
-        // 3. Customer Signature
+        // 3. Customer Acceptance (follows format of Prepared by)
         if (els.pvColCustomer) {
           if (showCustomer) {
             els.pvColCustomer.style.display = 'flex';
             if (els.pvCustomerName) {
-              els.pvCustomerName.innerHTML = buildFieldMarkup('Name', data.sig_customer_name);
-              els.pvCustomerName.style.display = 'flex';
+              const custName = (data.sig_customer_name || '').trim();
+              els.pvCustomerName.textContent = custName;
+              els.pvCustomerName.style.display = custName ? 'block' : 'none';
             }
             if (els.pvCustomerDate) {
-              els.pvCustomerDate.innerHTML = buildFieldMarkup('Date', data.sig_customer_date);
-              els.pvCustomerDate.style.display = 'flex';
+              els.pvCustomerDate.innerHTML = buildDateMarkup(data.sig_customer_date);
             }
-            if (els.pvSigCustomerBox) {
-              els.pvSigCustomerBox.style.display = 'none';
+            if (els.pvSigCustomerBox && els.pvSigCustomerImg) {
+              els.pvSigCustomerBox.style.display = 'flex';
+              if (data.sig_customer_image) {
+                els.pvSigCustomerImg.src = data.sig_customer_image;
+                els.pvSigCustomerImg.style.display = 'block';
+              } else {
+                els.pvSigCustomerImg.src = '';
+                els.pvSigCustomerImg.style.display = 'none';
+              }
             }
           } else {
             els.pvColCustomer.style.display = 'none';

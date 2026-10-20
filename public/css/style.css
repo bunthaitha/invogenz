@@ -2012,11 +2012,18 @@ textarea.form-control {
   text-align: right !important;
 }
 
-#pv-col-customer .sig-caption,
-#pv-col-customer .sig-person-name,
-#pv-col-customer .sig-person-role {
+#pv-col-customer .sig-caption {
   text-align: right;
   width: 100%;
+}
+
+#pv-col-customer .sig-person-name,
+#pv-col-customer .sig-person-role {
+  text-align: left;
+  width: 100%;
+  max-width: 180px;
+  margin-left: auto;
+  margin-right: 0;
 }
 
 #pv-col-customer .sig-person-date {
