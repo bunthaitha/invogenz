@@ -66,7 +66,7 @@
     payment_method: 'Wire Transfer / Bank Account',
     bank_name: 'ABA Bank / Wing Bank',
     account_name: 'Invogenz',
-    account_number: '000 123 456',
+    account_number: '',
     routing_swift: '',
     qr_data: '',
     notes: 'Thank you for your business! All deliverables are backed by our 30-day warranty and SLA guarantee.',
@@ -484,6 +484,12 @@
         // Clear previous defaults if cached
         if (activeData.status === 'PENDING') activeData.status = '';
         if (activeData.po_number === 'PO-88412') activeData.po_number = '';
+        if (activeData.account_number === '987654321098' || activeData.account_number === '000 123 456') {
+          activeData.account_number = '';
+        }
+        if (activeData.routing_swift === 'SVCBUS6S') {
+          activeData.routing_swift = '';
+        }
         if (activeData.shipping_company === undefined) {
           activeData.show_shipping = defaultInvoiceData.show_shipping;
           activeData.shipping_company = defaultInvoiceData.shipping_company;
@@ -2213,6 +2219,8 @@
       shipping_phone: '012 xxx xxx',
       shipping_email: 'xxx@xample.com',
       shipping_address: 'Phnom Penh, Cambodia',
+      account_number: '',
+      routing_swift: '',
       items: [
         {
           description: 'Business Solution & Software Architecture',
