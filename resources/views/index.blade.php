@@ -667,7 +667,7 @@
               <div class="logo-upload-prompt" id="qr-upload-prompt">
                 <i data-lucide="qr-code"></i>
                 <span>Drop payment QR code image here, or <b>browse</b></span>
-                <span class="subtext">Upload bank QR (KHQR, ABA, etc.) or mobile payment QR</span>
+                <span class="subtext">Upload bank QR or mobile payment QR</span>
               </div>
               <input type="file" id="qr-file-input" accept="image/*" style="display:none;">
             </div>
@@ -1066,7 +1066,6 @@
                 <div class="qr-text-meta">
                   <div class="qr-title-row">
                     <span class="qr-title">Scan to Pay</span>
-                    <span class="qr-pill-secure"><i data-lucide="shield-check"></i> KHQR / Pay</span>
                   </div>
                   <span class="qr-sub">Instant mobile checkout</span>
                 </div>
