@@ -1916,6 +1916,23 @@
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
       background: #ffffff !important;
       transform: none !important;
+      min-height: 1123px !important;
+      box-sizing: border-box !important;
+      display: flex !important;
+      flex-direction: column !important;
+      position: relative !important;
+    }
+    .paper-micro-footer {
+      margin-top: auto !important;
+      padding-top: 0.85rem !important;
+      border-top: 1px solid #E2E8F0 !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      font-size: 0.68rem !important;
+      color: #94A3B8 !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
     }
     @media print {
       :root {
@@ -1977,14 +1994,26 @@
         max-width: 100% !important;
         min-height: 0 !important;
         height: auto !important;
-        padding: 28px 36px !important;
+        padding: 28px 36px 45px 36px !important;
+        position: relative !important;
         page-break-after: avoid !important;
         break-after: avoid !important;
       }
       .paper-micro-footer {
-        margin-top: 1.5rem !important;
-        page-break-before: avoid !important;
-        break-before: avoid !important;
+        position: fixed !important;
+        bottom: 12mm !important;
+        left: 36px !important;
+        right: 36px !important;
+        margin: 0 !important;
+        padding-top: 8px !important;
+        border-top: 1px solid #E2E8F0 !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        font-size: 0.68rem !important;
+        color: #94A3B8 !important;
+        background: transparent !important;
+        z-index: 9999 !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
       }

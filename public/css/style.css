@@ -1680,12 +1680,12 @@ textarea.form-control {
 
 /* Paper Footer Notes & Signature */
 .paper-footer-section {
-  margin-top: auto;
+  margin-top: 1.25rem;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
   gap: 1.5rem;
-  padding-top: 1rem;
+  padding-top: 0.5rem;
 }
 
 .footer-notes-left {
@@ -2139,15 +2139,18 @@ textarea.form-control {
   line-height: 1;
 }
 
-/* Micro Footer */
+/* Micro Footer (Sticks to bottom of paper) */
 .paper-micro-footer {
-  margin-top: auto;
-  padding-top: 1rem;
+  margin-top: auto !important;
+  padding-top: 0.85rem;
   border-top: 1px solid #E2E8F0;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: 0.68rem;
   color: #94A3B8;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Toast Notifications */
@@ -2241,17 +2244,29 @@ textarea.form-control {
     max-width: 100% !important;
     min-height: 0 !important;
     height: auto !important;
-    padding: 28px 36px !important;
+    padding: 28px 36px 45px 36px !important;
     margin: 0 !important;
     border: none !important;
+    position: relative !important;
     page-break-after: avoid !important;
     break-after: avoid !important;
   }
 
   .paper-micro-footer {
-    margin-top: 1.5rem !important;
-    page-break-before: avoid !important;
-    break-before: avoid !important;
+    position: fixed !important;
+    bottom: 12mm !important;
+    left: 36px !important;
+    right: 36px !important;
+    margin: 0 !important;
+    padding-top: 8px !important;
+    border-top: 1px solid #E2E8F0 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    font-size: 0.68rem !important;
+    color: #94A3B8 !important;
+    background: transparent !important;
+    z-index: 9999 !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }

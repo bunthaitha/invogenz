@@ -316,6 +316,24 @@
             max-height: 36px;
             max-width: 130px;
         }
+        .pdf-micro-footer {
+            position: fixed;
+            bottom: -15px;
+            left: 0;
+            right: 0;
+            height: 18px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 4px;
+        }
+        .pdf-micro-footer-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .pdf-micro-footer-table td {
+            font-size: 8px;
+            color: #94a3b8;
+            padding: 0;
+        }
     </style>
 </head>
 <body>
@@ -665,6 +683,15 @@
             </tr>
         </table>
     @endif
+
+    <div class="pdf-micro-footer">
+        <table class="pdf-micro-footer-table">
+            <tr>
+                <td style="text-align: left;"></td>
+                <td style="text-align: right;">Page 1 of 1</td>
+            </tr>
+        </table>
+    </div>
 
 </body>
 </html>
