@@ -964,7 +964,6 @@
                 <img id="pv-sig-approve-img" src="" alt="Approved Signature" style="display:none;">
               </div>
               <div class="sig-line-rule"></div>
-              <p class="sig-person-role" id="pv-approve-role">Approved by</p>
               <p class="sig-person-date" id="pv-approve-date">Date: 2026-10-19</p>
             </div>
 
@@ -976,7 +975,6 @@
                 <img id="pv-sig-customer-img" src="" alt="Customer Signature" style="display:none;">
               </div>
               <div class="sig-line-rule"></div>
-              <p class="sig-person-role" id="pv-customer-role">Customer Acceptance</p>
               <p class="sig-person-date" id="pv-customer-date">Date: ___________</p>
             </div>
           </div>

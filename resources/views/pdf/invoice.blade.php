@@ -580,7 +580,6 @@
                                 @endif
                             </div>
                             <div class="sig-line"></div>
-                            <div class="sig-role">Approved By</div>
                             @if(!empty($approveDate))
                                 <div class="sig-date">Date: {{ $approveDate }}</div>
                             @endif
@@ -602,7 +601,6 @@
                                 @endif
                             </div>
                             <div class="sig-line"></div>
-                            <div class="sig-role">Customer Acceptance</div>
                             <div class="sig-date">{{ !empty($invoice['sig_customer_date']) ? 'Date: ' . $invoice['sig_customer_date'] : 'Date: ___________' }}</div>
                         </div>
                     @endif
