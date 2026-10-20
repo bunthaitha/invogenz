@@ -223,6 +223,7 @@
     pvLogoImg: document.getElementById('pv-logo-img'),
     pvCompanyName: document.getElementById('pv-company-name'),
     pvCompanyTagline: document.getElementById('pv-company-tagline'),
+    pvDocTitle: document.getElementById('pv-doc-title'),
     pvStatusBadge: document.getElementById('pv-status-badge'),
     pvInvNumber: document.getElementById('pv-inv-number'),
     pvIssueDate: document.getElementById('pv-issue-date'),
@@ -800,6 +801,24 @@
     // Format spec
     els.previewPaperSpec.textContent = `${data.paper_size || 'A4'} • Vector PDF`;
 
+    // Ensure accent color is applied on sheet and document
+    const accent = data.accent_color || (els.accentColor ? els.accentColor.value : '#4F46E5') || '#4F46E5';
+    document.documentElement.style.setProperty('--accent-color', accent);
+    if (els.invoiceSheet) {
+      els.invoiceSheet.style.setProperty('--accent-color', accent);
+    }
+    if (els.pvAccentBar) {
+      els.pvAccentBar.style.backgroundColor = accent;
+    }
+    if (els.pvDocTitle) {
+      els.pvDocTitle.style.color = accent;
+    }
+    if (els.pvTableHead) {
+      const tr = els.pvTableHead.querySelector('tr');
+      if (tr) tr.style.backgroundColor = accent;
+      els.pvTableHead.querySelectorAll('th').forEach(th => th.style.backgroundColor = accent);
+    }
+
     // Logo & Company Name (Remove company name under logo!)
     if (data.company_logo) {
       els.pvLogoImg.src = data.company_logo;
@@ -1240,10 +1259,25 @@
   function updateAccentColor(colorHex) {
     if (!colorHex) return;
     const cleanHex = colorHex.startsWith('#') ? colorHex : `#${colorHex}`;
+    activeData.accent_color = cleanHex;
     document.documentElement.style.setProperty('--accent-color', cleanHex);
-    els.pvAccentBar.style.backgroundColor = cleanHex;
-    els.pvTableHead.querySelector('tr').style.backgroundColor = cleanHex;
-    els.pvBalanceBox.style.backgroundColor = cleanHex;
+    if (els.invoiceSheet) {
+      els.invoiceSheet.style.setProperty('--accent-color', cleanHex);
+    }
+    if (els.pvAccentBar) {
+      els.pvAccentBar.style.backgroundColor = cleanHex;
+    }
+    if (els.pvDocTitle) {
+      els.pvDocTitle.style.color = cleanHex;
+    }
+    if (els.pvTableHead) {
+      const tr = els.pvTableHead.querySelector('tr');
+      if (tr) tr.style.backgroundColor = cleanHex;
+      els.pvTableHead.querySelectorAll('th').forEach(th => th.style.backgroundColor = cleanHex);
+    }
+    if (els.pvBalanceBox) {
+      els.pvBalanceBox.style.backgroundColor = cleanHex;
+    }
 
     if (els.accentHexBadge) els.accentHexBadge.textContent = cleanHex.toUpperCase();
     if (els.accentColorHex && els.accentColorHex.value.toUpperCase() !== cleanHex.toUpperCase()) {
@@ -1688,6 +1722,34 @@
       }
     });
 
+    const accentColor = activeData.accent_color || (els.accentColor ? els.accentColor.value : '#4F46E5') || '#4F46E5';
+
+    // Apply accent-color directly to sheetClone inline styles & elements
+    sheetClone.style.setProperty('--accent-color', accentColor);
+    const cloneAccentBar = sheetClone.querySelector('#pv-accent-bar');
+    if (cloneAccentBar) cloneAccentBar.style.backgroundColor = accentColor;
+
+    const cloneTableHeadTr = sheetClone.querySelector('#pv-table-head tr');
+    if (cloneTableHeadTr) cloneTableHeadTr.style.backgroundColor = accentColor;
+    sheetClone.querySelectorAll('#pv-table-head th, .paper-items-table th').forEach(th => {
+      th.style.backgroundColor = accentColor;
+      th.style.color = '#ffffff';
+    });
+
+    const cloneDocTitle = sheetClone.querySelector('#pv-doc-title, .pv-title');
+    if (cloneDocTitle) cloneDocTitle.style.color = accentColor;
+
+    const cloneTagline = sheetClone.querySelector('#pv-company-tagline, .pv-tagline');
+    if (cloneTagline) cloneTagline.style.color = accentColor;
+
+    sheetClone.querySelectorAll('.card-caption, .sig-caption, .note-title').forEach(el => {
+      el.style.color = accentColor;
+    });
+
+    sheetClone.querySelectorAll('.total-row-grand .t-lbl, .total-row-grand .t-val').forEach(el => {
+      el.style.color = accentColor;
+    });
+
     // Extract all page stylesheets & web fonts from parent head
     const styleLinks = Array.from(document.querySelectorAll('link[rel="stylesheet"], link[rel="preconnect"], style'))
       .map(el => el.outerHTML)
@@ -1696,15 +1758,72 @@
     const invNum = activeData.invoice_number || 'INV-2026';
     const docTitle = `${invNum} • Web Invoice Preview`;
 
+    // Hex to RGBA helper
+    const hexToRgba = (hex, alpha) => {
+      const clean = (hex || '').replace('#', '');
+      if (clean.length === 3) {
+        const r = parseInt(clean[0] + clean[0], 16);
+        const g = parseInt(clean[1] + clean[1], 16);
+        const b = parseInt(clean[2] + clean[2], 16);
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+      }
+      if (clean.length === 6) {
+        const r = parseInt(clean.substring(0, 2), 16);
+        const g = parseInt(clean.substring(2, 4), 16);
+        const b = parseInt(clean.substring(4, 6), 16);
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+      }
+      return `rgba(79, 70, 229, ${alpha})`;
+    };
+
+    const badgeBg = hexToRgba(accentColor, 0.2);
+    const badgeBorder = accentColor;
+    const btnShadow = hexToRgba(accentColor, 0.35);
+
     previewWin.document.open();
     previewWin.document.write(`<!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="--accent-color: ${escapeHtml(accentColor)};">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${escapeHtml(docTitle)}</title>
   ${styleLinks}
   <style>
+    :root {
+      --accent-color: ${escapeHtml(accentColor)} !important;
+    }
+    #invoice-sheet, .paper-sheet {
+      --accent-color: ${escapeHtml(accentColor)} !important;
+    }
+    #pv-accent-bar, .paper-divider {
+      background-color: ${escapeHtml(accentColor)} !important;
+    }
+    .paper-items-table th, #pv-table-head tr, #pv-table-head th {
+      background-color: ${escapeHtml(accentColor)} !important;
+      color: #ffffff !important;
+    }
+    .pv-title, #pv-doc-title {
+      color: ${escapeHtml(accentColor)} !important;
+    }
+    .pv-tagline, #pv-company-tagline {
+      color: ${escapeHtml(accentColor)} !important;
+    }
+    .card-caption {
+      color: ${escapeHtml(accentColor)} !important;
+    }
+    .total-row-grand .t-lbl,
+    .total-row-grand .t-val {
+      color: ${escapeHtml(accentColor)} !important;
+    }
+    .total-row-balance {
+      background-color: ${escapeHtml(accentColor)} !important;
+    }
+    .note-block .note-title {
+      color: ${escapeHtml(accentColor)} !important;
+    }
+    .sig-caption {
+      color: ${escapeHtml(accentColor)} !important;
+    }
     body {
       background: #0b1120 !important;
       margin: 0 !important;
@@ -1739,9 +1858,9 @@
       font-weight: 700;
     }
     .web-preview-badge {
-      background: rgba(79, 70, 229, 0.25);
-      border: 1px solid #6366f1;
-      color: #a5b4fc;
+      background: ${badgeBg} !important;
+      border: 1px solid ${badgeBorder} !important;
+      color: #f8fafc !important;
       font-size: 11px;
       font-weight: 600;
       padding: 2px 8px;
@@ -1768,12 +1887,12 @@
       text-decoration: none;
     }
     .web-btn-primary {
-      background: #4F46E5;
-      color: #ffffff;
-      box-shadow: 0 2px 6px rgba(79, 70, 229, 0.35);
+      background: ${escapeHtml(accentColor)} !important;
+      color: #ffffff !important;
+      box-shadow: 0 2px 8px ${btnShadow} !important;
     }
     .web-btn-primary:hover {
-      background: #4338CA;
+      filter: brightness(0.92);
       transform: translateY(-1px);
     }
     .web-btn-close {
@@ -1799,6 +1918,35 @@
       transform: none !important;
     }
     @media print {
+      :root {
+        --accent-color: ${escapeHtml(accentColor)} !important;
+      }
+      #invoice-sheet, .paper-sheet {
+        --accent-color: ${escapeHtml(accentColor)} !important;
+      }
+      #pv-accent-bar, .paper-divider {
+        background-color: ${escapeHtml(accentColor)} !important;
+      }
+      .paper-items-table th, #pv-table-head tr, #pv-table-head th {
+        background-color: ${escapeHtml(accentColor)} !important;
+        color: #ffffff !important;
+      }
+      .pv-title, #pv-doc-title {
+        color: ${escapeHtml(accentColor)} !important;
+      }
+      .pv-tagline, #pv-company-tagline {
+        color: ${escapeHtml(accentColor)} !important;
+      }
+      .card-caption, .sig-caption, .note-title {
+        color: ${escapeHtml(accentColor)} !important;
+      }
+      .total-row-grand .t-lbl,
+      .total-row-grand .t-val {
+        color: ${escapeHtml(accentColor)} !important;
+      }
+      .total-row-balance {
+        background-color: ${escapeHtml(accentColor)} !important;
+      }
       @page {
         size: A4 portrait;
         margin: 0;
@@ -1872,6 +2020,9 @@
 </body>
 </html>`);
     previewWin.document.close();
+    if (previewWin.document.documentElement) {
+      previewWin.document.documentElement.style.setProperty('--accent-color', accentColor);
+    }
     showToast('Opened Web Preview in new tab!', 'success');
   }
 
