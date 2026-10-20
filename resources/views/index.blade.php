@@ -1003,12 +1003,16 @@
             <!-- Customer Acceptance (Stick at Right) -->
             <div class="signature-column sig-right" id="pv-col-customer">
               <span class="sig-caption">CUSTOMER ACCEPTANCE</span>
-              <div class="sig-image-holder" id="pv-sig-customer-box">
+              <div class="sig-image-holder" id="pv-sig-customer-box" style="display:none;">
                 <img id="pv-sig-customer-img" src="" alt="Customer Signature" style="display:none;">
               </div>
               <div class="sig-line-rule"></div>
-              <p class="sig-person-name" id="pv-customer-name" style="display:none;"></p>
-              <div class="sig-person-date" id="pv-customer-date"><span class="sig-date-label">Date:</span> <span class="sig-date-line"></span></div>
+              <div class="sig-person-row" id="pv-customer-name">
+                <span class="sig-field-label">Name:</span> <span class="sig-field-line"></span>
+              </div>
+              <div class="sig-person-row" id="pv-customer-date">
+                <span class="sig-field-label">Date:</span> <span class="sig-field-line"></span>
+              </div>
             </div>
           </div>
 

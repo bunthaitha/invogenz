@@ -1129,6 +1129,14 @@
           return `<span class="sig-date-label">Date:</span> <span class="sig-date-line"></span>`;
         };
 
+        const buildFieldMarkup = (label, val) => {
+          const cleanVal = (val || '').trim();
+          if (cleanVal) {
+            return `<span class="sig-field-label">${label}:</span> <span class="sig-field-val">${escapeHtml(cleanVal)}</span>`;
+          }
+          return `<span class="sig-field-label">${label}:</span> <span class="sig-field-line"></span>`;
+        };
+
         // 1. Prepared by
         if (els.pvColPrepare) {
           if (showPrepare) {
@@ -1188,22 +1196,15 @@
           if (showCustomer) {
             els.pvColCustomer.style.display = 'flex';
             if (els.pvCustomerName) {
-              const custName = (data.sig_customer_name || '').trim();
-              els.pvCustomerName.textContent = custName;
-              els.pvCustomerName.style.display = custName ? 'block' : 'none';
+              els.pvCustomerName.innerHTML = buildFieldMarkup('Name', data.sig_customer_name);
+              els.pvCustomerName.style.display = 'flex';
             }
             if (els.pvCustomerDate) {
-              els.pvCustomerDate.innerHTML = buildDateMarkup(data.sig_customer_date);
+              els.pvCustomerDate.innerHTML = buildFieldMarkup('Date', data.sig_customer_date);
+              els.pvCustomerDate.style.display = 'flex';
             }
-            if (els.pvSigCustomerBox && els.pvSigCustomerImg) {
-              els.pvSigCustomerBox.style.display = 'flex';
-              if (data.sig_customer_image) {
-                els.pvSigCustomerImg.src = data.sig_customer_image;
-                els.pvSigCustomerImg.style.display = 'block';
-              } else {
-                els.pvSigCustomerImg.src = '';
-                els.pvSigCustomerImg.style.display = 'none';
-              }
+            if (els.pvSigCustomerBox) {
+              els.pvSigCustomerBox.style.display = 'none';
             }
           } else {
             els.pvColCustomer.style.display = 'none';

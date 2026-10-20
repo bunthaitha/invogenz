@@ -2092,6 +2092,7 @@ textarea.form-control {
   text-align: center;
 }
 
+#pv-col-customer .sig-person-row,
 #pv-col-customer .sig-person-date {
   margin-left: auto;
   margin-right: 0;
@@ -2099,6 +2100,18 @@ textarea.form-control {
   text-align: left;
 }
 
+.sig-person-row {
+  color: #64748B;
+  font-size: 0.74rem;
+  margin-top: 0.35rem;
+  line-height: 1.2;
+  display: flex !important;
+  align-items: center;
+  width: 100%;
+  max-width: 180px;
+}
+
+.sig-field-label,
 .sig-date-label {
   font-size: 0.74rem;
   font-weight: 600;
@@ -2108,6 +2121,7 @@ textarea.form-control {
   line-height: 1;
 }
 
+.sig-field-line,
 .sig-date-line {
   flex: 1;
   height: 1px;
@@ -2117,6 +2131,7 @@ textarea.form-control {
   margin-top: 1px;
 }
 
+.sig-field-val,
 .sig-date-val {
   color: #0F172A;
   font-weight: 600;
