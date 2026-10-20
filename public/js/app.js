@@ -72,7 +72,7 @@
     qr_data: 'https://pay.vertexdigital.com/inv/INV-2026-0042',
     notes: 'Thank you for your business! All deliverables are backed by our 30-day warranty and SLA guarantee.',
     terms: 'Payment is due within 14 calendar days from invoice issue date. A late fee of 1.5% per month applies to overdue balances.',
-    sig_prepare_name: 'Marcus Vance',
+    sig_prepare_name: 'Bunthai Tha',
     sig_prepare_date: new Date().toISOString().split('T')[0],
     sig_prepare_image: '',
     show_sig_prepare: true,
@@ -80,11 +80,11 @@
     sig_approve_date: new Date().toISOString().split('T')[0],
     sig_approve_image: '',
     show_sig_approve: true,
-    sig_customer_name: 'Sarah Connor',
+    sig_customer_name: '',
     sig_customer_date: '',
     sig_customer_image: '',
     show_sig_customer: true,
-    signature_name: 'Marcus Vance'
+    signature_name: 'Bunthai Tha'
   };
 
   let activeData = { ...defaultInvoiceData };
@@ -1048,18 +1048,21 @@
           if (showPrepare) {
             els.pvColPrepare.style.display = 'flex';
             if (els.pvPrepareName) {
-              els.pvPrepareName.textContent = data.sig_prepare_name || '( Name )';
-              els.pvPrepareName.style.opacity = data.sig_prepare_name ? '1' : '0.5';
+              const prepName = (data.sig_prepare_name || '').trim();
+              els.pvPrepareName.textContent = prepName;
+              els.pvPrepareName.style.display = prepName ? 'block' : 'none';
             }
             if (els.pvPrepareDate) {
               els.pvPrepareDate.textContent = data.sig_prepare_date ? `Date: ${data.sig_prepare_date}` : 'Date: ___________';
             }
             if (els.pvSigPrepareBox && els.pvSigPrepareImg) {
+              els.pvSigPrepareBox.style.display = 'flex';
               if (data.sig_prepare_image) {
                 els.pvSigPrepareImg.src = data.sig_prepare_image;
-                els.pvSigPrepareBox.style.display = 'block';
+                els.pvSigPrepareImg.style.display = 'block';
               } else {
-                els.pvSigPrepareBox.style.display = 'none';
+                els.pvSigPrepareImg.src = '';
+                els.pvSigPrepareImg.style.display = 'none';
               }
             }
           } else {
@@ -1071,20 +1074,22 @@
         if (els.pvColApprove) {
           if (showApprove) {
             els.pvColApprove.style.display = 'flex';
-            const approveName = data.sig_approve_name || data.signature_name || '';
+            const approveName = (data.sig_approve_name || data.signature_name || '').trim();
             if (els.pvApproveName) {
-              els.pvApproveName.textContent = approveName || '( Name )';
-              els.pvApproveName.style.opacity = approveName ? '1' : '0.5';
+              els.pvApproveName.textContent = approveName;
+              els.pvApproveName.style.display = approveName ? 'block' : 'none';
             }
             if (els.pvApproveDate) {
               els.pvApproveDate.textContent = data.sig_approve_date ? `Date: ${data.sig_approve_date}` : 'Date: ___________';
             }
             if (els.pvSigApproveBox && els.pvSigApproveImg) {
+              els.pvSigApproveBox.style.display = 'flex';
               if (data.sig_approve_image) {
                 els.pvSigApproveImg.src = data.sig_approve_image;
-                els.pvSigApproveBox.style.display = 'block';
+                els.pvSigApproveImg.style.display = 'block';
               } else {
-                els.pvSigApproveBox.style.display = 'none';
+                els.pvSigApproveImg.src = '';
+                els.pvSigApproveImg.style.display = 'none';
               }
             }
           } else {
@@ -1097,18 +1102,21 @@
           if (showCustomer) {
             els.pvColCustomer.style.display = 'flex';
             if (els.pvCustomerName) {
-              els.pvCustomerName.textContent = data.sig_customer_name || '( Customer Name )';
-              els.pvCustomerName.style.opacity = data.sig_customer_name ? '1' : '0.5';
+              const custName = (data.sig_customer_name || '').trim();
+              els.pvCustomerName.textContent = custName;
+              els.pvCustomerName.style.display = custName ? 'block' : 'none';
             }
             if (els.pvCustomerDate) {
               els.pvCustomerDate.textContent = data.sig_customer_date ? `Date: ${data.sig_customer_date}` : 'Date: ___________';
             }
             if (els.pvSigCustomerBox && els.pvSigCustomerImg) {
+              els.pvSigCustomerBox.style.display = 'flex';
               if (data.sig_customer_image) {
                 els.pvSigCustomerImg.src = data.sig_customer_image;
-                els.pvSigCustomerBox.style.display = 'block';
+                els.pvSigCustomerImg.style.display = 'block';
               } else {
-                els.pvSigCustomerBox.style.display = 'none';
+                els.pvSigCustomerImg.src = '';
+                els.pvSigCustomerImg.style.display = 'none';
               }
             }
           } else {

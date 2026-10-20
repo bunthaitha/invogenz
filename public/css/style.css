@@ -2007,24 +2007,33 @@ textarea.form-control {
 }
 
 .sig-caption {
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--accent-color);
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.25rem;
+}
+
+.sig-person-name {
+  font-weight: 700;
+  color: #0F172A;
+  font-size: 0.85rem;
+  margin-bottom: 0.2rem;
+  line-height: 1.25;
 }
 
 .sig-image-holder {
-  height: 48px;
+  height: 44px;
+  min-height: 44px;
   max-width: 180px;
   display: flex;
   align-items: flex-end;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.25rem;
 }
 
 .sig-image-holder img {
-  max-height: 44px;
+  max-height: 40px;
   max-width: 160px;
   object-fit: contain;
 }
@@ -2037,21 +2046,17 @@ textarea.form-control {
   margin-bottom: 0.35rem;
 }
 
-.sig-person-name {
-  font-weight: 700;
-  color: #0F172A;
-  font-size: 0.84rem;
-}
-
 .sig-person-role {
   color: #64748B;
   font-size: 0.74rem;
+  line-height: 1.2;
 }
 
 .sig-person-date {
   color: #64748B;
   font-size: 0.74rem;
   margin-top: 0.15rem;
+  line-height: 1.2;
 }
 
 /* Micro Footer */
