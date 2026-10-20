@@ -667,11 +667,11 @@
         $showCustomer = ($invoice['show_sig_customer'] ?? true);
         $hasAnySigner = $showPrepare || $showApprove || $showCustomer;
 
-        $prepName = $invoice['sig_prepare_name'] ?? 'xxxxxx';
-        $prepDate = $invoice['sig_prepare_date'] ?? '2026-10-20';
+        $prepName = $invoice['sig_prepare_name'] ?? '';
+        $prepDate = $invoice['sig_prepare_date'] ?? '';
         $approveImg = $invoice['sig_approve_image'] ?? '';
-        $approveName = $invoice['sig_approve_name'] ?? $invoice['signature_name'] ?? 'xxxxxx';
-        $approveDate = $invoice['sig_approve_date'] ?? '2026-10-20';
+        $approveName = $invoice['sig_approve_name'] ?? $invoice['signature_name'] ?? '';
+        $approveDate = $invoice['sig_approve_date'] ?? '';
     @endphp
 
     @if($hasAnySigner)

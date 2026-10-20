@@ -5,6 +5,7 @@
   "compatibility_date": "2024-09-23",
   "vars": {
     "PDF_SERVICE_URL": "http://67.217.57.170",
+    "UPSTREAM_HOST": "invogenz.bkh.it.com",
     "QR_SERVICE_ENABLED": "true",
     "ENV_NAME": "production"
   },

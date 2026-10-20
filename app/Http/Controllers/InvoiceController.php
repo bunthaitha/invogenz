@@ -27,7 +27,9 @@ class InvoiceController extends Controller
         $pdf->setPaper($paperSize, 'portrait');
         $pdf->setOption(['isRemoteEnabled' => true, 'isHtml5ParserEnabled' => true]);
 
-        $filename = ($data['invoice_number'] ?? 'invoice') . '.pdf';
+        $rawFilename = $data['invoice_number'] ?? 'invoice';
+        $safeFilename = preg_replace('/[^a-zA-Z0-9_\-\.]/', '_', $rawFilename) ?: 'invoice';
+        $filename = $safeFilename . '.pdf';
 
         return $pdf->download($filename);
     }
@@ -44,7 +46,9 @@ class InvoiceController extends Controller
         $pdf->setPaper($paperSize, 'portrait');
         $pdf->setOption(['isRemoteEnabled' => true, 'isHtml5ParserEnabled' => true]);
 
-        $filename = ($data['invoice_number'] ?? 'invoice') . '.pdf';
+        $rawFilename = $data['invoice_number'] ?? 'invoice';
+        $safeFilename = preg_replace('/[^a-zA-Z0-9_\-\.]/', '_', $rawFilename) ?: 'invoice';
+        $filename = $safeFilename . '.pdf';
 
         return $pdf->stream($filename);
     }

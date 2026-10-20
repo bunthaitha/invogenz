@@ -22,6 +22,14 @@ Route::get('/health', function () {
     ]);
 });
 
+Route::get('/status', function () {
+    return response()->json([
+        'status' => 'ok',
+        'service' => 'invogenz-pdf-engine',
+        'timestamp' => now()->toIso8601String(),
+    ]);
+});
+
 Route::post('/generate-pdf', [\App\Http\Controllers\InvoiceController::class, 'generatePdf']);
 Route::post('/preview-pdf', [\App\Http\Controllers\InvoiceController::class, 'previewPdf']);
 

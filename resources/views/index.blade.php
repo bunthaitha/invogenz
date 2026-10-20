@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Invogenz • Modern Python PDF Invoice Generator</title>
-  <meta name="description" content="Generate sleek, professional vector PDF invoices with Python. Real-time preview, QR payment codes, custom branding, and zero database required.">
+  <title>Invogenz • Modern Laravel PDF Invoice Studio</title>
+  <meta name="description" content="Generate sleek, professional vector PDF invoices with Laravel 10 & Edge Cloud. Real-time preview, QR payment codes, custom branding, and zero database required.">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">

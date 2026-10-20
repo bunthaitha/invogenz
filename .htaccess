@@ -19,20 +19,21 @@ DirectoryIndex index.php public/index.php
     RewriteEngine On
     RewriteBase /
 
-    # 1. Directly handle the domain root
+    # 1. Block access to hidden files, git repos, backend PHP source code, and sensitive configs
+    RewriteRule ^(\.git|\.env|\.github|app|bootstrap|config|database|storage|vendor|tests|node_modules|artisan|composer\.(json|lock)|package(-lock)?\.json|wrangler\.json|worker\.js|build-deploy-zip\.(bat|ps1)) - [F,L]
+    RewriteRule ^(\.ht|\.user\.ini) - [F,L]
+
+    # 2. Directly handle the domain root
     RewriteRule ^$ index.php [L]
 
-    # 2. If requested asset exists directly in public/, serve it directly
+    # 3. If requested asset exists directly in public/, serve it directly
     RewriteCond %{DOCUMENT_ROOT}/public/$1 -f
     RewriteRule ^(.*)$ public/$1 [L]
 
-    # 3. If file or directory already exists on disk, do not rewrite
+    # 4. If file or directory already exists on disk, do not rewrite
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
-
-    # 4. Block access to hidden files, git repos, and sensitive configs
-    RewriteRule ^(\.git|\.env|\.github|tests|node_modules|composer\.(json|lock)|package(-lock)?\.json|wrangler\.json|worker\.js) - [F,L]
 
     # 5. Forward all other requests to the front controller
     RewriteRule ^(.*)$ index.php [L]

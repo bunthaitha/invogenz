@@ -25,7 +25,7 @@ export default {
     }
 
     // 1. Edge Gateway Health Check
-    if (url.pathname === '/api/health' || url.pathname === '/api/status') {
+    if (url.pathname === '/api/health' || url.pathname === '/api/status' || url.pathname === '/health' || url.pathname === '/status') {
       return new Response(
         JSON.stringify({
           status: 'ok',
@@ -81,6 +81,10 @@ export default {
     newHeaders.set('X-Forwarded-Proto', url.protocol.replace(':', ''));
     newHeaders.set('X-Gateway-Service', 'invogenz-edge');
 
+    // Route properly to virtual host if upstream is an IP address
+    const upstreamHost = (env && env.UPSTREAM_HOST) || (/^\d+\.\d+\.\d+\.\d+$/.test(upstreamUrl.hostname) ? 'invogenz.bkh.it.com' : upstreamUrl.host);
+    newHeaders.set('Host', upstreamHost);
+
     const proxiedRequest = new Request(targetUrl.toString(), {
       method: request.method,
       headers: newHeaders,
@@ -96,6 +100,12 @@ export default {
       resHeaders.set('X-Served-By', 'invogenz-microservice-gateway');
       if (isPdfRoute) {
         resHeaders.set('X-Microservice', 'invogenz-pdf-engine');
+      }
+
+      // Edge caching for static assets
+      const isStatic = /\.(css|js|woff2?|ttf|eot|svg|png|jpg|jpeg|gif|ico|webp)$/i.test(url.pathname);
+      if (isStatic && response.ok) {
+        resHeaders.set('Cache-Control', 'public, max-age=86400, s-maxage=604800');
       }
 
       return new Response(response.body, {

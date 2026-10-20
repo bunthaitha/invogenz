@@ -22,4 +22,7 @@ composer.phar
 __pycache__/
 venv/
 *.zip
-
+.wrangler/
+.wrangler
+.staging_deploy/
+build_artifact/
